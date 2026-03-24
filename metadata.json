@@ -1,0 +1,5 @@
+{
+  "name": "Sammie's AI Receptionist",
+  "description": "An AI-powered receptionist for Sammie's Autobody Shop to collect vehicle information and schedule appointments.",
+  "requestFramePermissions": []
+}
