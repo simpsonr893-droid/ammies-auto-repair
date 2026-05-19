@@ -12,7 +12,7 @@ interface Message {
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isVoiceEnabled, setIsVoiceEnabled] = useState(true);
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: 'bot', content: "Hi! I'm Sammie's AI assistant. I can help you get started with your repair estimate. Could you tell me a bit about your vehicle and the damage?" }
   ]);
@@ -21,13 +21,6 @@ export default function Chatbot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
 
-  // Auto-open after 3 seconds
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -79,12 +72,6 @@ export default function Chatbot() {
     }
   };
 
-  // Play initial message audio when chat opens for the first time
-  useEffect(() => {
-    if (isOpen && messages.length === 1 && messages[0].role === 'bot') {
-      playAudio(messages[0].content);
-    }
-  }, [isOpen]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -103,7 +90,7 @@ export default function Chatbot() {
       }));
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash-preview",
         contents: [
             ...history.map(h => ({ role: h.role, parts: h.parts })),
             { role: 'user', parts: [{ text: userMessage }] }
@@ -149,6 +136,7 @@ export default function Chatbot() {
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 p-4 bg-emerald-600 text-white rounded-full shadow-2xl hover:bg-emerald-700 transition-all z-50 flex items-center justify-center"
         id="chat-toggle"
+        aria-label={isOpen ? "Close chat" : "Open chat"}
       >
         {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
       </button>
