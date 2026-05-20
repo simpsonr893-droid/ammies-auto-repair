@@ -22,7 +22,7 @@ export default function Contact() {
           <p className="text-slate-500">Conveniently located in Denver with easy drop-off.</p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-8 mb-8">
           <div className="space-y-4">
             {[
               {
@@ -79,6 +79,18 @@ export default function Contact() {
               ))}
             </div>
           </div>
+        </div>
+
+        <div className="rounded-3xl overflow-hidden border border-slate-100 shadow-sm h-80">
+          <iframe
+            title="Sammie's Autobody Shop location"
+            src="https://maps.google.com/maps?q=3770+Wheeling+St+Unit+1+Denver+CO+80239&output=embed"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </div>
       </div>
     </section>

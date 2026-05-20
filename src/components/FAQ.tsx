@@ -24,6 +24,22 @@ const faqs = [
     q: "Do you offer a warranty on repairs?",
     a: "Yes — we stand behind every job. All repairs come with our quality guarantee covering workmanship and paint matching.",
   },
+  {
+    q: "Do I need to call ahead or can I just drop in?",
+    a: "For estimates, walk-ins are welcome during business hours. For repairs, we recommend scheduling in advance so we can ensure a bay is ready and any needed parts are ordered ahead of your visit.",
+  },
+  {
+    q: "Will my car be safe and secure while it's at your shop?",
+    a: "Absolutely. Our facility is secured and monitored. Your vehicle is fully insured while in our care from drop-off to pick-up.",
+  },
+  {
+    q: "Do you offer rental car assistance?",
+    a: "Yes. We can coordinate directly with your insurance company's rental program, and we work closely with local rental agencies to help get you into a loaner while your car is being repaired.",
+  },
+  {
+    q: "Can you repair all makes and models?",
+    a: "Yes — our certified technicians are trained to work on all makes and models, domestic and foreign, including trucks and SUVs.",
+  },
 ];
 
 function FAQItem({ q, a }: { q: string; a: string }) {
