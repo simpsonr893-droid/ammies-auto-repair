@@ -1,82 +1,98 @@
 import React from 'react';
-import { ChevronRight, Phone, CheckCircle2 } from 'lucide-react';
+import { ChevronRight, Phone, Star, Shield, Clock } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function Hero() {
   return (
-    <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full -z-10 opacity-5">
-        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-emerald-400 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-blue-400 blur-[120px] rounded-full" />
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-slate-950">
+      <div className="absolute inset-0">
+        <img
+          src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=1920"
+          alt=""
+          className="w-full h-full object-cover opacity-30"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-32 w-full">
+        <div className="max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-8"
+          >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            Denver's #1 Collision Experts
-          </div>
-          <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.1] mb-6">
-            Expert Repairs for <span className="text-emerald-600">Wrecked Cars.</span>
-          </h1>
-          <p className="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed">
-            From minor dents to major collision damage, Sammie's Autobody Shop restores your vehicle to factory perfection. Fast, reliable, and insurance-approved.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
+            Denver's #1 Collision Repair Shop
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-5xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6 tracking-tight"
+          >
+            We Restore Cars.<br />
+            <span className="text-emerald-400">We Handle</span> the Rest.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg text-slate-300 mb-10 leading-relaxed max-w-xl"
+          >
+            From fender benders to full collision repairs — Sammie's Autobody delivers factory-perfect results, works directly with your insurance, and gets you back on the road fast.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 mb-14"
+          >
             <button
               onClick={() => document.getElementById('chat-toggle')?.click()}
-              className="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-200 flex items-center justify-center gap-2"
+              className="bg-emerald-500 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-emerald-400 transition-all shadow-2xl shadow-emerald-500/20 flex items-center justify-center gap-2 group"
             >
-              Start AI Estimate <ChevronRight size={20} />
+              Get Free Estimate
+              <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <a
               href="tel:7206765646"
-              className="bg-white border border-slate-200 text-slate-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+              className="border border-white/20 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2"
             >
               <Phone size={20} /> (720) 676-5646
             </a>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative"
-        >
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
-            <img
-              src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?auto=format&fit=crop&q=80&w=1000"
-              alt="Autobody workshop"
-              className="w-full h-[500px] object-cover"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
-              <div className="text-white">
-                <p className="font-bold text-2xl">Quality You Can Trust</p>
-                <p className="text-white/80">Certified technicians & state-of-the-art equipment.</p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex flex-wrap gap-6"
+          >
+            {[
+              { icon: <Star size={15} className="text-amber-400" />, text: "4.9★ Rating" },
+              { icon: <Shield size={15} className="text-emerald-400" />, text: "All Insurance Accepted" },
+              { icon: <Clock size={15} className="text-emerald-400" />, text: "Fast Turnaround" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-2 text-slate-300 text-sm font-medium">
+                {item.icon}
+                {item.text}
               </div>
-            </div>
-          </div>
-          <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 hidden md:block">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600">
-                <CheckCircle2 size={24} />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-slate-900">15k+</p>
-                <p className="text-sm text-slate-500">Cars Restored</p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 text-xs tracking-widest uppercase">
+        <span>scroll</span>
+        <div className="w-px h-8 bg-gradient-to-b from-white/20 to-transparent" />
       </div>
     </section>
   );
