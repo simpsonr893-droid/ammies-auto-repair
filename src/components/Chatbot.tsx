@@ -103,7 +103,7 @@ export default function Chatbot() {
       }));
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.0-flash",
         contents: [
             ...history.map(h => ({ role: h.role, parts: h.parts })),
             { role: 'user', parts: [{ text: userMessage }] }
