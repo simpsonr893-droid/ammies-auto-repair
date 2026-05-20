@@ -28,7 +28,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-40 border-bottom border-slate-100">
+      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-40 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white">
@@ -84,10 +84,10 @@ export default function App() {
                 Start AI Estimate <ChevronRight size={20} />
               </button>
               <a 
-                href="tel:5551234567"
+                href="tel:7206765646"
                 className="bg-white border border-slate-200 text-slate-900 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
               >
-                <Phone size={20} /> (555) 123-4567
+                <Phone size={20} /> (720) 676-5646
               </a>
             </div>
           </motion.div>
@@ -250,7 +250,7 @@ export default function App() {
                   </div>
                   <div>
                     <p className="font-bold text-lg">Phone</p>
-                    <p className="text-white/60">(555) 123-4567</p>
+                    <p className="text-white/60">(720) 676-5646</p>
                   </div>
                 </div>
                 
