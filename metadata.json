@@ -1,5 +1,5 @@
 {
-  "name": "Sammie's AI Receptionist",
-  "description": "An AI-powered receptionist for Sammie's Autobody Shop to collect vehicle information and schedule appointments.",
+  "name": "Sammie's Autobody Shop",
+  "description": "A full landing page with AI-powered receptionist for Sammie's Autobody Shop in Denver, CO. Collects vehicle info, schedules estimates, and handles insurance inquiries.",
   "requestFramePermissions": []
 }
