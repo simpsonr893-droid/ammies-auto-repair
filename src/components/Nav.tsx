@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Wrench, Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { NAV_LINKS } from '../lib/constants';
 
 interface Props {
   onOpenChat: () => void;
@@ -11,7 +12,10 @@ export default function Nav({ onOpenChat }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(prev => {
+      const next = window.scrollY > 20;
+      return prev === next ? prev : next;
+    });
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -42,7 +46,7 @@ export default function Nav({ onOpenChat }: Props) {
         </div>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium">
-          {['Services', 'Process', 'Reviews', 'FAQ', 'Contact'].map(link => (
+          {NAV_LINKS.map(link => (
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
@@ -73,7 +77,7 @@ export default function Nav({ onOpenChat }: Props) {
 
       {menuOpen && (
         <div className="md:hidden bg-white border-t border-slate-100 px-4 py-4 space-y-1">
-          {['Services', 'Process', 'Reviews', 'FAQ', 'Contact'].map(link => (
+          {NAV_LINKS.map(link => (
             <a
               key={link}
               href={`#${link.toLowerCase()}`}

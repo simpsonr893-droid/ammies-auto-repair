@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
@@ -20,6 +20,11 @@ import ErrorBoundary from './components/ErrorBoundary';
 export default function App() {
   const [chatOpen, setChatOpen] = useState(false);
   const openChat = () => setChatOpen(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setChatOpen(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">

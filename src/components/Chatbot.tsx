@@ -19,12 +19,11 @@ interface Props {
   setIsOpen: (open: boolean) => void;
 }
 
-let messageCounter = 0;
-
 export default function Chatbot({ isOpen, setIsOpen }: Props) {
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
+  const msgCounter = useRef(0);
   const [messages, setMessages] = useState<Message[]>([
-    { id: ++messageCounter, role: 'bot', content: "Hi! I'm Sammie's AI assistant. I can help you get started with your repair estimate. Could you tell me a bit about your vehicle and the damage?" }
+    { id: ++msgCounter.current, role: 'bot', content: "Hi! I'm Sammie's AI assistant. I can help you get started with your repair estimate. Could you tell me a bit about your vehicle and the damage?" }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -32,14 +31,8 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
   const audioContextRef = useRef<AudioContext | null>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const greetingPlayedRef = useRef(false);
 
-  // Auto-open after 3 seconds
-  useEffect(() => {
-    const timer = setTimeout(() => setIsOpen(true), 3000);
-    return () => clearTimeout(timer);
-  }, [setIsOpen]);
-
-  // Close AudioContext on unmount
   useEffect(() => {
     return () => { audioContextRef.current?.close(); };
   }, []);
@@ -48,10 +41,9 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Focus trap + Escape key when chat opens
   useEffect(() => {
     if (!isOpen) return;
-    setTimeout(() => inputRef.current?.focus(), 50);
+    const focusTimer = setTimeout(() => inputRef.current?.focus(), 50);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') { setIsOpen(false); return; }
@@ -72,7 +64,10 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      clearTimeout(focusTimer);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen, setIsOpen]);
 
   const playAudio = useCallback(async (text: string) => {
@@ -110,21 +105,23 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
   }, [isVoiceEnabled]);
 
   useEffect(() => {
-    if (isOpen && messages.length === 1 && messages[0].role === 'bot') {
+    if (isOpen && !greetingPlayedRef.current) {
+      greetingPlayedRef.current = true;
       playAudio(messages[0].content);
     }
-  }, [isOpen, messages, playAudio]);
+  // playAudio identity changes with isVoiceEnabled; greeting fires once on first open
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { id: ++messageCounter, role: 'user', content: userMessage }]);
+    setMessages(prev => [...prev, { id: ++msgCounter.current, role: 'user', content: userMessage }]);
     setIsLoading(true);
 
     try {
-      // Cap history at 10 messages to control token usage
-      const history = messages.slice(-10).map(m => ({
+      const history = messages.slice(-10).map(m => ({ // limit context window cost
         role: m.role === 'user' ? 'user' : 'model',
         parts: [{ text: m.content }],
       }));
@@ -154,11 +151,11 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
       });
 
       const botResponse = response.text || "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly.";
-      setMessages(prev => [...prev, { id: ++messageCounter, role: 'bot', content: botResponse }]);
+      setMessages(prev => [...prev, { id: ++msgCounter.current, role: 'bot', content: botResponse }]);
       playAudio(botResponse);
     } catch (error) {
       console.error("AI Error:", error);
-      setMessages(prev => [...prev, { id: ++messageCounter, role: 'bot', content: "I'm sorry, I encountered an error. Please try again later." }]);
+      setMessages(prev => [...prev, { id: ++msgCounter.current, role: 'bot', content: "I'm sorry, I encountered an error. Please try again later." }]);
     } finally {
       setIsLoading(false);
     }

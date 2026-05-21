@@ -43,9 +43,9 @@ const reviews = [
 
 function Stars({ count }: { count: number }) {
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-1" role="img" aria-label={`${count} out of 5 stars`}>
       {Array.from({ length: count }).map((_, i) => (
-        <Star key={i} size={14} className="fill-amber-400 text-amber-400" />
+        <Star key={i} size={14} className="fill-amber-400 text-amber-400" aria-hidden="true" />
       ))}
     </div>
   );
