@@ -42,13 +42,16 @@ const faqs = [
   },
 ];
 
-function FAQItem({ q, a }: { q: string; a: string }) {
+function FAQItem({ q, a, id }: { q: string; a: string; id: string }) {
   const [open, setOpen] = useState(false);
+  const answerId = `faq-answer-${id}`;
 
   return (
     <div className="border border-slate-200 rounded-2xl overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-controls={answerId}
         className="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50 transition-colors"
       >
         <span className="font-bold text-slate-900 pr-4">{q}</span>
@@ -60,6 +63,9 @@ function FAQItem({ q, a }: { q: string; a: string }) {
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
+            id={answerId}
+            role="region"
+            aria-label={q}
             key="content"
             initial={{ height: 0 }}
             animate={{ height: "auto" }}
@@ -77,16 +83,16 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 
 export default function FAQ() {
   return (
-    <section id="faq" className="py-24 bg-slate-50">
+    <section id="faq" className="py-24 bg-slate-50" aria-labelledby="faq-heading">
       <div className="max-w-3xl mx-auto px-4">
         <div className="text-center mb-16">
           <p className="text-emerald-600 font-bold text-sm uppercase tracking-widest mb-3">FAQ</p>
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4">Frequently Asked Questions</h2>
+          <h2 id="faq-heading" className="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4">Frequently Asked Questions</h2>
           <p className="text-slate-500">Everything you need to know before bringing your car in.</p>
         </div>
 
         <div className="space-y-3">
-          {faqs.map((faq, i) => <FAQItem key={i} {...faq} />)}
+          {faqs.map((faq, i) => <FAQItem key={i} id={String(i)} {...faq} />)}
         </div>
       </div>
     </section>

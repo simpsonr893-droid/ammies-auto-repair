@@ -2,6 +2,8 @@ import React from 'react';
 import { Wrench, Facebook, Twitter, Instagram, Phone, Mail, MapPin } from 'lucide-react';
 
 export default function Footer() {
+  const preventScroll = (e: React.MouseEvent) => e.preventDefault();
+
   return (
     <footer className="bg-slate-950 text-white">
       <div className="max-w-7xl mx-auto px-4 py-16 grid md:grid-cols-3 gap-12">
@@ -26,7 +28,8 @@ export default function Footer() {
               <a
                 key={label}
                 href="#"
-                aria-label={label}
+                onClick={preventScroll}
+                aria-label={`${label} (coming soon)`}
                 className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-emerald-600 transition-colors"
               >
                 {icon}
@@ -40,9 +43,7 @@ export default function Footer() {
           <ul className="space-y-3 text-sm">
             {['Services', 'Process', 'Reviews', 'FAQ', 'Contact'].map(link => (
               <li key={link}>
-                <a href={`#${link.toLowerCase()}`} className="text-slate-400 hover:text-white transition-colors">
-                  {link}
-                </a>
+                <a href={`#${link.toLowerCase()}`} className="text-slate-400 hover:text-white transition-colors">{link}</a>
               </li>
             ))}
           </ul>
@@ -75,9 +76,9 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-xs">
           <p>© {new Date().getFullYear()} Sammie's Autobody Shop. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-white transition-colors">Accessibility</a>
+            {['Privacy Policy', 'Terms of Service', 'Accessibility'].map(label => (
+              <a key={label} href="#" onClick={preventScroll} className="hover:text-white transition-colors">{label}</a>
+            ))}
           </div>
         </div>
       </div>

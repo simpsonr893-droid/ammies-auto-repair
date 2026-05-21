@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.svg" sizes="any" />
+
     <!-- Primary SEO -->
     <title>Sammie's Autobody Shop — Denver Collision Repair</title>
     <meta name="description" content="Denver's trusted collision repair experts. From minor dents to major damage, Sammie's Autobody restores your vehicle to factory perfection. All insurance accepted. Call (720) 676-5646." />
@@ -35,9 +39,13 @@
     <meta name="geo.position" content="39.7668;-104.8492" />
     <meta name="ICBM" content="39.7668, -104.8492" />
 
-    <!-- Performance: preconnect for fonts -->
+    <!-- Fonts (loaded as <link> for earlier discovery vs CSS @import) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+
+    <!-- Preload LCP hero image -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=1920" />
 
     <!-- JSON-LD: LocalBusiness + AutoRepair structured data -->
     <script type="application/ld+json">
@@ -75,8 +83,9 @@
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.9",
-        "reviewCount": "15000",
-        "bestRating": "5"
+        "reviewCount": "6",
+        "bestRating": "5",
+        "worstRating": "1"
       },
       "hasMap": "https://maps.google.com/maps?q=3770+Wheeling+St+Unit+1+Denver+CO+80239",
       "areaServed": [
@@ -86,7 +95,17 @@
         { "@type": "City", "name": "Thornton" },
         { "@type": "City", "name": "Commerce City" }
       ],
-      "serviceType": ["Collision Repair", "Auto Painting", "Dent Removal", "Insurance Claims", "Paintless Dent Repair"]
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Auto Body Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Collision Repair" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Auto Painting" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Insurance Claims Assistance" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Paintless Dent Removal" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Free Estimates" } }
+        ]
+      }
     }
     </script>
 
@@ -99,74 +118,42 @@
         {
           "@type": "Question",
           "name": "What are your business hours?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We are open from 9:00 AM to 5:00 PM Monday through Saturday. We are closed on Sundays."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "We are open from 9:00 AM to 5:00 PM Monday through Saturday. We are closed on Sundays." }
         },
         {
           "@type": "Question",
           "name": "Do you work with my insurance company?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes! We work with all major insurance providers. Our team handles the claims process from start to finish so you don't have to deal with the paperwork."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes! We work with all major insurance providers. Our team handles the claims process from start to finish." }
         },
         {
           "@type": "Question",
           "name": "How long does a typical repair take?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Repair times vary depending on the extent of the damage and parts availability. After your initial estimate, we'll give you a projected completion timeline."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "Repair times vary depending on the extent of the damage and parts availability. After your initial estimate, we'll give you a projected completion timeline." }
         },
         {
           "@type": "Question",
           "name": "Can I get an estimate online?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Absolutely. Use our AI Receptionist (the chat bubble in the corner) to submit your vehicle details and damage description for a preliminary assessment."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "Absolutely. Use our AI Receptionist (the chat bubble in the corner) to submit your vehicle details and damage description for a preliminary assessment." }
         },
         {
           "@type": "Question",
           "name": "Do you offer a warranty on repairs?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes — we stand behind every job. All repairs come with our quality guarantee covering workmanship and paint matching."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — all repairs come with our quality guarantee covering workmanship and paint matching." }
         },
         {
           "@type": "Question",
           "name": "Do I need to call ahead or can I just drop in?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "For estimates, walk-ins are welcome during business hours. For repairs, we recommend scheduling in advance so we can ensure a bay is ready and any needed parts are ordered ahead of your visit."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Will my car be safe and secure while it's at your shop?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Absolutely. Our facility is secured and monitored. Your vehicle is fully insured while in our care from drop-off to pick-up."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "For estimates, walk-ins are welcome during business hours. For repairs, we recommend scheduling in advance." }
         },
         {
           "@type": "Question",
           "name": "Do you offer rental car assistance?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. We can coordinate directly with your insurance company's rental program, and we work closely with local rental agencies to help get you into a loaner while your car is being repaired."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. We coordinate directly with your insurance company's rental program and work with local rental agencies to get you a loaner." }
         },
         {
           "@type": "Question",
           "name": "Can you repair all makes and models?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes — our certified technicians are trained to work on all makes and models, domestic and foreign, including trucks and SUVs."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — our certified technicians work on all makes and models, domestic and foreign, including trucks and SUVs." }
         }
       ]
     }

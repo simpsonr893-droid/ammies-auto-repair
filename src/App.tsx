@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
@@ -18,20 +18,25 @@ import Chatbot from './components/Chatbot';
 import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
+  const [chatOpen, setChatOpen] = useState(false);
+  const openChat = () => setChatOpen(true);
+
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
-      <Nav />
-      <Hero />
-      <Stats />
-      <Services />
-      <Process />
-      <Testimonials />
-      <CTABand />
-      <FAQ />
-      <Contact />
-      <Footer />
-      <ErrorBoundary>
-        <Chatbot />
+      <Nav onOpenChat={openChat} />
+      <main>
+        <Hero onOpenChat={openChat} />
+        <Stats />
+        <Services />
+        <Process />
+        <Testimonials />
+        <CTABand onOpenChat={openChat} />
+        <FAQ />
+        <Contact />
+        <Footer />
+      </main>
+      <ErrorBoundary fallback={<p className="sr-only">Chat assistant is currently unavailable.</p>}>
+        <Chatbot isOpen={chatOpen} setIsOpen={setChatOpen} />
       </ErrorBoundary>
     </div>
   );

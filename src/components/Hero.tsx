@@ -2,7 +2,11 @@ import React from 'react';
 import { ChevronRight, Phone, Star, Shield, Clock } from 'lucide-react';
 import { motion } from 'motion/react';
 
-export default function Hero() {
+interface Props {
+  onOpenChat: () => void;
+}
+
+export default function Hero({ onOpenChat }: Props) {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-slate-950">
       <div className="absolute inset-0">
@@ -11,6 +15,9 @@ export default function Hero() {
           alt=""
           className="w-full h-full object-cover opacity-30"
           referrerPolicy="no-referrer"
+          fetchPriority="high"
+          width="1920"
+          height="1080"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
       </div>
@@ -56,7 +63,7 @@ export default function Hero() {
             className="flex flex-col sm:flex-row gap-4 mb-14"
           >
             <button
-              onClick={() => document.getElementById('chat-toggle')?.click()}
+              onClick={onOpenChat}
               className="bg-emerald-500 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-emerald-400 transition-all shadow-2xl shadow-emerald-500/20 flex items-center justify-center gap-2 group"
             >
               Get Free Estimate
@@ -77,9 +84,9 @@ export default function Hero() {
             className="flex flex-wrap gap-6"
           >
             {[
-              { icon: <Star size={15} className="text-amber-400" />, text: "4.9★ Rating" },
-              { icon: <Shield size={15} className="text-emerald-400" />, text: "All Insurance Accepted" },
-              { icon: <Clock size={15} className="text-emerald-400" />, text: "Fast Turnaround" },
+              { icon: <Star size={15} className="text-amber-400" aria-hidden="true" />, text: "4.9 star rating" },
+              { icon: <Shield size={15} className="text-emerald-400" aria-hidden="true" />, text: "All Insurance Accepted" },
+              { icon: <Clock size={15} className="text-emerald-400" aria-hidden="true" />, text: "Fast Turnaround" },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-slate-300 text-sm font-medium">
                 {item.icon}
@@ -90,7 +97,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 text-xs tracking-widest uppercase">
+      <div aria-hidden="true" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 text-xs tracking-widest uppercase">
         <span>scroll</span>
         <div className="w-px h-8 bg-gradient-to-b from-white/20 to-transparent" />
       </div>

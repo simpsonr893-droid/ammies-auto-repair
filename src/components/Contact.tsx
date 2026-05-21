@@ -14,39 +14,23 @@ const hours: { day: string; hours: string; closed?: boolean }[] = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 bg-white">
+    <section id="contact" className="py-24 bg-white" aria-labelledby="contact-heading">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <p className="text-emerald-600 font-bold text-sm uppercase tracking-widest mb-3">Find Us</p>
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4">Visit Our Shop</h2>
+          <h2 id="contact-heading" className="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4">Visit Our Shop</h2>
           <p className="text-slate-500">Conveniently located in Denver with easy drop-off.</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8 mb-8">
           <div className="space-y-4">
             {[
-              {
-                icon: <MapPin className="text-emerald-600" />,
-                label: "Location",
-                value: "3770 Wheeling St Unit #1\nDenver, CO 80239",
-              },
-              {
-                icon: <Phone className="text-emerald-600" />,
-                label: "Phone",
-                value: "(720) 676-5646",
-                href: "tel:7206765646",
-              },
-              {
-                icon: <Mail className="text-emerald-600" />,
-                label: "Email",
-                value: "service@sammiesautobody.com",
-                href: "mailto:service@sammiesautobody.com",
-              },
+              { icon: <MapPin className="text-emerald-600" />, label: "Location", value: "3770 Wheeling St Unit #1\nDenver, CO 80239" },
+              { icon: <Phone className="text-emerald-600" />, label: "Phone",    value: "(720) 676-5646",                  href: "tel:7206765646" },
+              { icon: <Mail className="text-emerald-600" />,  label: "Email",    value: "service@sammiesautobody.com",      href: "mailto:service@sammiesautobody.com" },
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100">
-                <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">
-                  {item.icon}
-                </div>
+                <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
                 <div>
                   <p className="font-bold text-slate-900 text-sm mb-0.5">{item.label}</p>
                   {item.href ? (
@@ -72,9 +56,7 @@ export default function Contact() {
               {hours.map((item, i) => (
                 <div key={i} className="flex justify-between items-center py-3 border-b border-slate-200 last:border-0">
                   <span className="font-medium text-slate-700">{item.day}</span>
-                  <span className={cn("font-semibold text-sm", item.closed ? "text-red-500" : "text-slate-900")}>
-                    {item.hours}
-                  </span>
+                  <span className={cn("font-semibold text-sm", item.closed ? "text-red-500" : "text-slate-900")}>{item.hours}</span>
                 </div>
               ))}
             </div>
@@ -90,6 +72,7 @@ export default function Contact() {
             style={{ border: 0 }}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            sandbox="allow-scripts allow-same-origin"
           />
         </div>
       </div>
