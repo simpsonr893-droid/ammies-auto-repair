@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { GoogleGenAI, Modality } from "@google/genai";
 import { Send, Bot, Loader2, X, Volume2, VolumeX } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
 
 interface Message {
   id: number;
@@ -38,7 +35,7 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
   }, []);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   useEffect(() => {
@@ -73,34 +70,31 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
   const playAudio = useCallback(async (text: string) => {
     if (!isVoiceEnabled) return;
     try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash-preview-tts",
-        contents: [{ parts: [{ text }] }],
-        config: {
-          responseModalities: [Modality.AUDIO],
-          speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } } },
-        },
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
       });
+      if (!res.ok) throw new Error(`TTS HTTP ${res.status}`);
+      const { audio } = await res.json();
+      if (!audio) return;
 
-      const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-      if (base64Audio) {
-        const audioData = atob(base64Audio);
-        const arrayBuffer = new ArrayBuffer(audioData.length);
-        const view = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < audioData.length; i++) view[i] = audioData.charCodeAt(i);
+      const audioData = atob(audio);
+      const arrayBuffer = new ArrayBuffer(audioData.length);
+      const view = new Uint8Array(arrayBuffer);
+      for (let i = 0; i < audioData.length; i++) view[i] = audioData.charCodeAt(i);
 
-        if (!audioContextRef.current) {
-          audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-        }
-        await audioContextRef.current.resume();
-        const buffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
-        const source = audioContextRef.current.createBufferSource();
-        source.buffer = buffer;
-        source.connect(audioContextRef.current.destination);
-        source.start(0);
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
       }
+      await audioContextRef.current.resume();
+      const buffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
+      const source = audioContextRef.current.createBufferSource();
+      source.buffer = buffer;
+      source.connect(audioContextRef.current.destination);
+      source.start(0);
     } catch (error) {
-      console.error("Speech Generation Error:", error);
+      console.error('Speech Generation Error:', error);
     }
   }, [isVoiceEnabled]);
 
@@ -119,41 +113,24 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
     setIsLoading(true);
 
     try {
-      const history = messages.slice(-10).map(m => ({ // limit context window cost
+      const history = messages.slice(-10).map(m => ({
         role: m.role === 'user' ? 'user' : 'model',
         parts: [{ text: m.content }],
       }));
 
-      const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
-        contents: [...history, { role: 'user', parts: [{ text: userMessage }] }],
-        config: {
-          systemInstruction: `You are an AI receptionist for Ammie's Auto Repair.
-          Your goal is to collect the following information from the user:
-          1. Wrecked car information (Make, Model, Year, and description of damage).
-          2. Whether they have insurance.
-          3. When they would like to come in for an estimate.
-
-          Contact Information:
-          - Phone: 720-676-5646
-
-          Business Hours:
-          - Monday - Saturday: 9:00 AM to 5:00 PM
-          - Sunday: Closed
-
-          Be professional, empathetic, and helpful.
-          Always provide the correct business hours and phone number if asked.
-          If the user provides all info, thank them and let them know someone will reach out to confirm.
-          Keep responses concise and friendly.`
-        }
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ history, userMessage }),
       });
-
-      const botResponse = response.text || "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly.";
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const botResponse = data.text || "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly at (720) 676-5646.";
       setMessages(prev => [...prev, { id: ++msgCounter.current, role: 'bot', content: botResponse }]);
       playAudio(botResponse);
     } catch (error) {
-      console.error("AI Error:", error);
-      setMessages(prev => [...prev, { id: ++msgCounter.current, role: 'bot', content: "I'm sorry, I encountered an error. Please try again later." }]);
+      console.error('AI Error:', error);
+      setMessages(prev => [...prev, { id: ++msgCounter.current, role: 'bot', content: "I'm sorry, I encountered an error. Please try again or call us at (720) 676-5646." }]);
     } finally {
       setIsLoading(false);
     }
@@ -161,103 +138,103 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
 
   return (
     <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            ref={chatRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Chat with Ammie's AI Assistant"
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 w-[90vw] max-w-[400px] h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 border border-slate-200"
+      {isOpen && (
+        <motion.div
+          ref={chatRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Chat with Ammie's AI Assistant"
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.95 }}
+          className="fixed bottom-24 right-6 w-[90vw] max-w-[400px] h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 border border-slate-200"
+        >
+          <div className="p-4 bg-emerald-600 text-white flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                <Bot size={24} />
+              </div>
+              <div>
+                <h3 className="font-semibold leading-none">Ammie's Assistant</h3>
+                <span className="text-xs text-emerald-100">Online | AI Receptionist</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
+                aria-label={isVoiceEnabled ? 'Mute voice responses' : 'Enable voice responses'}
+                className="hover:bg-white/10 p-1.5 rounded transition-colors"
+              >
+                {isVoiceEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                aria-label="Close chat"
+                className="hover:bg-white/10 p-1.5 rounded transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+          </div>
+
+          <div
+            className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50"
+            role="log"
+            aria-live="polite"
+            aria-label="Chat messages"
           >
-            <div className="p-4 bg-emerald-600 text-white flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                  <Bot size={24} />
-                </div>
-                <div>
-                  <h3 className="font-semibold leading-none">Ammie's Assistant</h3>
-                  <span className="text-xs text-emerald-100">Online | AI Receptionist</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
-                  aria-label={isVoiceEnabled ? "Mute voice responses" : "Enable voice responses"}
-                  className="hover:bg-white/10 p-1.5 rounded transition-colors"
-                >
-                  {isVoiceEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
-                </button>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  aria-label="Close chat"
-                  className="hover:bg-white/10 p-1.5 rounded transition-colors"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-            </div>
-
-            <div
-              className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50"
-              role="log"
-              aria-live="polite"
-              aria-label="Chat messages"
-            >
-              {messages.map((msg) => (
-                <div key={msg.id} className={cn("flex w-full", msg.role === 'user' ? "justify-end" : "justify-start")}>
-                  <div className={cn(
-                    "max-w-[80%] p-3 rounded-2xl text-sm",
-                    msg.role === 'user'
-                      ? "bg-emerald-600 text-white rounded-tr-none"
-                      : "bg-white text-slate-800 shadow-sm border border-slate-100 rounded-tl-none"
-                  )}>
-                    <div className="prose prose-sm prose-slate max-w-none">
-                      <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{msg.content}</ReactMarkdown>
-                    </div>
+            {messages.map((msg) => (
+              <div key={msg.id} className={cn('flex w-full', msg.role === 'user' ? 'justify-end' : 'justify-start')}>
+                <div className={cn(
+                  'max-w-[80%] p-3 rounded-2xl text-sm',
+                  msg.role === 'user'
+                    ? 'bg-emerald-600 text-white rounded-tr-none'
+                    : 'bg-white text-slate-800 shadow-sm border border-slate-100 rounded-tl-none'
+                )}>
+                  <div className="prose prose-sm prose-slate max-w-none">
+                    <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{msg.content}</ReactMarkdown>
                   </div>
                 </div>
-              ))}
-              {isLoading && (
-                <div className="flex justify-start">
-                  <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100">
-                    <Loader2 size={18} className="animate-spin text-emerald-600" aria-label="Loading response" />
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-
-            <div className="p-4 bg-white border-t border-slate-100">
-              <div className="flex gap-2">
-                <label htmlFor="chat-input" className="sr-only">Type a message</label>
-                <input
-                  id="chat-input"
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSend(); } }}
-                  placeholder="Type your message..."
-                  className="flex-1 bg-slate-100 border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
-                />
-                <button
-                  onClick={handleSend}
-                  disabled={isLoading || !input.trim()}
-                  aria-label="Send message"
-                  className="p-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition-colors"
-                >
-                  <Send size={18} />
-                </button>
               </div>
-              <p className="text-[10px] text-center text-slate-400 mt-2">
-                Powered by Ammie's AI • 9am-5pm Mon-Sat
-              </p>
+            ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100">
+                  <Loader2 size={18} className="animate-spin text-emerald-600" aria-label="Loading response" />
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <div className="p-4 bg-white border-t border-slate-100">
+            <div className="flex gap-2">
+              <label htmlFor="chat-input" className="sr-only">Type a message</label>
+              <input
+                id="chat-input"
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSend(); } }}
+                placeholder="Type your message..."
+                className="flex-1 bg-slate-100 border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+              />
+              <button
+                onClick={handleSend}
+                disabled={isLoading || !input.trim()}
+                aria-label="Send message"
+                className="p-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition-colors"
+              >
+                <Send size={18} />
+              </button>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <p className="text-[10px] text-center text-slate-400 mt-2">
+              Powered by Ammie's AI • 9am–5pm Mon–Sat
+            </p>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

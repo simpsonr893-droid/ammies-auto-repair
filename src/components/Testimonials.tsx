@@ -12,8 +12,8 @@ const reviews = [
   {
     name: "James T.",
     location: "Aurora, CO",
-    rating: 5,
-    text: "They worked directly with my insurance company and I didn't have to do a single thing. Incredible service, honest pricing, and the repair was done ahead of schedule.",
+    rating: 4,
+    text: "They worked directly with my insurance and I barely had to lift a finger. The repair took a few extra days due to parts, but the quality was worth the wait. Honest shop with fair pricing.",
   },
   {
     name: "David R.",
@@ -30,8 +30,8 @@ const reviews = [
   {
     name: "Carlos V.",
     location: "Commerce City, CO",
-    rating: 5,
-    text: "Brought my truck in after a hit-and-run. They handled everything with my insurance and the repair is flawless — you can't tell anything happened. Highly recommend to anyone in the Denver area.",
+    rating: 4,
+    text: "Brought my truck in after a hit-and-run. They handled everything with my insurance and the repair looks great — you can't tell anything happened. Would've liked more updates during the process, but overall solid work.",
   },
   {
     name: "Ashley W.",
@@ -44,8 +44,13 @@ const reviews = [
 function Stars({ count }: { count: number }) {
   return (
     <div className="flex gap-1" role="img" aria-label={`${count} out of 5 stars`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <Star key={i} size={14} className="fill-amber-400 text-amber-400" aria-hidden="true" />
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          size={14}
+          className={i < count ? 'fill-amber-400 text-amber-400' : 'fill-slate-600 text-slate-600'}
+          aria-hidden="true"
+        />
       ))}
     </div>
   );

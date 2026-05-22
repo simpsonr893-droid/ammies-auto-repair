@@ -5,7 +5,7 @@ const stats = [
   { value: "15,000+", label: "Cars Restored" },
   { value: "10+",     label: "Years in Business" },
   { value: "All",     label: "Insurance Accepted" },
-  { value: "4.9",     label: "Google Rating", suffix: "★", srSuffix: " star" },
+  { value: "4.7",     label: "Google Rating", suffix: "★", srSuffix: " star" },
 ];
 
 export default function Stats() {
