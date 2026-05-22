@@ -7,7 +7,7 @@ const reviews = [
     name: "Maria G.",
     location: "Denver, CO",
     rating: 5,
-    text: "After my accident, Sammie's made the whole process completely stress-free. They handled my insurance and my car came back looking better than before the crash. Absolutely recommend.",
+    text: "After my accident, Ammie's made the whole process completely stress-free. They handled my insurance and my car came back looking better than before the crash. Absolutely recommend.",
   },
   {
     name: "James T.",
@@ -25,7 +25,7 @@ const reviews = [
     name: "Keisha M.",
     location: "Denver, CO",
     rating: 5,
-    text: "I was so stressed after my fender bender but Sammie's made it painless. Dropped my car off Monday, had it back Wednesday looking brand new. The team is professional and genuinely kind.",
+    text: "I was so stressed after my fender bender but Ammie's made it painless. Dropped my car off Monday, had it back Wednesday looking brand new. The team is professional and genuinely kind.",
   },
   {
     name: "Carlos V.",
@@ -37,7 +37,7 @@ const reviews = [
     name: "Ashley W.",
     location: "Thornton, CO",
     rating: 5,
-    text: "I've been to a lot of body shops over the years and Sammie's is hands down the best. Transparent pricing, great communication, and the quality of work is unmatched.",
+    text: "I've been to a lot of body shops over the years and Ammie's is hands down the best. Transparent pricing, great communication, and the quality of work is unmatched.",
   },
 ];
 

@@ -15,11 +15,11 @@ export default function Footer() {
               <Wrench size={18} />
             </div>
             <span className="font-bold text-xl tracking-tight">
-              Sammie's <span className="text-emerald-400">Autobody</span>
+              Ammie's <span className="text-emerald-400">Auto Repair</span>
             </span>
           </div>
           <p className="text-slate-400 text-sm leading-relaxed mb-6">
-            Denver's trusted collision repair experts. Certified technicians, all insurance accepted, quality guaranteed.
+            Denver's trusted auto repair experts. Certified technicians, all insurance accepted, quality guaranteed.
           </p>
           <div className="flex gap-3">
             {[
@@ -65,9 +65,9 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="mailto:service@sammiesautobody.com" className="flex items-center gap-3 hover:text-white transition-colors">
+              <a href="mailto:service@ammiesautorepair.com" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Mail size={15} className="text-emerald-400 shrink-0" />
-                service@sammiesautobody.com
+                service@ammiesautorepair.com
               </a>
             </li>
           </ul>
@@ -76,7 +76,7 @@ export default function Footer() {
 
       <div className="border-t border-white/5 py-6">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-xs">
-          <p>© {CURRENT_YEAR} Sammie's Autobody Shop. All rights reserved.</p>
+          <p>© {CURRENT_YEAR} Ammie's Auto Repair. All rights reserved.</p>
           <div className="flex gap-6">
             {['Privacy Policy', 'Terms of Service', 'Accessibility'].map(label => (
               <a key={label} href="#" onClick={stopDefaultNav} className="hover:text-white transition-colors">{label}</a>

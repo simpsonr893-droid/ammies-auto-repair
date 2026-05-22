@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Wrench, Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { NAV_LINKS } from '../lib/constants';
@@ -10,6 +10,7 @@ interface Props {
 export default function Nav({ onOpenChat }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(prev => {
@@ -23,12 +24,20 @@ export default function Nav({ onOpenChat }: Props) {
   useEffect(() => {
     if (!menuOpen) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false); };
+    const onClickOutside = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onClickOutside);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onClickOutside);
+    };
   }, [menuOpen]);
 
   return (
     <nav
+      ref={navRef}
       aria-label="Main navigation"
       className={cn(
         "fixed top-0 w-full z-40 transition-all duration-300",
@@ -41,7 +50,7 @@ export default function Nav({ onOpenChat }: Props) {
             <Wrench size={18} />
           </div>
           <span className={cn("font-bold text-xl tracking-tight transition-colors", scrolled ? "text-slate-900" : "text-white")}>
-            Sammie's <span className="text-emerald-400">Autobody</span>
+            Ammie's <span className="text-emerald-400">Auto Repair</span>
           </span>
         </div>
 
