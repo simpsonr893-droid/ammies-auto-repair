@@ -1,38 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Anthropic from '@anthropic-ai/sdk';
+import * as Sentry from '@sentry/react';
 import { Send, Bot, Loader2, X, MessageSquare, Volume2, VolumeX, AlertCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY || '',
-  dangerouslyAllowBrowser: true,
-});
-
 const MAX_INPUT_LENGTH = 500;
 const CONTEXT_WINDOW = 10;
 
 const GREETING = "Hi! I'm Sammie's AI assistant. I can help you get started with your repair estimate. Could you tell me a bit about your vehicle and the damage?";
-
-const SYSTEM_PROMPT = `You are an AI receptionist for Sammie's Autobody Shop.
-Your goal is to collect the following information from the user:
-1. Wrecked car information (Make, Model, Year, and description of damage).
-2. Whether they have insurance.
-3. When they would like to come in for an estimate.
-
-Contact Information:
-- Phone: 720-676-5646
-
-Business Hours:
-- Monday - Saturday: 9:00 AM to 5:00 PM
-- Sunday: Closed
-
-Be professional, empathetic, and helpful.
-Always provide the correct business hours and phone number if asked.
-If the user provides all info, thank them and let them know someone will reach out to confirm.
-Keep responses concise and friendly.`;
 
 interface Message {
   id: number;
@@ -135,22 +112,20 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
         content: m.content,
       }));
 
-      const response = await client.messages.create({
-        model: 'claude-haiku-4-5',
-        max_tokens: 1024,
-        system: SYSTEM_PROMPT,
-        messages: [...history, { role: 'user', content: userMessage }],
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [...history, { role: 'user', content: userMessage }] }),
       });
 
-      const botResponse =
-        response.content[0]?.type === 'text'
-          ? response.content[0].text
-          : "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly.";
+      if (!res.ok) throw new Error(`API error ${res.status}`);
+      const data = await res.json() as { text: string };
+      const botResponse = data.text ?? "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly.";
 
       setMessages(prev => [...prev, { id: ++msgCounter.current, role: 'bot', content: botResponse }]);
       playAudio(botResponse);
     } catch (error) {
-      console.error('AI Error:', error);
+      Sentry.captureException(error);
       setMessages(prev => [...prev, {
         id: ++msgCounter.current,
         role: 'bot',

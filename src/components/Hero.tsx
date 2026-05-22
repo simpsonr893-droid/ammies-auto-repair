@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronRight, Phone, Star, Shield, Clock } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -7,18 +7,23 @@ interface Props {
 }
 
 export default function Hero({ onOpenChat }: Props) {
+  const [imgFailed, setImgFailed] = useState(false);
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-slate-950">
       <div className="absolute inset-0">
-        <img
-          src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=1920"
-          alt=""
-          className="w-full h-full object-cover opacity-30"
-          referrerPolicy="no-referrer"
-          fetchPriority="high"
-          width="1920"
-          height="1080"
-        />
+        {!imgFailed && (
+          <img
+            src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=1920"
+            alt=""
+            className="w-full h-full object-cover opacity-30"
+            referrerPolicy="no-referrer"
+            fetchPriority="high"
+            width="1920"
+            height="1080"
+            onError={() => setImgFailed(true)}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
       </div>
 
