@@ -3,7 +3,6 @@ import { Wrench, Facebook, Twitter, Instagram, Phone, Mail, MapPin } from 'lucid
 import { NAV_LINKS } from '../lib/constants';
 
 const CURRENT_YEAR = new Date().getFullYear();
-const stopDefaultNav = (e: React.MouseEvent) => e.preventDefault();
 
 export default function Footer() {
   return (
@@ -27,15 +26,14 @@ export default function Footer() {
               { label: "Twitter",   icon: <Twitter size={16} /> },
               { label: "Instagram", icon: <Instagram size={16} /> },
             ].map(({ label, icon }) => (
-              <a
+              <button
                 key={label}
-                href="#"
-                onClick={stopDefaultNav}
+                type="button"
                 aria-label={`${label} (coming soon)`}
                 className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-emerald-600 transition-colors"
               >
                 {icon}
-              </a>
+              </button>
             ))}
           </div>
         </div>
@@ -79,7 +77,7 @@ export default function Footer() {
           <p>© {CURRENT_YEAR} Sammie's Autobody Shop. All rights reserved.</p>
           <div className="flex gap-6">
             {['Privacy Policy', 'Terms of Service', 'Accessibility'].map(label => (
-              <a key={label} href="#" onClick={stopDefaultNav} className="hover:text-white transition-colors">{label}</a>
+              <button key={label} type="button" className="hover:text-white transition-colors">{label}</button>
             ))}
           </div>
         </div>

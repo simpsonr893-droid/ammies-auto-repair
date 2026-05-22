@@ -63,13 +63,26 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="rounded-3xl overflow-hidden border border-slate-100 shadow-sm h-80">
+        <div className="rounded-3xl overflow-hidden border border-slate-100 shadow-sm h-80 relative bg-slate-100">
+          {/* Fallback shown behind the iframe when it fails to load */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-slate-500">
+            <MapPin size={32} className="text-emerald-500" />
+            <p className="text-sm font-medium">3770 Wheeling St Unit #1, Denver, CO 80239</p>
+            <a
+              href="https://maps.google.com/?q=3770+Wheeling+St+Unit+1+Denver+CO+80239"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-600 hover:underline text-sm font-semibold"
+            >
+              Open in Google Maps →
+            </a>
+          </div>
           <iframe
             title="Sammie's Autobody Shop location"
             src="https://maps.google.com/maps?q=3770+Wheeling+St+Unit+1+Denver+CO+80239&output=embed"
             width="100%"
             height="100%"
-            style={{ border: 0 }}
+            style={{ border: 0, position: 'relative', zIndex: 1 }}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             sandbox="allow-scripts allow-same-origin"

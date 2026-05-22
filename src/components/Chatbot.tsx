@@ -1,12 +1,38 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { GoogleGenAI, Modality } from "@google/genai";
-import { Send, Bot, Loader2, X, MessageSquare, Volume2, VolumeX } from 'lucide-react';
+import Anthropic from '@anthropic-ai/sdk';
+import { Send, Bot, Loader2, X, MessageSquare, Volume2, VolumeX, AlertCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
+const client = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY || '',
+  dangerouslyAllowBrowser: true,
+});
+
+const MAX_INPUT_LENGTH = 500;
+const CONTEXT_WINDOW = 10;
+
+const GREETING = "Hi! I'm Sammie's AI assistant. I can help you get started with your repair estimate. Could you tell me a bit about your vehicle and the damage?";
+
+const SYSTEM_PROMPT = `You are an AI receptionist for Sammie's Autobody Shop.
+Your goal is to collect the following information from the user:
+1. Wrecked car information (Make, Model, Year, and description of damage).
+2. Whether they have insurance.
+3. When they would like to come in for an estimate.
+
+Contact Information:
+- Phone: 720-676-5646
+
+Business Hours:
+- Monday - Saturday: 9:00 AM to 5:00 PM
+- Sunday: Closed
+
+Be professional, empathetic, and helpful.
+Always provide the correct business hours and phone number if asked.
+If the user provides all info, thank them and let them know someone will reach out to confirm.
+Keep responses concise and friendly.`;
 
 interface Message {
   id: number;
@@ -21,24 +47,30 @@ interface Props {
 
 export default function Chatbot({ isOpen, setIsOpen }: Props) {
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
+  const [voiceError, setVoiceError] = useState(false);
   const msgCounter = useRef(0);
   const [messages, setMessages] = useState<Message[]>([
-    { id: ++msgCounter.current, role: 'bot', content: "Hi! I'm Sammie's AI assistant. I can help you get started with your repair estimate. Could you tell me a bit about your vehicle and the damage?" }
+    { id: ++msgCounter.current, role: 'bot', content: GREETING }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const greetingPlayedRef = useRef(false);
 
+  const prefersReducedMotion = useRef(
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+
   useEffect(() => {
-    return () => { audioContextRef.current?.close(); };
+    return () => { window.speechSynthesis?.cancel(); };
   }, []);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({
+      behavior: prefersReducedMotion.current ? 'auto' : 'smooth',
+    });
   }, [messages]);
 
   useEffect(() => {
@@ -70,48 +102,25 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
     };
   }, [isOpen, setIsOpen]);
 
-  const playAudio = useCallback(async (text: string) => {
-    if (!isVoiceEnabled) return;
-    try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash-preview-tts",
-        contents: [{ parts: [{ text }] }],
-        config: {
-          responseModalities: [Modality.AUDIO],
-          speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } } },
-        },
-      });
-
-      const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-      if (base64Audio) {
-        const audioData = atob(base64Audio);
-        const arrayBuffer = new ArrayBuffer(audioData.length);
-        const view = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < audioData.length; i++) view[i] = audioData.charCodeAt(i);
-
-        if (!audioContextRef.current) {
-          audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-        }
-        await audioContextRef.current.resume();
-        const buffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
-        const source = audioContextRef.current.createBufferSource();
-        source.buffer = buffer;
-        source.connect(audioContextRef.current.destination);
-        source.start(0);
-      }
-    } catch (error) {
-      console.error("Speech Generation Error:", error);
-    }
-  }, [isVoiceEnabled]);
-
+  // Greeting plays once when chat opens with voice enabled
   useEffect(() => {
-    if (isOpen && !greetingPlayedRef.current) {
-      greetingPlayedRef.current = true;
-      playAudio(messages[0].content);
-    }
-  // playAudio identity changes with isVoiceEnabled; greeting fires once on first open
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+    if (!isOpen || greetingPlayedRef.current || !isVoiceEnabled) return;
+    greetingPlayedRef.current = true;
+    window.speechSynthesis?.cancel();
+    const utterance = new SpeechSynthesisUtterance(GREETING);
+    utterance.rate = 0.9;
+    utterance.onerror = () => { setVoiceError(true); setTimeout(() => setVoiceError(false), 4000); };
+    window.speechSynthesis?.speak(utterance);
+  }, [isOpen, isVoiceEnabled]);
+
+  const playAudio = useCallback((text: string) => {
+    if (!isVoiceEnabled || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9;
+    utterance.onerror = () => { setVoiceError(true); setTimeout(() => setVoiceError(false), 4000); };
+    window.speechSynthesis.speak(utterance);
+  }, [isVoiceEnabled]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -121,45 +130,38 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
     setIsLoading(true);
 
     try {
-      const history = messages.slice(-10).map(m => ({ // limit context window cost
-        role: m.role === 'user' ? 'user' : 'model',
-        parts: [{ text: m.content }],
+      const history = messages.slice(-CONTEXT_WINDOW).map(m => ({
+        role: (m.role === 'user' ? 'user' : 'assistant') as 'user' | 'assistant',
+        content: m.content,
       }));
 
-      const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
-        contents: [...history, { role: 'user', parts: [{ text: userMessage }] }],
-        config: {
-          systemInstruction: `You are an AI receptionist for Sammie's Autobody Shop.
-          Your goal is to collect the following information from the user:
-          1. Wrecked car information (Make, Model, Year, and description of damage).
-          2. Whether they have insurance.
-          3. When they would like to come in for an estimate.
-
-          Contact Information:
-          - Phone: 720-676-5646
-
-          Business Hours:
-          - Monday - Saturday: 9:00 AM to 5:00 PM
-          - Sunday: Closed
-
-          Be professional, empathetic, and helpful.
-          Always provide the correct business hours and phone number if asked.
-          If the user provides all info, thank them and let them know someone will reach out to confirm.
-          Keep responses concise and friendly.`
-        }
+      const response = await client.messages.create({
+        model: 'claude-haiku-4-5',
+        max_tokens: 1024,
+        system: SYSTEM_PROMPT,
+        messages: [...history, { role: 'user', content: userMessage }],
       });
 
-      const botResponse = response.text || "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly.";
+      const botResponse =
+        response.content[0]?.type === 'text'
+          ? response.content[0].text
+          : "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly.";
+
       setMessages(prev => [...prev, { id: ++msgCounter.current, role: 'bot', content: botResponse }]);
       playAudio(botResponse);
     } catch (error) {
-      console.error("AI Error:", error);
-      setMessages(prev => [...prev, { id: ++msgCounter.current, role: 'bot', content: "I'm sorry, I encountered an error. Please try again later." }]);
+      console.error('AI Error:', error);
+      setMessages(prev => [...prev, {
+        id: ++msgCounter.current,
+        role: 'bot',
+        content: "I'm sorry, I encountered an error. Please try again or call us at (720) 676-5646.",
+      }]);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const isContextTruncated = messages.length > CONTEXT_WINDOW + 1;
 
   return (
     <>
@@ -212,6 +214,19 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
               </div>
             </div>
 
+            {voiceError && (
+              <div role="alert" className="bg-amber-50 border-b border-amber-200 px-4 py-2 flex items-center gap-2 text-amber-700 text-xs">
+                <AlertCircle size={14} aria-hidden="true" />
+                Voice unavailable — your browser may not support text-to-speech.
+              </div>
+            )}
+
+            {isContextTruncated && (
+              <div aria-live="polite" className="bg-slate-50 border-b border-slate-200 px-4 py-1.5 text-center text-[10px] text-slate-400">
+                Showing last {CONTEXT_WINDOW} messages in AI context
+              </div>
+            )}
+
             <div
               className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50"
               role="log"
@@ -250,6 +265,7 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
                   ref={inputRef}
                   type="text"
                   value={input}
+                  maxLength={MAX_INPUT_LENGTH}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSend(); } }}
                   placeholder="Type your message..."
@@ -259,11 +275,16 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
                   onClick={handleSend}
                   disabled={isLoading || !input.trim()}
                   aria-label="Send message"
-                  className="p-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition-colors"
+                  className="p-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <Send size={18} />
                 </button>
               </div>
+              {input.length > MAX_INPUT_LENGTH * 0.8 && (
+                <p className="text-[10px] text-right text-slate-400 mt-1" aria-live="polite">
+                  {input.length}/{MAX_INPUT_LENGTH}
+                </p>
+              )}
               <p className="text-[10px] text-center text-slate-400 mt-2">
                 Powered by Sammie's AI • 9am-5pm Mon-Sat
               </p>
