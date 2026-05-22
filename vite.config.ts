@@ -12,9 +12,5 @@ export default defineConfig({
   },
   server: {
     hmr: process.env.DISABLE_HMR !== 'true',
-    // Proxy /api/* to the Express server in dev so the Gemini key stays server-side.
-    proxy: {
-      '/api': 'http://localhost:3001',
-    },
   },
 });

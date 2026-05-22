@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     q: "Can I get an estimate online?",
-    a: "Absolutely. Use our AI Receptionist (the chat bubble in the corner) to submit your vehicle details and damage description for a preliminary assessment.",
+    a: "Absolutely. Use our online estimate form in the Contact section below — fill in your vehicle details and damage description and we'll get back to you shortly.",
   },
   {
     q: "Do you offer a warranty on repairs?",

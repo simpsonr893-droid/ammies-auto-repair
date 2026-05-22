@@ -2,11 +2,7 @@ import React from 'react';
 import { ChevronRight, Phone, Star, Shield, Clock } from 'lucide-react';
 import { motion } from 'motion/react';
 
-interface Props {
-  onOpenChat: () => void;
-}
-
-export default function Hero({ onOpenChat }: Props) {
+export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-slate-950">
       <div className="absolute inset-0">
@@ -34,7 +30,7 @@ export default function Hero({ onOpenChat }: Props) {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            Denver's #1 Collision Repair Shop
+            Denver's Trusted Collision Repair Shop
           </motion.div>
 
           <motion.h1
@@ -62,13 +58,13 @@ export default function Hero({ onOpenChat }: Props) {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 mb-14"
           >
-            <button
-              onClick={onOpenChat}
+            <a
+              href="#contact"
               className="bg-emerald-500 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-emerald-400 transition-all shadow-2xl shadow-emerald-500/20 flex items-center justify-center gap-2 group"
             >
               Get Free Estimate
               <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
-            </button>
+            </a>
             <a
               href="tel:7206765646"
               className="border border-white/20 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2"
@@ -84,7 +80,7 @@ export default function Hero({ onOpenChat }: Props) {
             className="flex flex-wrap gap-6"
           >
             {[
-              { icon: <Star size={15} className="text-amber-400" aria-hidden="true" />, text: "4.9 star rating" },
+              { icon: <Star size={15} className="text-amber-400" aria-hidden="true" />, text: "4.7 star rating" },
               { icon: <Shield size={15} className="text-emerald-400" aria-hidden="true" />, text: "All Insurance Accepted" },
               { icon: <Clock size={15} className="text-emerald-400" aria-hidden="true" />, text: "Fast Turnaround" },
             ].map((item, i) => (

@@ -1,11 +1,7 @@
 import React from 'react';
-import { Phone, MessageSquare } from 'lucide-react';
+import { Phone, ClipboardList } from 'lucide-react';
 
-interface Props {
-  onOpenChat: () => void;
-}
-
-export default function CTABand({ onOpenChat }: Props) {
+export default function CTABand() {
   return (
     <section className="bg-emerald-600 py-20" aria-labelledby="cta-heading">
       <div className="max-w-4xl mx-auto px-4 text-center">
@@ -16,12 +12,12 @@ export default function CTABand({ onOpenChat }: Props) {
           Get a free estimate in minutes. We'll take it from there — including the insurance.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
-            onClick={onOpenChat}
+          <a
+            href="#contact"
             className="bg-white text-emerald-700 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-emerald-50 transition-all shadow-xl flex items-center justify-center gap-2"
           >
-            <MessageSquare size={20} /> Start Free Estimate
-          </button>
+            <ClipboardList size={20} /> Request Free Estimate
+          </a>
           <a
             href="tel:7206765646"
             className="border-2 border-white/40 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2"

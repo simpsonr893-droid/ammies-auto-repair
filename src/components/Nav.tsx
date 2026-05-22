@@ -3,11 +3,7 @@ import { Wrench, Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { NAV_LINKS } from '../lib/constants';
 
-interface Props {
-  onOpenChat: () => void;
-}
-
-export default function Nav({ onOpenChat }: Props) {
+export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -58,12 +54,12 @@ export default function Nav({ onOpenChat }: Props) {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={onOpenChat}
+          <a
+            href="#contact"
             className="bg-emerald-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-emerald-500 transition-all shadow-lg"
           >
             Free Estimate
-          </button>
+          </a>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}

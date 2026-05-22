@@ -7,7 +7,7 @@ const steps = [
     icon: <MessageSquare size={28} />,
     step: "01",
     title: "Get Your Estimate",
-    desc: "Chat with our AI receptionist or call us. We'll collect your vehicle details and schedule an in-shop assessment.",
+    desc: "Use our online estimate form or call us. We'll collect your vehicle details and schedule an in-shop assessment.",
   },
   {
     icon: <FileCheck size={28} />,

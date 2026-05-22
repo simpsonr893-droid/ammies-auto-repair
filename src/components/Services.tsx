@@ -7,7 +7,7 @@ const services = [
   { icon: <Paintbrush size={24} />, title: "Auto Painting",      desc: "Precision color matching and high-gloss finishes that last a lifetime." },
   { icon: <ShieldCheck size={24} />,title: "Insurance Claims",   desc: "We work directly with all major providers to simplify your claim." },
   { icon: <Wrench size={24} />,     title: "Dent Removal",       desc: "Paintless dent repair for those annoying dings and hail damage." },
-  { icon: <Calendar size={24} />,   title: "Quick Estimates",    desc: "Get an initial quote in minutes using our AI-powered receptionist." },
+  { icon: <Calendar size={24} />,   title: "Quick Estimates",    desc: "Request a free estimate online or by phone — we respond fast." },
   { icon: <Clock size={24} />,      title: "Fast Turnaround",    desc: "We prioritize efficiency to get you back on the road quickly." },
 ];
 
