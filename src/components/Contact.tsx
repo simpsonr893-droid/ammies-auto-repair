@@ -27,7 +27,7 @@ export default function Contact() {
             {[
               { icon: <MapPin className="text-emerald-600" />, label: "Location", value: "3770 Wheeling St Unit #1\nDenver, CO 80239" },
               { icon: <Phone className="text-emerald-600" />, label: "Phone",    value: "(720) 676-5646",                  href: "tel:7206765646" },
-              { icon: <Mail className="text-emerald-600" />,  label: "Email",    value: "service@sammiesautobody.com",      href: "mailto:service@sammiesautobody.com" },
+              { icon: <Mail className="text-emerald-600" />,  label: "Email",    value: "service@ammiesautorepair.com",      href: "mailto:service@ammiesautorepair.com" },
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100">
                 <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
@@ -65,14 +65,14 @@ export default function Contact() {
 
         <div className="rounded-3xl overflow-hidden border border-slate-100 shadow-sm h-80">
           <iframe
-            title="Sammie's Autobody Shop location"
+            title="Ammie's Auto Repair location"
             src="https://maps.google.com/maps?q=3770+Wheeling+St+Unit+1+Denver+CO+80239&output=embed"
             width="100%"
             height="100%"
             style={{ border: 0 }}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            sandbox="allow-scripts allow-same-origin"
+            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
           />
         </div>
       </div>

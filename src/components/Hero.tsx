@@ -53,7 +53,7 @@ export default function Hero({ onOpenChat }: Props) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg text-slate-300 mb-10 leading-relaxed max-w-xl"
           >
-            From fender benders to full collision repairs — Sammie's Autobody delivers factory-perfect results, works directly with your insurance, and gets you back on the road fast.
+            From fender benders to full collision repairs — Ammie's Auto Repair delivers factory-perfect results, works directly with your insurance, and gets you back on the road fast.
           </motion.p>
 
           <motion.div

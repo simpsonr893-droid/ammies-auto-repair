@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GoogleGenAI, Modality } from "@google/genai";
-import { Send, Bot, Loader2, X, MessageSquare, Volume2, VolumeX } from 'lucide-react';
+import { Send, Bot, Loader2, X, Volume2, VolumeX } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import { motion, AnimatePresence } from 'motion/react';
@@ -21,9 +21,9 @@ interface Props {
 
 export default function Chatbot({ isOpen, setIsOpen }: Props) {
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
-  const msgCounter = useRef(0);
+  const msgCounter = useRef(1);
   const [messages, setMessages] = useState<Message[]>([
-    { id: ++msgCounter.current, role: 'bot', content: "Hi! I'm Sammie's AI assistant. I can help you get started with your repair estimate. Could you tell me a bit about your vehicle and the damage?" }
+    { id: 1, role: 'bot', content: "Hi! I'm Ammie's AI assistant. I can help you get started with your repair estimate. Could you tell me a bit about your vehicle and the damage?" }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -105,13 +105,11 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
   }, [isVoiceEnabled]);
 
   useEffect(() => {
-    if (isOpen && !greetingPlayedRef.current) {
+    if (isOpen && isVoiceEnabled && !greetingPlayedRef.current) {
       greetingPlayedRef.current = true;
       playAudio(messages[0].content);
     }
-  // playAudio identity changes with isVoiceEnabled; greeting fires once on first open
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  }, [isOpen, isVoiceEnabled, playAudio, messages]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -130,7 +128,7 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
         model: "gemini-2.0-flash",
         contents: [...history, { role: 'user', parts: [{ text: userMessage }] }],
         config: {
-          systemInstruction: `You are an AI receptionist for Sammie's Autobody Shop.
+          systemInstruction: `You are an AI receptionist for Ammie's Auto Repair.
           Your goal is to collect the following information from the user:
           1. Wrecked car information (Make, Model, Year, and description of damage).
           2. Whether they have insurance.
@@ -162,23 +160,13 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
   };
 
   return (
-    <>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? "Close chat" : "Open chat with AI assistant"}
-        aria-expanded={isOpen}
-        className="fixed bottom-6 right-6 p-4 bg-emerald-600 text-white rounded-full shadow-2xl hover:bg-emerald-700 transition-all z-50 flex items-center justify-center"
-      >
-        {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
-      </button>
-
-      <AnimatePresence>
+    <AnimatePresence>
         {isOpen && (
           <motion.div
             ref={chatRef}
             role="dialog"
             aria-modal="true"
-            aria-label="Chat with Sammie's AI Assistant"
+            aria-label="Chat with Ammie's AI Assistant"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -190,7 +178,7 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
                   <Bot size={24} />
                 </div>
                 <div>
-                  <h3 className="font-semibold leading-none">Sammie's Assistant</h3>
+                  <h3 className="font-semibold leading-none">Ammie's Assistant</h3>
                   <span className="text-xs text-emerald-100">Online | AI Receptionist</span>
                 </div>
               </div>
@@ -265,12 +253,11 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
                 </button>
               </div>
               <p className="text-[10px] text-center text-slate-400 mt-2">
-                Powered by Sammie's AI • 9am-5pm Mon-Sat
+                Powered by Ammie's AI • 9am-5pm Mon-Sat
               </p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </>
   );
 }
