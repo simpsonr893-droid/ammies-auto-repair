@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { GoogleGenAI, Modality } from "@google/genai";
 import { Send, Bot, Loader2, X, MessageSquare, Volume2, VolumeX } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
 
 interface Message {
   id: number;
@@ -73,16 +70,13 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
   const playAudio = useCallback(async (text: string) => {
     if (!isVoiceEnabled) return;
     try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash-preview-tts",
-        contents: [{ parts: [{ text }] }],
-        config: {
-          responseModalities: [Modality.AUDIO],
-          speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } } },
-        },
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
       });
-
-      const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+      if (!res.ok) return;
+      const { audio: base64Audio } = await res.json();
       if (base64Audio) {
         const audioData = atob(base64Audio);
         const arrayBuffer = new ArrayBuffer(audioData.length);
@@ -121,36 +115,19 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
     setIsLoading(true);
 
     try {
-      const history = messages.slice(-10).map(m => ({ // limit context window cost
+      const history = messages.slice(-20).map(m => ({
         role: m.role === 'user' ? 'user' : 'model',
         parts: [{ text: m.content }],
       }));
 
-      const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
-        contents: [...history, { role: 'user', parts: [{ text: userMessage }] }],
-        config: {
-          systemInstruction: `You are an AI receptionist for Sammie's Autobody Shop.
-          Your goal is to collect the following information from the user:
-          1. Wrecked car information (Make, Model, Year, and description of damage).
-          2. Whether they have insurance.
-          3. When they would like to come in for an estimate.
-
-          Contact Information:
-          - Phone: 720-676-5646
-
-          Business Hours:
-          - Monday - Saturday: 9:00 AM to 5:00 PM
-          - Sunday: Closed
-
-          Be professional, empathetic, and helpful.
-          Always provide the correct business hours and phone number if asked.
-          If the user provides all info, thank them and let them know someone will reach out to confirm.
-          Keep responses concise and friendly.`
-        }
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ history, userMessage }),
       });
-
-      const botResponse = response.text || "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly.";
+      if (!res.ok) throw new Error('Chat request failed');
+      const data = await res.json();
+      const botResponse = data.text || "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly.";
       setMessages(prev => [...prev, { id: ++msgCounter.current, role: 'bot', content: botResponse }]);
       playAudio(botResponse);
     } catch (error) {

@@ -1,9 +1,8 @@
 import React from 'react';
-import { Wrench, Facebook, Twitter, Instagram, Phone, Mail, MapPin } from 'lucide-react';
+import { Wrench, Phone, Mail, MapPin } from 'lucide-react';
 import { NAV_LINKS } from '../lib/constants';
 
 const CURRENT_YEAR = new Date().getFullYear();
-const stopDefaultNav = (e: React.MouseEvent) => e.preventDefault();
 
 export default function Footer() {
   return (
@@ -18,26 +17,9 @@ export default function Footer() {
               Sammie's <span className="text-emerald-400">Autobody</span>
             </span>
           </div>
-          <p className="text-slate-400 text-sm leading-relaxed mb-6">
+          <p className="text-slate-400 text-sm leading-relaxed">
             Denver's trusted collision repair experts. Certified technicians, all insurance accepted, quality guaranteed.
           </p>
-          <div className="flex gap-3">
-            {[
-              { label: "Facebook",  icon: <Facebook size={16} /> },
-              { label: "Twitter",   icon: <Twitter size={16} /> },
-              { label: "Instagram", icon: <Instagram size={16} /> },
-            ].map(({ label, icon }) => (
-              <a
-                key={label}
-                href="#"
-                onClick={stopDefaultNav}
-                aria-label={`${label} (coming soon)`}
-                className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-emerald-600 transition-colors"
-              >
-                {icon}
-              </a>
-            ))}
-          </div>
         </div>
 
         <div>
@@ -75,13 +57,8 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/5 py-6">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-xs">
+        <div className="max-w-7xl mx-auto px-4 text-center text-slate-500 text-xs">
           <p>© {CURRENT_YEAR} Sammie's Autobody Shop. All rights reserved.</p>
-          <div className="flex gap-6">
-            {['Privacy Policy', 'Terms of Service', 'Accessibility'].map(label => (
-              <a key={label} href="#" onClick={stopDefaultNav} className="hover:text-white transition-colors">{label}</a>
-            ))}
-          </div>
         </div>
       </div>
     </footer>
