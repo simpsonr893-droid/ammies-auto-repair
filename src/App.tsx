@@ -17,12 +17,24 @@ import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 import ErrorBoundary from './components/ErrorBoundary';
 
+const CHAT_AUTOOPEN_KEY = 'chatAutoOpened';
+
 export default function App() {
   const [chatOpen, setChatOpen] = useState(false);
   const openChat = () => setChatOpen(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setChatOpen(true), 3000);
+    if (typeof window === 'undefined') return;
+    try {
+      if (sessionStorage.getItem(CHAT_AUTOOPEN_KEY) === '1') return;
+    } catch {
+      // sessionStorage may be unavailable (e.g. privacy mode); skip auto-open
+      return;
+    }
+    const timer = setTimeout(() => {
+      try { sessionStorage.setItem(CHAT_AUTOOPEN_KEY, '1'); } catch { /* ignore */ }
+      setChatOpen(true);
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 

@@ -10,11 +10,17 @@ View your app in AI Studio: https://ai.studio/apps/44c470bb-ce73-4c15-a962-f26f7
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
+**Prerequisites:** Node.js 20+
 
+1. Install dependencies: `npm install`
+2. Copy `.env.example` to `.env.local` and set `GEMINI_API_KEY` to your Gemini API key.
+3. Run the app: `npm run dev` (starts an Express server with Vite middleware on port 3000).
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Architecture
+
+- **Client** (`src/`): React + Vite SPA. Does not import the Gemini SDK or hold any API key.
+- **Server** (`server/index.ts`): Express. Holds `GEMINI_API_KEY`, exposes `POST /api/chat` and `POST /api/tts`, and serves the SPA (via Vite middleware in dev, static `dist/` in prod).
+
+## Deploy (Replit)
+
+Set `GEMINI_API_KEY` in the Secrets panel. Build command: `npm run build`. Start command: `npm start`.
