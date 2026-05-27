@@ -23,7 +23,7 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
   const msgCounter = useRef(0);
   const [messages, setMessages] = useState<Message[]>([
-    { id: ++msgCounter.current, role: 'bot', content: "Hi! I'm Sammie's AI assistant. I can help you get started with your repair estimate. Could you tell me a bit about your vehicle and the damage?" }
+    { id: ++msgCounter.current, role: 'bot', content: "Hi! I'm your AI assistant. I can help you get started with your repair estimate. Could you tell me a bit about your vehicle and the damage?" }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -130,14 +130,14 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
         model: "gemini-2.0-flash",
         contents: [...history, { role: 'user', parts: [{ text: userMessage }] }],
         config: {
-          systemInstruction: `You are an AI receptionist for Sammie's Autobody Shop.
+          systemInstruction: `You are an AI receptionist for [Your Business Name].
           Your goal is to collect the following information from the user:
           1. Wrecked car information (Make, Model, Year, and description of damage).
           2. Whether they have insurance.
           3. When they would like to come in for an estimate.
 
           Contact Information:
-          - Phone: 720-676-5646
+          - Phone: (000) 000-0000
 
           Business Hours:
           - Monday - Saturday: 9:00 AM to 5:00 PM
@@ -178,7 +178,7 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
             ref={chatRef}
             role="dialog"
             aria-modal="true"
-            aria-label="Chat with Sammie's AI Assistant"
+            aria-label="Chat with AI Assistant"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -190,7 +190,7 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
                   <Bot size={24} />
                 </div>
                 <div>
-                  <h3 className="font-semibold leading-none">Sammie's Assistant</h3>
+                  <h3 className="font-semibold leading-none">AI Assistant</h3>
                   <span className="text-xs text-emerald-100">Online | AI Receptionist</span>
                 </div>
               </div>
@@ -265,7 +265,7 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
                 </button>
               </div>
               <p className="text-[10px] text-center text-slate-400 mt-2">
-                Powered by Sammie's AI • 9am-5pm Mon-Sat
+                Powered by AI • 9am-5pm Mon-Sat
               </p>
             </div>
           </motion.div>

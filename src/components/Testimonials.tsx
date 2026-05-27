@@ -4,40 +4,40 @@ import { motion } from 'motion/react';
 
 const reviews = [
   {
-    name: "Maria G.",
-    location: "Denver, CO",
+    name: "Customer A.",
+    location: "[City, State]",
     rating: 5,
-    text: "After my accident, Sammie's made the whole process completely stress-free. They handled my insurance and my car came back looking better than before the crash. Absolutely recommend.",
+    text: "After my accident, this shop made the whole process completely stress-free. They handled my insurance and my car came back looking better than before the crash. Absolutely recommend.",
   },
   {
-    name: "James T.",
-    location: "Aurora, CO",
+    name: "Customer B.",
+    location: "[City, State]",
     rating: 5,
     text: "They worked directly with my insurance company and I didn't have to do a single thing. Incredible service, honest pricing, and the repair was done ahead of schedule.",
   },
   {
-    name: "David R.",
-    location: "Lakewood, CO",
+    name: "Customer C.",
+    location: "[City, State]",
     rating: 5,
-    text: "Best body shop in Denver. Fast turnaround, the paint match was absolutely perfect, and the staff kept me updated the whole time. Won't go anywhere else.",
+    text: "Best body shop in the area. Fast turnaround, the paint match was absolutely perfect, and the staff kept me updated the whole time. Won't go anywhere else.",
   },
   {
-    name: "Keisha M.",
-    location: "Denver, CO",
+    name: "Customer D.",
+    location: "[City, State]",
     rating: 5,
-    text: "I was so stressed after my fender bender but Sammie's made it painless. Dropped my car off Monday, had it back Wednesday looking brand new. The team is professional and genuinely kind.",
+    text: "I was so stressed after my fender bender but this team made it painless. Dropped my car off Monday, had it back Wednesday looking brand new. Professional and genuinely kind.",
   },
   {
-    name: "Carlos V.",
-    location: "Commerce City, CO",
+    name: "Customer E.",
+    location: "[City, State]",
     rating: 5,
-    text: "Brought my truck in after a hit-and-run. They handled everything with my insurance and the repair is flawless — you can't tell anything happened. Highly recommend to anyone in the Denver area.",
+    text: "Brought my truck in after a hit-and-run. They handled everything with my insurance and the repair is flawless — you can't tell anything happened. Highly recommend.",
   },
   {
-    name: "Ashley W.",
-    location: "Thornton, CO",
+    name: "Customer F.",
+    location: "[City, State]",
     rating: 5,
-    text: "I've been to a lot of body shops over the years and Sammie's is hands down the best. Transparent pricing, great communication, and the quality of work is unmatched.",
+    text: "I've been to a lot of body shops over the years and this is hands down the best. Transparent pricing, great communication, and the quality of work is unmatched.",
   },
 ];
 
@@ -57,7 +57,7 @@ export default function Testimonials() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <p className="text-emerald-400 font-bold text-sm uppercase tracking-widest mb-3">Customer Reviews</p>
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-white mb-4">What Denver Drivers Say</h2>
+          <h2 className="text-3xl lg:text-5xl font-extrabold text-white mb-4">What Our Customers Say</h2>
           <p className="text-slate-400 max-w-xl mx-auto">Over 15,000 satisfied customers and counting.</p>
         </div>
 

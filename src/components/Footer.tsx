@@ -15,11 +15,11 @@ export default function Footer() {
               <Wrench size={18} />
             </div>
             <span className="font-bold text-xl tracking-tight">
-              Sammie's <span className="text-emerald-400">Autobody</span>
+              [Your Shop] <span className="text-emerald-400">Name</span>
             </span>
           </div>
           <p className="text-slate-400 text-sm leading-relaxed mb-6">
-            Denver's trusted collision repair experts. Certified technicians, all insurance accepted, quality guaranteed.
+            Your city's trusted collision repair experts. Certified technicians, all insurance accepted, quality guaranteed.
           </p>
           <div className="flex gap-3">
             {[
@@ -56,18 +56,18 @@ export default function Footer() {
           <ul className="space-y-4 text-sm text-slate-400">
             <li className="flex items-start gap-3">
               <MapPin size={15} className="text-emerald-400 mt-0.5 shrink-0" />
-              <span>3770 Wheeling St Unit #1<br />Denver, CO 80239</span>
+              <span>[Your Street Address]<br />[City, State ZIP]</span>
             </li>
             <li>
-              <a href="tel:7206765646" className="flex items-center gap-3 hover:text-white transition-colors">
+              <a href="tel:0000000000" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Phone size={15} className="text-emerald-400 shrink-0" />
-                (720) 676-5646
+                (000) 000-0000
               </a>
             </li>
             <li>
-              <a href="mailto:service@sammiesautobody.com" className="flex items-center gap-3 hover:text-white transition-colors">
+              <a href="mailto:info@yourbusiness.com" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Mail size={15} className="text-emerald-400 shrink-0" />
-                service@sammiesautobody.com
+                info@yourbusiness.com
               </a>
             </li>
           </ul>
@@ -76,7 +76,7 @@ export default function Footer() {
 
       <div className="border-t border-white/5 py-6">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-xs">
-          <p>© {CURRENT_YEAR} Sammie's Autobody Shop. All rights reserved.</p>
+          <p>© {CURRENT_YEAR} [Your Business Name]. All rights reserved.</p>
           <div className="flex gap-6">
             {['Privacy Policy', 'Terms of Service', 'Accessibility'].map(label => (
               <a key={label} href="#" onClick={stopDefaultNav} className="hover:text-white transition-colors">{label}</a>

@@ -23,10 +23,10 @@ export default function CTABand({ onOpenChat }: Props) {
             <MessageSquare size={20} /> Start Free Estimate
           </button>
           <a
-            href="tel:7206765646"
+            href="tel:0000000000"
             className="border-2 border-white/40 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2"
           >
-            <Phone size={20} /> (720) 676-5646
+            <Phone size={20} /> (000) 000-0000
           </a>
         </div>
       </div>

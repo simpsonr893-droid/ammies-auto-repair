@@ -41,7 +41,7 @@ export default function Nav({ onOpenChat }: Props) {
             <Wrench size={18} />
           </div>
           <span className={cn("font-bold text-xl tracking-tight transition-colors", scrolled ? "text-slate-900" : "text-white")}>
-            Sammie's <span className="text-emerald-400">Autobody</span>
+            [Your Shop] <span className="text-emerald-400">Name</span>
           </span>
         </div>
 

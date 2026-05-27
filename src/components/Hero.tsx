@@ -53,7 +53,7 @@ export default function Hero({ onOpenChat }: Props) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg text-slate-300 mb-10 leading-relaxed max-w-xl"
           >
-            From fender benders to full collision repairs — Sammie's Autobody delivers factory-perfect results, works directly with your insurance, and gets you back on the road fast.
+            From fender benders to full collision repairs — [Your Shop Name] delivers factory-perfect results, works directly with your insurance, and gets you back on the road fast.
           </motion.p>
 
           <motion.div
@@ -70,10 +70,10 @@ export default function Hero({ onOpenChat }: Props) {
               <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <a
-              href="tel:7206765646"
+              href="tel:0000000000"
               className="border border-white/20 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2"
             >
-              <Phone size={20} /> (720) 676-5646
+              <Phone size={20} /> (000) 000-0000
             </a>
           </motion.div>
 
