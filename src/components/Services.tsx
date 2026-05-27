@@ -1,4 +1,3 @@
-import React from 'react';
 import { Car, ShieldCheck, Calendar, Clock, Wrench, Paintbrush } from 'lucide-react';
 import { motion } from 'motion/react';
 

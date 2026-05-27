@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronRight, Phone, Star, Shield, Clock } from 'lucide-react';
 import { motion } from 'motion/react';
 

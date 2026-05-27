@@ -1,4 +1,3 @@
-import React from 'react';
 import { MessageSquare, FileCheck, Wrench, CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
 

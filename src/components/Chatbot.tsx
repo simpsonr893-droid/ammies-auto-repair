@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Send, Bot, Loader2, X, MessageSquare, Volume2, VolumeX } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
@@ -47,7 +47,7 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
       if (e.key !== 'Tab' || !chatRef.current) return;
       const focusable = Array.from(
         chatRef.current.querySelectorAll<HTMLElement>(
-          'button:not([disabled]), input:not([disabled])'
+          'button:not([disabled]), input:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
         )
       );
       if (!focusable.length) return;
@@ -126,17 +126,25 @@ export default function Chatbot({ isOpen, setIsOpen }: Props) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ history, message: userMessage }),
       });
-      if (!res.ok) throw new Error(`Chat HTTP ${res.status}`);
-      const { text } = await res.json() as { text: string };
 
-      const botResponse = text || "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly.";
+      let botResponse: string;
+      if (res.status === 503) {
+        botResponse = "Our AI assistant is offline right now. Please call us at (720) 676-5646 and we'll get you an estimate by phone.";
+      } else if (res.status === 429) {
+        botResponse = "We're getting a lot of messages right now — please wait a minute and try again, or call us at (720) 676-5646.";
+      } else if (!res.ok) {
+        throw new Error(`Chat HTTP ${res.status}`);
+      } else {
+        const { text } = await res.json() as { text: string };
+        botResponse = text || "I'm sorry, I'm having trouble connecting right now. Please try again or call us directly.";
+      }
       const botId = ++msgCounter.current;
       setMessages(prev => [...prev, { id: botId, role: 'bot', content: botResponse }]);
-      playAudio(botResponse);
+      if (res.ok) playAudio(botResponse);
     } catch (error) {
       console.error("AI Error:", error);
       const errId = ++msgCounter.current;
-      setMessages(prev => [...prev, { id: errId, role: 'bot', content: "I'm sorry, I encountered an error. Please try again later." }]);
+      setMessages(prev => [...prev, { id: errId, role: 'bot', content: "I'm sorry, I encountered an error. Please call us at (720) 676-5646." }]);
     } finally {
       setIsLoading(false);
     }
