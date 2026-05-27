@@ -2,8 +2,34 @@
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.sammiesautobody.com/</loc>
-    <lastmod>2026-05-21</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://www.sammiesautobody.com/blog</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.sammiesautobody.com/articles</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url><loc>https://www.sammiesautobody.com/blog/what-to-do-after-a-car-accident-in-denver</loc><lastmod>2026-05-15</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.sammiesautobody.com/blog/will-my-insurance-cover-this-repair</loc><lastmod>2026-05-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.sammiesautobody.com/blog/oem-vs-aftermarket-parts-explained</loc><lastmod>2026-04-29</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.sammiesautobody.com/blog/how-long-does-collision-repair-take</loc><lastmod>2026-04-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.sammiesautobody.com/blog/spotting-hidden-frame-damage-after-a-crash</loc><lastmod>2026-04-15</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.sammiesautobody.com/blog/paintless-dent-removal-when-it-works-and-when-it-doesnt</loc><lastmod>2026-04-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.sammiesautobody.com/blog/how-to-choose-an-autobody-shop-in-denver</loc><lastmod>2026-04-01</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.sammiesautobody.com/articles/the-complete-denver-collision-repair-guide</loc><lastmod>2026-05-20</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.sammiesautobody.com/articles/understanding-your-auto-insurance-claim-step-by-step</loc><lastmod>2026-05-12</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.sammiesautobody.com/articles/why-frame-alignment-matters-for-vehicle-safety</loc><lastmod>2026-05-05</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.sammiesautobody.com/articles/the-real-cost-of-cheap-auto-body-repair</loc><lastmod>2026-04-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.sammiesautobody.com/articles/how-color-matching-actually-works-in-modern-auto-paint</loc><lastmod>2026-04-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.sammiesautobody.com/articles/hail-damage-in-colorado-what-drivers-need-to-know</loc><lastmod>2026-04-14</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.sammiesautobody.com/articles/diminished-value-claims-explained-for-colorado-drivers</loc><lastmod>2026-04-07</lastmod><priority>0.8</priority></url>
 </urlset>

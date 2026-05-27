@@ -1,13 +1,14 @@
-import { Car, ShieldCheck, Calendar, Clock, Wrench, Paintbrush } from 'lucide-react';
+import { Car, ShieldCheck, Wrench, Paintbrush, Ruler, CircleDashed, ClipboardCheck } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const services = [
-  { icon: <Car size={24} />,        title: "Collision Repair",   desc: "Full structural restoration for vehicles involved in major accidents." },
-  { icon: <Paintbrush size={24} />, title: "Auto Painting",      desc: "Precision color matching and high-gloss finishes that last a lifetime." },
-  { icon: <ShieldCheck size={24} />,title: "Insurance Claims",   desc: "We work directly with all major providers to simplify your claim." },
-  { icon: <Wrench size={24} />,     title: "Dent Removal",       desc: "Paintless dent repair for those annoying dings and hail damage." },
-  { icon: <Calendar size={24} />,   title: "Quick Estimates",    desc: "Get an initial quote in minutes using our AI-powered receptionist." },
-  { icon: <Clock size={24} />,      title: "Fast Turnaround",    desc: "We prioritize efficiency to get you back on the road quickly." },
+  { icon: <Car size={24} />,            title: "Collision Repair",       desc: "Full structural restoration for vehicles involved in major accidents." },
+  { icon: <Paintbrush size={24} />,     title: "Auto Painting",          desc: "Factory-grade color matching and clear-coat finishes that last." },
+  { icon: <ShieldCheck size={24} />,    title: "Insurance Claims",       desc: "We handle the paperwork with every major insurance carrier." },
+  { icon: <CircleDashed size={24} />,   title: "Paintless Dent Removal", desc: "Hail, door dings, and minor body damage — fixed without repainting." },
+  { icon: <Ruler size={24} />,          title: "Frame Straightening",    desc: "Computer-measured frame realignment back to factory specifications." },
+  { icon: <Wrench size={24} />,         title: "Bumper Repair",          desc: "Plastic welding, sanding, and repainting for cracked or scuffed bumpers." },
+  { icon: <ClipboardCheck size={24} />, title: "Free Estimates",         desc: "In-shop assessment within 24 hours, no obligation, no surprises." },
 ];
 
 export default function Services() {

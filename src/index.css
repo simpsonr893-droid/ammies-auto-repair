@@ -3,3 +3,60 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
+
+/* Markdown content styling for blog posts and articles */
+.markdown {
+  color: #334155; /* slate-700 */
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.markdown > * + * {
+  margin-top: 1.25em;
+}
+.markdown h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a; /* slate-900 */
+  letter-spacing: -0.02em;
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+  scroll-margin-top: 6rem;
+}
+.markdown h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+.markdown p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.markdown a {
+  color: #047857; /* emerald-700 */
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.markdown a:hover {
+  color: #065f46; /* emerald-800 */
+}
+.markdown strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+.markdown ul, .markdown ol {
+  padding-left: 1.5rem;
+}
+.markdown ul { list-style: disc; }
+.markdown ol { list-style: decimal; }
+.markdown li { margin-top: 0.5em; }
+.markdown li::marker { color: #10b981; } /* emerald-500 */
+.markdown blockquote {
+  border-left: 3px solid #10b981;
+  padding-left: 1rem;
+  color: #475569; /* slate-600 */
+  font-style: italic;
+}

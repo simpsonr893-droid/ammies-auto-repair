@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Wrench, Phone, Mail, MapPin } from 'lucide-react';
 import { NAV_LINKS } from '../lib/constants';
 
@@ -26,9 +27,11 @@ export default function Footer() {
           <ul className="space-y-3 text-sm">
             {NAV_LINKS.map(link => (
               <li key={link}>
-                <a href={`#${link.toLowerCase()}`} className="text-slate-400 hover:text-white transition-colors">{link}</a>
+                <a href={`/#${link.toLowerCase()}`} className="text-slate-400 hover:text-white transition-colors">{link}</a>
               </li>
             ))}
+            <li><Link to="/blog" className="text-slate-400 hover:text-white transition-colors">Blog</Link></li>
+            <li><Link to="/articles" className="text-slate-400 hover:text-white transition-colors">Articles</Link></li>
           </ul>
         </div>
 

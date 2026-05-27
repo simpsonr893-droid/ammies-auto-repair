@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Wrench, Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { NAV_LINKS } from '../lib/constants';
@@ -10,6 +11,8 @@ interface Props {
 export default function Nav({ onOpenChat }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+  const onHome = location.pathname === '/';
 
   useEffect(() => {
     const onScroll = () => setScrolled(prev => {
@@ -27,34 +30,53 @@ export default function Nav({ onOpenChat }: Props) {
     return () => document.removeEventListener('keydown', onKey);
   }, [menuOpen]);
 
+  // When on a non-home route, anchor links must navigate to / + hash. When on home, just hash.
+  const anchorHref = (section: string) =>
+    onHome ? `#${section.toLowerCase()}` : `/#${section.toLowerCase()}`;
+
+  // Solid background on non-home pages so dark text stays readable.
+  const isSolid = scrolled || !onHome;
+
   return (
     <nav
       aria-label="Main navigation"
       className={cn(
         "fixed top-0 w-full z-40 transition-all duration-300",
-        scrolled ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100" : "bg-transparent"
+        isSolid ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100" : "bg-transparent"
       )}
     >
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center text-white shadow-lg">
             <Wrench size={18} />
           </div>
-          <span className={cn("font-bold text-xl tracking-tight transition-colors", scrolled ? "text-slate-900" : "text-white")}>
+          <span className={cn("font-bold text-xl tracking-tight transition-colors", isSolid ? "text-slate-900" : "text-white")}>
             Sammie's <span className="text-emerald-400">Autobody</span>
           </span>
-        </div>
+        </Link>
 
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+        <div className="hidden md:flex items-center gap-7 text-sm font-medium">
           {NAV_LINKS.map(link => (
             <a
               key={link}
-              href={`#${link.toLowerCase()}`}
-              className={cn("transition-colors hover:text-emerald-500", scrolled ? "text-slate-600" : "text-white/80")}
+              href={anchorHref(link)}
+              className={cn("transition-colors hover:text-emerald-500", isSolid ? "text-slate-600" : "text-white/80")}
             >
               {link}
             </a>
           ))}
+          <Link
+            to="/blog"
+            className={cn("transition-colors hover:text-emerald-500", isSolid ? "text-slate-600" : "text-white/80")}
+          >
+            Blog
+          </Link>
+          <Link
+            to="/articles"
+            className={cn("transition-colors hover:text-emerald-500", isSolid ? "text-slate-600" : "text-white/80")}
+          >
+            Articles
+          </Link>
         </div>
 
         <div className="flex items-center gap-3">
@@ -68,7 +90,7 @@ export default function Nav({ onOpenChat }: Props) {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
-            className={cn("md:hidden p-2 rounded-lg transition-colors", scrolled ? "text-slate-700" : "text-white")}
+            className={cn("md:hidden p-2 rounded-lg transition-colors", isSolid ? "text-slate-700" : "text-white")}
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -80,13 +102,15 @@ export default function Nav({ onOpenChat }: Props) {
           {NAV_LINKS.map(link => (
             <a
               key={link}
-              href={`#${link.toLowerCase()}`}
+              href={anchorHref(link)}
               onClick={() => setMenuOpen(false)}
               className="block text-slate-700 font-medium py-2.5 hover:text-emerald-600 transition-colors"
             >
               {link}
             </a>
           ))}
+          <Link to="/blog" onClick={() => setMenuOpen(false)} className="block text-slate-700 font-medium py-2.5 hover:text-emerald-600 transition-colors">Blog</Link>
+          <Link to="/articles" onClick={() => setMenuOpen(false)} className="block text-slate-700 font-medium py-2.5 hover:text-emerald-600 transition-colors">Articles</Link>
         </div>
       )}
     </nav>
