@@ -1,6 +1,9 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
+import rateLimit from 'express-rate-limit';
 import { GoogleGenAI, Modality } from '@google/genai';
 import path from 'path';
+import crypto from 'crypto';
+import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -14,6 +17,14 @@ const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 const isProd = process.env.NODE_ENV === 'production';
 const PORT = Number(process.env.PORT) || 3000;
+
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS ?? '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
+if (isProd && ALLOWED_ORIGINS.length === 0) {
+  console.warn('[server] ALLOWED_ORIGINS not set — /api/* will accept any Origin. Set this in prod to restrict cross-origin abuse.');
+}
 
 const SYSTEM_INSTRUCTION = `You are an AI receptionist for Sammie's Autobody Shop.
 Your goal is to collect the following information from the user:
@@ -42,11 +53,87 @@ interface HistoryItem {
   text: string;
 }
 
+function getInlineScriptHashes(): string[] {
+  const distHtml = path.resolve(__dirname, '../dist/index.html');
+  if (!existsSync(distHtml)) return [];
+  const html = readFileSync(distHtml, 'utf-8');
+  const regex = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
+  const hashes: string[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = regex.exec(html))) {
+    const content = m[1];
+    if (!content.trim()) continue;
+    const hash = crypto.createHash('sha256').update(content).digest('base64');
+    hashes.push(`'sha256-${hash}'`);
+  }
+  return hashes;
+}
+
+function buildCsp(): string {
+  const scriptHashes = isProd ? getInlineScriptHashes() : [];
+  const scriptSrc = isProd && scriptHashes.length
+    ? `'self' ${scriptHashes.join(' ')}`
+    : `'self' 'unsafe-inline' 'unsafe-eval'`; // dev: Vite HMR needs inline + eval
+  return [
+    `default-src 'self'`,
+    `script-src ${scriptSrc}`,
+    `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
+    `img-src 'self' https://images.unsplash.com data: blob:`,
+    `font-src 'self' https://fonts.gstatic.com`,
+    `connect-src 'self'${isProd ? '' : ' ws: wss:'}`,
+    `frame-src https://maps.google.com`,
+    `media-src blob:`,
+    `object-src 'none'`,
+    `base-uri 'self'`,
+    `form-action 'self'`,
+    `frame-ancestors 'self'`,
+  ].join('; ');
+}
+
+function securityHeaders(_req: Request, res: Response, next: NextFunction) {
+  res.setHeader('Content-Security-Policy', buildCsp());
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  if (isProd) {
+    res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+  }
+  next();
+}
+
+function originGuard(req: Request, res: Response, next: NextFunction) {
+  if (!isProd || ALLOWED_ORIGINS.length === 0) return next();
+  const origin = req.get('origin');
+  // No Origin header → likely server-to-server (curl etc.). Allow; rate limiter still applies.
+  if (!origin) return next();
+  if (ALLOWED_ORIGINS.includes(origin)) return next();
+  res.status(403).json({ error: 'Origin not allowed.' });
+}
+
+const chatLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000,
+  limit: 20,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Please slow down.' },
+});
+
+const ttsLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000,
+  limit: 30,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Please slow down.' },
+});
+
 async function main() {
   const app = express();
+  app.set('trust proxy', 1); // Replit, Cloud Run, etc. front-proxy us
+  app.use(securityHeaders);
   app.use(express.json({ limit: '32kb' }));
 
-  app.post('/api/chat', async (req: Request, res: Response) => {
+  app.post('/api/chat', originGuard, chatLimiter, async (req: Request, res: Response) => {
     if (!ai) return res.status(503).json({ error: 'AI service unavailable.' });
     try {
       const { history, message } = req.body ?? {};
@@ -75,7 +162,7 @@ async function main() {
     }
   });
 
-  app.post('/api/tts', async (req: Request, res: Response) => {
+  app.post('/api/tts', originGuard, ttsLimiter, async (req: Request, res: Response) => {
     if (!ai) return res.status(503).json({ error: 'AI service unavailable.' });
     try {
       const { text } = req.body ?? {};
