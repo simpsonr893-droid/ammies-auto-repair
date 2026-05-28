@@ -9,6 +9,7 @@ import Hero from './components/Hero';
 import Stats from './components/Stats';
 import Services from './components/Services';
 import Process from './components/Process';
+import VideoShowcase from './components/VideoShowcase';
 import Testimonials from './components/Testimonials';
 import CTABand from './components/CTABand';
 import FAQ from './components/FAQ';
@@ -34,6 +35,7 @@ export default function App() {
         <Stats />
         <Services />
         <Process />
+        <VideoShowcase />
         <Testimonials />
         <CTABand onOpenChat={openChat} />
         <FAQ />

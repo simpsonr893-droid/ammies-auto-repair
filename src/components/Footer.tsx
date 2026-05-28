@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wrench, Facebook, Twitter, Instagram, Phone, Mail, MapPin } from 'lucide-react';
+import { Wrench, Facebook, Twitter, Instagram, Youtube, Phone, Mail, MapPin } from 'lucide-react';
 import { NAV_LINKS } from '../lib/constants';
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -26,12 +26,14 @@ export default function Footer() {
               { label: "Facebook",  icon: <Facebook size={16} /> },
               { label: "Twitter",   icon: <Twitter size={16} /> },
               { label: "Instagram", icon: <Instagram size={16} /> },
-            ].map(({ label, icon }) => (
+              { label: "YouTube",   icon: <Youtube size={16} />, href: "https://youtu.be/qvnHOc35ngQ" },
+            ].map(({ label, icon, href }) => (
               <a
                 key={label}
-                href="#"
-                onClick={stopDefaultNav}
-                aria-label={`${label} (coming soon)`}
+                href={href ?? "#"}
+                {...(href
+                  ? { target: "_blank", rel: "noopener noreferrer", "aria-label": label }
+                  : { onClick: stopDefaultNav, "aria-label": `${label} (coming soon)` })}
                 className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-emerald-600 transition-colors"
               >
                 {icon}
