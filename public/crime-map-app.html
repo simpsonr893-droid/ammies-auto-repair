@@ -6,6 +6,150 @@
   <title>Crime Map App — Real-Time Neighborhood Safety Tracker</title>
   <meta name="description" content="The #1 crime map app for real-time crime alerts, neighborhood safety scores, and route safety planning. Track local crime data by city block." />
   <meta name="keywords" content="crime map app, neighborhood safety app, real-time crime alerts, local crime tracker, crime statistics by city, safety score, route safety planner, crime hotspot map" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="CrimeMap Inc." />
+  <link rel="canonical" href="https://crimemapapp.com/crime-map-app.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="CrimeMap" />
+  <meta property="og:url"         content="https://crimemapapp.com/crime-map-app.html" />
+  <meta property="og:title"       content="Crime Map App — Real-Time Neighborhood Safety Tracker" />
+  <meta property="og:description" content="The #1 crime map app for real-time crime alerts, neighborhood safety scores, and route safety planning. Track local crime data by city block." />
+  <meta property="og:image"       content="https://crimemapapp.com/og-home.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@CrimeMapApp" />
+  <meta name="twitter:title"       content="Crime Map App — Real-Time Neighborhood Safety Tracker" />
+  <meta name="twitter:description" content="The #1 crime map app for real-time crime alerts, neighborhood safety scores, and route safety planning." />
+  <meta name="twitter:image"       content="https://crimemapapp.com/og-home.png" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://crimemapapp.com/#website",
+        "url": "https://crimemapapp.com/",
+        "name": "CrimeMap",
+        "description": "Real-time crime alerts, neighborhood safety scores, and route safety planning.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://crimemapapp.com/crime-map-app.html?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "MobileApplication",
+        "@id": "https://crimemapapp.com/#app",
+        "name": "CrimeMap — Neighborhood Safety App",
+        "description": "Real-time crime alerts, safety scores, route safety planner, and crime hotspot map for 850+ U.S. cities.",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "iOS, Android",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "reviewCount": "187000"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CrimeMap Inc.",
+          "url": "https://crimemapapp.com"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What data sources power the crime map app?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CrimeMap aggregates data from 2,200+ official police department feeds, FBI UCR databases, 911 dispatch logs, and verified community reports."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How often is the neighborhood safety score updated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The safety score for each block is recalculated every hour using a rolling 90-day window of incident data."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my location data private?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CrimeMap uses on-device processing for location lookups. We are SOC 2 Type II certified and fully GDPR-compliant. We do not sell, rent, or share any personal information."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the route safety planner work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The route safety planner generates up to five alternative routes scored using real-time crime hotspot map data, time-of-day patterns, and lighting data. Routes are color-coded green, yellow, and red."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is CrimeMap free to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes — CrimeMap's core features including the local crime tracker, basic real-time crime alerts, and the city crime map are free forever. Premium starts at $4.99/month."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- BreadcrumbList schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://crimemapapp.com/crime-map-app.html" }
+    ]
+  }
+  </script>
+
+  <!-- Organization schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "CrimeMap Inc.",
+    "url": "https://crimemapapp.com",
+    "logo": "https://crimemapapp.com/favicon.svg",
+    "sameAs": [
+      "https://twitter.com/CrimeMapApp",
+      "https://www.facebook.com/CrimeMapApp"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "availableLanguage": "English"
+    }
+  }
+  </script>
+
+  <!-- Preload critical assets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <style>
     /* ─── Reset & Base ─────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -87,6 +231,13 @@
     .btn-outline:hover { background: rgba(255,255,255,.1); }
     .check { color: var(--green); font-weight: 700; font-size: 1.1rem; }
     .cross { color: #ef4444; font-weight: 700; font-size: 1.1rem; }
+
+    /* ─── Core Web Vitals / CLS prevention ─────────────────── */
+    .section { contain: layout style; }
+    .img-placeholder { aspect-ratio: 16/9; min-height: unset; height: auto; }
+    .img-placeholder[style*="min-height"] { min-height: revert; }
+    /* Prevent font invisible text during load */
+    @font-face { font-display: swap; }
 
     /* ─── Fade-in animation ─────────────────────────────────── */
     .fade-in {
