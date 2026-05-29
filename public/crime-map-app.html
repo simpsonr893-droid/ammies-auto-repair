@@ -1,0 +1,2401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crime Map App — Real-Time Neighborhood Safety Tracker</title>
+  <meta name="description" content="The #1 crime map app for real-time crime alerts, neighborhood safety scores, and route safety planning. Track local crime data by city block." />
+  <meta name="keywords" content="crime map app, neighborhood safety app, real-time crime alerts, local crime tracker, crime statistics by city, safety score, route safety planner, crime hotspot map" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="CrimeMap Inc." />
+  <link rel="canonical" href="https://crimemapapp.com/crime-map-app.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="CrimeMap" />
+  <meta property="og:url"         content="https://crimemapapp.com/crime-map-app.html" />
+  <meta property="og:title"       content="Crime Map App — Real-Time Neighborhood Safety Tracker" />
+  <meta property="og:description" content="The #1 crime map app for real-time crime alerts, neighborhood safety scores, and route safety planning. Track local crime data by city block." />
+  <meta property="og:image"       content="https://crimemapapp.com/og-home.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@CrimeMapApp" />
+  <meta name="twitter:title"       content="Crime Map App — Real-Time Neighborhood Safety Tracker" />
+  <meta name="twitter:description" content="The #1 crime map app for real-time crime alerts, neighborhood safety scores, and route safety planning." />
+  <meta name="twitter:image"       content="https://crimemapapp.com/og-home.png" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://crimemapapp.com/#website",
+        "url": "https://crimemapapp.com/",
+        "name": "CrimeMap",
+        "description": "Real-time crime alerts, neighborhood safety scores, and route safety planning.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://crimemapapp.com/crime-map-app.html?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "MobileApplication",
+        "@id": "https://crimemapapp.com/#app",
+        "name": "CrimeMap — Neighborhood Safety App",
+        "description": "Real-time crime alerts, safety scores, route safety planner, and crime hotspot map for 850+ U.S. cities.",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "iOS, Android",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "reviewCount": "187000"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CrimeMap Inc.",
+          "url": "https://crimemapapp.com"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What data sources power the crime map app?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CrimeMap aggregates data from 2,200+ official police department feeds, FBI UCR databases, 911 dispatch logs, and verified community reports."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How often is the neighborhood safety score updated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The safety score for each block is recalculated every hour using a rolling 90-day window of incident data."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my location data private?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CrimeMap uses on-device processing for location lookups. We are SOC 2 Type II certified and fully GDPR-compliant. We do not sell, rent, or share any personal information."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the route safety planner work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The route safety planner generates up to five alternative routes scored using real-time crime hotspot map data, time-of-day patterns, and lighting data. Routes are color-coded green, yellow, and red."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is CrimeMap free to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes — CrimeMap's core features including the local crime tracker, basic real-time crime alerts, and the city crime map are free forever. Premium starts at $4.99/month."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- BreadcrumbList schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://crimemapapp.com/crime-map-app.html" }
+    ]
+  }
+  </script>
+
+  <!-- Organization schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "CrimeMap Inc.",
+    "url": "https://crimemapapp.com",
+    "logo": "https://crimemapapp.com/favicon.svg",
+    "sameAs": [
+      "https://twitter.com/CrimeMapApp",
+      "https://www.facebook.com/CrimeMapApp"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "availableLanguage": "English"
+    }
+  }
+  </script>
+
+  <!-- Preload critical assets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #1e3a8a;
+      --accent:  #3b82f6;
+      --green:   #16a34a;
+      --green-lt:#dcfce7;
+      --gray-50: #f8fafc;
+      --gray-100:#f1f5f9;
+      --gray-200:#e2e8f0;
+      --gray-600:#475569;
+      --gray-800:#1e293b;
+      --white:   #ffffff;
+      --shadow:  0 4px 24px rgba(30,58,138,.12);
+      --radius:  12px;
+      --transition: .25s ease;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--gray-800);
+      background: var(--white);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ─── Utility ───────────────────────────────────────────── */
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .section    { padding: 80px 0; }
+    .section-alt { background: var(--gray-50); }
+    .tag {
+      display: inline-block;
+      background: #dbeafe;
+      color: var(--primary);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--gray-600);
+      max-width: 620px;
+    }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-header .section-sub { margin: 0 auto; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+      border: none;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+    .btn-primary { background: var(--accent); color: var(--white); }
+    .btn-green   { background: var(--green);  color: var(--white); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,.6);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,.1); }
+    .check { color: var(--green); font-weight: 700; font-size: 1.1rem; }
+    .cross { color: #ef4444; font-weight: 700; font-size: 1.1rem; }
+
+    /* ─── Core Web Vitals / CLS prevention ─────────────────── */
+    .section { contain: layout style; }
+    .img-placeholder { aspect-ratio: 16/9; min-height: unset; height: auto; }
+    .img-placeholder[style*="min-height"] { min-height: revert; }
+    /* Prevent font invisible text during load */
+    @font-face { font-display: swap; }
+
+    /* ─── Fade-in animation ─────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ─── Image placeholders ────────────────────────────────── */
+    .img-placeholder {
+      width: 100%;
+      background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+      border: 2px dashed var(--accent);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: .85rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 24px;
+    }
+    .img-placeholder .ph-icon { font-size: 2.5rem; }
+
+    /* ─── NAV ───────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      box-shadow: 0 2px 12px rgba(30,58,138,.06);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-cta { margin-left: 16px; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--gray-200);
+      background: var(--white);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: 14px 24px;
+      font-weight: 600;
+      color: var(--gray-600);
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .mobile-menu a:hover { color: var(--primary); background: var(--gray-50); }
+
+    /* ─── HERO ──────────────────────────────────────────────── */
+    #hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 60%, #2563eb 100%);
+      color: var(--white);
+      padding: 96px 0 80px;
+      overflow: hidden;
+      position: relative;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      color: var(--white);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero-title em { color: #93c5fd; font-style: normal; }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,.85);
+      margin-bottom: 36px;
+      max-width: 500px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+    .hero-stat strong {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+    .hero-stat span { font-size: .85rem; color: rgba(255,255,255,.7); }
+    .hero-img { border-radius: 16px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,.35); }
+    .hero-img .img-placeholder { min-height: 360px; background: linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.04)); border-color: rgba(255,255,255,.3); color: rgba(255,255,255,.7); }
+
+    /* ─── STATS STRIP ───────────────────────────────────────── */
+    #stats {
+      background: var(--primary);
+      padding: 48px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: center;
+      color: var(--white);
+    }
+    .stat-item strong {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #93c5fd;
+    }
+    .stat-item p { font-size: .9rem; color: rgba(255,255,255,.75); margin-top: 4px; }
+
+    /* ─── FEATURES ──────────────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      background: #dbeafe;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+    }
+    .feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .feature-card p { font-size: .9rem; color: var(--gray-600); }
+
+    /* ─── SAFETY SCORE ──────────────────────────────────────── */
+    .score-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .score-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .score-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .85rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--gray-800);
+    }
+    .score-bar-track {
+      height: 12px;
+      background: var(--gray-200);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--green), #22c55e);
+      transition: width 1.2s ease;
+      width: 0;
+    }
+
+    /* ─── ROUTE PLANNER ─────────────────────────────────────── */
+    .route-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .route-steps { display: flex; flex-direction: column; gap: 24px; }
+    .route-step { display: flex; gap: 20px; align-items: flex-start; }
+    .step-num {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .9rem;
+    }
+    .route-step h4 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+    .route-step p  { font-size: .9rem; color: var(--gray-600); }
+
+    /* ─── CITY STATS ────────────────────────────────────────── */
+    .city-search-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .city-search-input {
+      flex: 1;
+      min-width: 220px;
+      padding: 11px 18px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      font-size: .9rem;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .city-search-input:focus { border-color: var(--accent); }
+    .city-filter-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .city-tab {
+      padding: 7px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--gray-600);
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+    .city-tab.active, .city-tab:hover {
+      background: var(--accent);
+      color: var(--white);
+      border-color: var(--accent);
+    }
+    .city-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .city-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 22px 18px;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .city-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+    .city-card.hidden { display: none; }
+    .city-name { font-size: 1rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+    .city-metric { display: flex; justify-content: space-between; font-size: .82rem; padding: 5px 0; border-bottom: 1px solid var(--gray-100); color: var(--gray-600); }
+    .city-metric:last-child { border-bottom: none; }
+    .city-metric strong { color: var(--gray-800); }
+    .city-count { font-size: .85rem; color: var(--gray-600); margin-top: 16px; }
+
+    /* ─── TRUST ─────────────────────────────────────────────── */
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .trust-card {
+      text-align: center;
+      padding: 32px 20px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+    }
+    .trust-icon { font-size: 2.2rem; margin-bottom: 12px; }
+    .trust-card h4 { font-size: .95rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+    .trust-card p  { font-size: .82rem; color: var(--gray-600); }
+
+    /* ─── COMPARISON TABLE ──────────────────────────────────── */
+    .comparison-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .92rem;
+    }
+    thead tr { background: var(--primary); color: var(--white); }
+    thead th { padding: 16px 20px; text-align: left; font-weight: 700; }
+    thead th:not(:first-child) { text-align: center; }
+    tbody tr:nth-child(even) { background: var(--gray-50); }
+    tbody tr:hover { background: #dbeafe33; }
+    tbody td { padding: 14px 20px; color: var(--gray-600); border-bottom: 1px solid var(--gray-100); }
+    tbody td:not(:first-child) { text-align: center; }
+    tbody td:first-child { font-weight: 600; color: var(--gray-800); }
+
+    /* ─── TESTIMONIALS ──────────────────────────────────────── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .testimonial-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 32px;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '"';
+      font-size: 4rem;
+      line-height: 1;
+      color: #dbeafe;
+      font-weight: 900;
+      position: absolute;
+      top: 12px;
+      left: 20px;
+    }
+    .testimonial-text {
+      font-size: .95rem;
+      color: var(--gray-600);
+      margin-bottom: 20px;
+      margin-top: 24px;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 14px; }
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 800;
+      font-size: .9rem;
+    }
+    .author-info strong { display: block; font-size: .9rem; color: var(--gray-800); }
+    .author-info span   { font-size: .8rem; color: var(--gray-600); }
+    .stars { color: #f59e0b; font-size: .85rem; margin-bottom: 6px; }
+
+    /* ─── FAQ ───────────────────────────────────────────────── */
+    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      background: var(--white);
+      border: none;
+      text-align: left;
+      padding: 20px 24px;
+      font-size: .97rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      transition: background var(--transition);
+    }
+    .faq-question:hover { background: var(--gray-50); }
+    .faq-question.open { color: var(--primary); background: #eff6ff; }
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      transition: transform var(--transition), background var(--transition);
+    }
+    .faq-question.open .faq-chevron {
+      transform: rotate(180deg);
+      background: var(--accent);
+      color: var(--white);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease, padding .35s ease;
+    }
+    .faq-answer.open { max-height: 400px; }
+    .faq-answer-inner { padding: 0 24px 20px; font-size: .92rem; color: var(--gray-600); line-height: 1.7; }
+
+    /* ─── CTA BANNER ────────────────────────────────────────── */
+    #cta {
+      background: linear-gradient(135deg, var(--green) 0%, #15803d 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 80px 0;
+    }
+    #cta .section-title { color: var(--white); }
+    #cta .section-sub   { color: rgba(255,255,255,.85); margin: 0 auto 40px; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .store-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,.15);
+      border: 2px solid rgba(255,255,255,.4);
+      border-radius: var(--radius);
+      padding: 12px 22px;
+      color: var(--white);
+      font-weight: 700;
+      transition: background var(--transition);
+    }
+    .store-btn:hover { background: rgba(255,255,255,.25); }
+    .store-btn .store-icon { font-size: 1.6rem; }
+    .store-btn .store-label span { display: block; font-size: .7rem; font-weight: 400; opacity: .8; }
+
+    /* ─── FOOTER ────────────────────────────────────────────── */
+    footer {
+      background: var(--gray-800);
+      color: rgba(255,255,255,.7);
+      padding: 56px 0 28px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+    .footer-brand p { font-size: .88rem; margin-top: 12px; line-height: 1.7; }
+    .footer-col h5 { color: var(--white); font-size: .9rem; font-weight: 700; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: .86rem; transition: color var(--transition); }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: .82rem;
+    }
+
+    /* ─── Responsive ────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .features-grid   { grid-template-columns: repeat(2, 1fr); }
+      .trust-grid      { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid{ grid-template-columns: repeat(2, 1fr); }
+      .footer-grid     { grid-template-columns: 1fr 1fr; }
+      .stats-grid      { grid-template-columns: repeat(2, 1fr); }
+      .city-grid       { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 56px 0; }
+      .hero-grid, .score-grid, .route-grid { grid-template-columns: 1fr; gap: 40px; }
+      .features-grid  { grid-template-columns: 1fr; }
+      .city-grid      { grid-template-columns: repeat(2, 1fr); }
+      .trust-grid     { grid-template-columns: 1fr 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-grid    { grid-template-columns: 1fr; gap: 32px; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .trust-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════════════ -->
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#hero">🔵 Crime<span>Map</span></a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#safety-score">Safety Score</a></li>
+        <li><a href="#route-planner">Route Planner</a></li>
+        <li><a href="#city-stats">City Stats</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="crime-map-blogs.html">Blog</a></li>
+        <li><a href="crime-map-articles.html">Articles</a></li>
+        <li><a href="crime-map-services.html">Services</a></li>
+      </ul>
+      <a href="#cta" class="btn btn-primary nav-cta">Get the App</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features">Features</a>
+    <a href="#safety-score">Safety Score</a>
+    <a href="#route-planner">Route Planner</a>
+    <a href="#city-stats">City Stats</a>
+    <a href="#faq">FAQ</a>
+    <a href="crime-map-blogs.html">Blog</a>
+    <a href="crime-map-articles.html">Articles</a>
+    <a href="crime-map-services.html">Services</a>
+    <a href="#cta" style="color:var(--accent)">📲 Get the App</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════
+     1. HERO
+════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="fade-in">
+        <span class="hero-tag">🏆 #1 Neighborhood Safety App</span>
+        <h1 class="hero-title">
+          Your <em>Crime Map App</em> for <em>Real-Time</em> Neighborhood Safety
+        </h1>
+        <p class="hero-sub">
+          Get instant <strong>real-time crime alerts</strong>, explore the interactive
+          <strong>crime hotspot map</strong>, and plan every trip with our
+          <strong>route safety planner</strong> — all in one personal safety app.
+        </p>
+        <div class="hero-btns">
+          <a href="#cta" class="btn btn-primary">📲 Download Free</a>
+          <a href="#features" class="btn btn-outline">See How It Works</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong class="counter" data-target="4200000">0</strong><span>Active Users</span></div>
+          <div class="hero-stat"><strong class="counter" data-target="850">0</strong><span>Cities Covered</span></div>
+          <div class="hero-stat"><strong class="counter" data-target="98">0</strong><span>% Uptime</span></div>
+        </div>
+      </div>
+      <div class="hero-img fade-in" role="img" aria-label="CrimeMap interactive dashboard showing crime hotspot map">
+        <!-- HERO MAP VISUAL -->
+        <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;border-radius:16px;">
+          <defs>
+            <radialGradient id="hot1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ef4444" stop-opacity=".7"/><stop offset="100%" stop-color="#ef4444" stop-opacity="0"/></radialGradient>
+            <radialGradient id="hot2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#f97316" stop-opacity=".6"/><stop offset="100%" stop-color="#f97316" stop-opacity="0"/></radialGradient>
+            <radialGradient id="hot3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#eab308" stop-opacity=".5"/><stop offset="100%" stop-color="#eab308" stop-opacity="0"/></radialGradient>
+            <filter id="blur2"><feGaussianBlur stdDeviation="12"/></filter>
+          </defs>
+          <!-- Map background -->
+          <rect width="480" height="360" fill="#1e293b"/>
+          <!-- Grid streets -->
+          <g stroke="#334155" stroke-width="1" opacity=".8">
+            <line x1="0" y1="60"  x2="480" y2="60"/>
+            <line x1="0" y1="120" x2="480" y2="120"/>
+            <line x1="0" y1="180" x2="480" y2="180"/>
+            <line x1="0" y1="240" x2="480" y2="240"/>
+            <line x1="0" y1="300" x2="480" y2="300"/>
+            <line x1="60"  y1="0" x2="60"  y2="360"/>
+            <line x1="120" y1="0" x2="120" y2="360"/>
+            <line x1="180" y1="0" x2="180" y2="360"/>
+            <line x1="240" y1="0" x2="240" y2="360"/>
+            <line x1="300" y1="0" x2="300" y2="360"/>
+            <line x1="360" y1="0" x2="360" y2="360"/>
+            <line x1="420" y1="0" x2="420" y2="360"/>
+          </g>
+          <!-- City blocks (filled rectangles) -->
+          <g fill="#243047" stroke="#334155" stroke-width=".5">
+            <rect x="62" y="62" width="56" height="56" rx="2"/>
+            <rect x="122" y="62" width="56" height="56" rx="2"/>
+            <rect x="182" y="62" width="56" height="56" rx="2"/>
+            <rect x="242" y="62" width="56" height="56" rx="2"/>
+            <rect x="302" y="62" width="56" height="56" rx="2"/>
+            <rect x="362" y="62" width="56" height="56" rx="2"/>
+            <rect x="62" y="122" width="56" height="56" rx="2"/>
+            <rect x="122" y="122" width="56" height="56" rx="2"/>
+            <rect x="182" y="122" width="56" height="56" rx="2"/>
+            <rect x="242" y="122" width="56" height="56" rx="2"/>
+            <rect x="302" y="122" width="56" height="56" rx="2"/>
+            <rect x="362" y="122" width="56" height="56" rx="2"/>
+            <rect x="62" y="182" width="56" height="56" rx="2"/>
+            <rect x="122" y="182" width="56" height="56" rx="2"/>
+            <rect x="182" y="182" width="56" height="56" rx="2"/>
+            <rect x="242" y="182" width="56" height="56" rx="2"/>
+            <rect x="302" y="182" width="56" height="56" rx="2"/>
+            <rect x="362" y="182" width="56" height="56" rx="2"/>
+            <rect x="62" y="242" width="56" height="56" rx="2"/>
+            <rect x="122" y="242" width="56" height="56" rx="2"/>
+            <rect x="182" y="242" width="56" height="56" rx="2"/>
+            <rect x="242" y="242" width="56" height="56" rx="2"/>
+            <rect x="302" y="242" width="56" height="56" rx="2"/>
+            <rect x="362" y="242" width="56" height="56" rx="2"/>
+          </g>
+          <!-- Heatmap overlays -->
+          <g filter="url(#blur2)">
+            <circle cx="210" cy="150" r="80" fill="url(#hot1)"/>
+            <circle cx="330" cy="200" r="60" fill="url(#hot2)"/>
+            <circle cx="120" cy="250" r="50" fill="url(#hot3)"/>
+            <circle cx="390" cy="100" r="45" fill="url(#hot2)"/>
+          </g>
+          <!-- Crime pins -->
+          <g>
+            <ellipse cx="210" cy="156" rx="8" ry="4" fill="#ef4444" opacity=".4"/>
+            <path d="M210,115 a20,20 0 1,1 0,0.001 Z" fill="#ef4444" stroke="white" stroke-width="1.5"/>
+            <circle cx="210" cy="127" r="5" fill="white"/>
+            <text x="210" y="131" text-anchor="middle" fill="#ef4444" font-size="7" font-weight="700">!</text>
+            <ellipse cx="330" cy="196" rx="6" ry="3" fill="#f97316" opacity=".4"/>
+            <path d="M330,165 a15,15 0 1,1 0,0.001 Z" fill="#f97316" stroke="white" stroke-width="1.5"/>
+            <circle cx="330" cy="174" r="4" fill="white"/>
+            <text x="330" y="177" text-anchor="middle" fill="#f97316" font-size="6" font-weight="700">!</text>
+            <ellipse cx="150" cy="246" rx="6" ry="3" fill="#eab308" opacity=".4"/>
+            <path d="M150,220 a12,12 0 1,1 0,0.001 Z" fill="#eab308" stroke="white" stroke-width="1.5"/>
+            <circle cx="150" cy="228" r="3.5" fill="white"/>
+            <!-- Safe pin -->
+            <path d="M370,85 a14,14 0 1,1 0,0.001 Z" fill="#22c55e" stroke="white" stroke-width="1.5"/>
+            <circle cx="370" cy="92" r="4" fill="white"/>
+            <text x="370" y="96" text-anchor="middle" fill="#22c55e" font-size="9">✓</text>
+          </g>
+          <!-- UI overlay: top bar -->
+          <rect x="0" y="0" width="480" height="44" fill="#0f172a" opacity=".9" rx="0"/>
+          <text x="16" y="16" fill="#94a3b8" font-size="9" font-family="system-ui">CRIMEMAP LIVE</text>
+          <circle cx="16" cy="30" r="5" fill="#22c55e"/>
+          <text x="26" y="34" fill="#22c55e" font-size="9" font-family="system-ui">Live · 847 incidents tracked today</text>
+          <!-- Alert popup -->
+          <rect x="290" y="260" width="178" height="88" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+          <rect x="290" y="260" width="178" height="24" rx="10" fill="#ef4444"/>
+          <rect x="290" y="272" width="178" height="12" rx="0" fill="#ef4444"/>
+          <text x="300" y="276" fill="white" font-size="9" font-weight="700" font-family="system-ui">🔔 NEW ALERT — 0.3 mi away</text>
+          <text x="300" y="294" fill="#94a3b8" font-size="8" font-family="system-ui">Armed Robbery · High severity</text>
+          <text x="300" y="308" fill="#94a3b8" font-size="8" font-family="system-ui">4th &amp; Main St · 2 min ago</text>
+          <rect x="300" y="320" width="70" height="18" rx="4" fill="#ef4444"/>
+          <text x="335" y="332" text-anchor="middle" fill="white" font-size="8" font-weight="700" font-family="system-ui">View Map</text>
+          <rect x="378" y="320" width="70" height="18" rx="4" fill="#334155"/>
+          <text x="413" y="332" text-anchor="middle" fill="#94a3b8" font-size="8" font-family="system-ui">Dismiss</text>
+          <!-- Legend -->
+          <rect x="8" y="48" width="110" height="70" rx="6" fill="#0f172a" opacity=".85"/>
+          <circle cx="22" cy="63" r="6" fill="#ef4444" opacity=".8"/>
+          <text x="34" y="67" fill="#e2e8f0" font-size="8" font-family="system-ui">High Risk</text>
+          <circle cx="22" cy="81" r="6" fill="#f97316" opacity=".8"/>
+          <text x="34" y="85" fill="#e2e8f0" font-size="8" font-family="system-ui">Moderate Risk</text>
+          <circle cx="22" cy="99" r="6" fill="#eab308" opacity=".8"/>
+          <text x="34" y="103" fill="#e2e8f0" font-size="8" font-family="system-ui">Low Risk</text>
+          <circle cx="22" cy="108" r="6" fill="#22c55e" opacity=".8"/>
+          <text x="34" y="116" fill="#e2e8f0" font-size="8" font-family="system-ui">Safe</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     STATS STRIP
+════════════════════════════════════════════════════════════ -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <strong><span class="counter" data-target="12">0</span>M+</strong>
+        <p>Crime incidents tracked</p>
+      </div>
+      <div class="stat-item fade-in">
+        <strong><span class="counter" data-target="850">0</span>+</strong>
+        <p>Cities with block-level crime data</p>
+      </div>
+      <div class="stat-item fade-in">
+        <strong><span class="counter" data-target="4">0</span>.8★</strong>
+        <p>Average app store rating</p>
+      </div>
+      <div class="stat-item fade-in">
+        <strong>&lt;<span class="counter" data-target="30">0</span>s</strong>
+        <p>Alert delivery time</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     2. FEATURES
+════════════════════════════════════════════════════════════ -->
+<section id="features" class="section section-alt">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">Core Features</span>
+      <h2 class="section-title">Everything You Need to Stay Safe</h2>
+      <p class="section-sub">
+        CrimeMap combines a powerful <strong>local crime tracker</strong> with smart
+        community tools — giving you the full picture of neighborhood safety wherever you go.
+      </p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🔔</div>
+        <h3>Real-Time Crime Alerts</h3>
+        <p>Receive push notifications the moment a crime is reported within your chosen radius. Our <strong>real-time crime alerts</strong> pull from verified police feeds and community reports.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🗺️</div>
+        <h3>Crime Hotspot Map</h3>
+        <p>Visualize danger zones with our heatmap overlay. The color-coded <strong>crime hotspot map</strong> updates hourly, so you always see current activity — not last month's data.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">📊</div>
+        <h3>Crime Statistics by City</h3>
+        <p>Dive into granular <strong>crime statistics by city</strong>, neighborhood, or individual block. Compare trends over time with easy-to-read charts and exportable reports.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🛡️</div>
+        <h3>Neighborhood Safety Score</h3>
+        <p>Every block gets a composite <strong>safety score</strong> calculated from crime frequency, severity, and trend direction — helping you make informed decisions at a glance.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🧭</div>
+        <h3>Route Safety Planner</h3>
+        <p>Enter your destination and our <strong>route safety planner</strong> calculates the safest path, highlighting any crime hotspots along alternative routes.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">👥</div>
+        <h3>Community Safety Alerts</h3>
+        <p>Neighbors share verified <strong>community safety alerts</strong> about suspicious activity, helping your block stay one step ahead. You can also submit your own <strong>crime reports</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     3. ALERT INTERFACE VISUAL
+════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="score-grid">
+      <div class="fade-in">
+        <span class="tag">Live Alerts</span>
+        <h2 class="section-title">Instant Crime Alert Interface</h2>
+        <p class="section-sub" style="margin-bottom:24px;">
+          As a leading <strong>crime reporting app</strong> and <strong>police report tracker</strong>,
+          CrimeMap surfaces verified incidents in under 30 seconds. Our alert interface
+          shows incident type, distance, time, and severity — right on your lock screen.
+        </p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span class="check">✓</span> <span>Aggregates data from police CAD feeds, 911 dispatch, and community reports</span></li>
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span class="check">✓</span> <span>Customizable alert radius from 0.25 to 10 miles</span></li>
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span class="check">✓</span> <span>Filter by crime type: theft, vandalism, assault, burglary, and more</span></li>
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span class="check">✓</span> <span>Silent mode for low-severity events; loud alert for high-priority incidents</span></li>
+        </ul>
+      </div>
+      <div class="fade-in">
+        <!-- ALERT INTERFACE MOCKUP -->
+        <svg viewBox="0 0 320 420" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;max-width:320px;margin:0 auto;" role="img" aria-label="Alert interface mockup">
+          <!-- Phone frame -->
+          <rect x="10" y="0" width="300" height="420" rx="36" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+          <rect x="18" y="8" width="284" height="404" rx="30" fill="#1e293b"/>
+          <!-- Notch -->
+          <rect x="110" y="8" width="100" height="22" rx="11" fill="#0f172a"/>
+          <!-- Status bar -->
+          <text x="30" y="24" fill="#94a3b8" font-size="9" font-family="system-ui">9:41</text>
+          <text x="260" y="24" fill="#94a3b8" font-size="9" font-family="system-ui">●●●</text>
+          <!-- App header -->
+          <rect x="18" y="30" width="284" height="40" fill="#1e3a8a"/>
+          <text x="160" y="56" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="system-ui">🔵 CrimeMap Alerts</text>
+          <!-- Alert cards -->
+          <!-- Alert 1 - HIGH -->
+          <rect x="26" y="78" width="268" height="80" rx="10" fill="#0f172a" stroke="#ef4444" stroke-width="1.5"/>
+          <rect x="26" y="78" width="6" height="80" rx="3" fill="#ef4444"/>
+          <rect x="36" y="86" width="44" height="22" rx="4" fill="#ef444422"/>
+          <text x="58" y="101" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="700" font-family="system-ui">HIGH</text>
+          <text x="90" y="101" fill="white" font-size="10" font-weight="700" font-family="system-ui">Armed Robbery</text>
+          <text x="36" y="120" fill="#94a3b8" font-size="9" font-family="system-ui">4th &amp; Main St · 0.3 mi · 2 min ago</text>
+          <text x="36" y="136" fill="#64748b" font-size="8" font-family="system-ui">Source: Police CAD + 2 community reports</text>
+          <rect x="236" y="82" width="50" height="18" rx="4" fill="#ef4444"/>
+          <text x="261" y="95" text-anchor="middle" fill="white" font-size="8" font-weight="700" font-family="system-ui">View</text>
+          <!-- Alert 2 - MEDIUM -->
+          <rect x="26" y="166" width="268" height="80" rx="10" fill="#0f172a" stroke="#f97316" stroke-width="1.5"/>
+          <rect x="26" y="166" width="6" height="80" rx="3" fill="#f97316"/>
+          <rect x="36" y="174" width="56" height="22" rx="4" fill="#f9731622"/>
+          <text x="64" y="189" text-anchor="middle" fill="#f97316" font-size="8" font-weight="700" font-family="system-ui">MEDIUM</text>
+          <text x="100" y="189" fill="white" font-size="10" font-weight="700" font-family="system-ui">Vehicle Break-In</text>
+          <text x="36" y="208" fill="#94a3b8" font-size="9" font-family="system-ui">Oak Ave Parking · 0.7 mi · 8 min ago</text>
+          <text x="36" y="224" fill="#64748b" font-size="8" font-family="system-ui">Source: Community report · Verified</text>
+          <!-- Alert 3 - LOW -->
+          <rect x="26" y="254" width="268" height="80" rx="10" fill="#0f172a" stroke="#eab308" stroke-width="1.5"/>
+          <rect x="26" y="254" width="6" height="80" rx="3" fill="#eab308"/>
+          <rect x="36" y="262" width="44" height="22" rx="4" fill="#eab30822"/>
+          <text x="58" y="277" text-anchor="middle" fill="#eab308" font-size="8" font-weight="700" font-family="system-ui">LOW</text>
+          <text x="90" y="277" fill="white" font-size="10" font-weight="700" font-family="system-ui">Vandalism</text>
+          <text x="36" y="296" fill="#94a3b8" font-size="9" font-family="system-ui">River Park · 1.2 mi · 22 min ago</text>
+          <text x="36" y="312" fill="#64748b" font-size="8" font-family="system-ui">Source: Police report #2024-8812</text>
+          <!-- Bottom nav -->
+          <rect x="18" y="370" width="284" height="42" rx="0" fill="#0f172a"/>
+          <text x="60"  y="397" text-anchor="middle" fill="#3b82f6" font-size="18" font-family="system-ui">🗺️</text>
+          <text x="120" y="397" text-anchor="middle" fill="#94a3b8" font-size="18" font-family="system-ui">🔔</text>
+          <text x="180" y="397" text-anchor="middle" fill="#94a3b8" font-size="18" font-family="system-ui">🧭</text>
+          <text x="240" y="397" text-anchor="middle" fill="#94a3b8" font-size="18" font-family="system-ui">👤</text>
+          <circle cx="120" cy="380" r="12" fill="#ef4444" opacity=".9"/>
+          <text x="120" y="384" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui">3</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     4. SAFETY SCORE
+════════════════════════════════════════════════════════════ -->
+<section id="safety-score" class="section section-alt">
+  <div class="container">
+    <div class="score-grid">
+      <div class="fade-in">
+        <!-- CRIME DATA VISUALIZATION CHART -->
+        <svg viewBox="0 0 460 320" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;" role="img" aria-label="12-month crime trend analysis chart">
+          <defs>
+            <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3b82f6"/>
+              <stop offset="100%" stop-color="#1e3a8a"/>
+            </linearGradient>
+            <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#22c55e"/>
+              <stop offset="100%" stop-color="#16a34a"/>
+            </linearGradient>
+          </defs>
+          <!-- Title -->
+          <text x="20" y="28" fill="#1e293b" font-size="13" font-weight="700" font-family="system-ui">Crime Incidents — Downtown Core</text>
+          <text x="20" y="44" fill="#64748b" font-size="10" font-family="system-ui">12-month trend · Updated hourly</text>
+          <!-- Legend -->
+          <rect x="300" y="16" width="12" height="12" rx="2" fill="url(#barGrad)"/>
+          <text x="316" y="26" fill="#475569" font-size="9" font-family="system-ui">Incidents</text>
+          <line x1="370" y1="22" x2="386" y2="22" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="4,2"/>
+          <text x="390" y="26" fill="#475569" font-size="9" font-family="system-ui">Trend</text>
+          <!-- Y axis -->
+          <line x1="50" y1="60" x2="50" y2="270" stroke="#e2e8f0" stroke-width="1"/>
+          <text x="42" y="64"  text-anchor="end" fill="#94a3b8" font-size="8" font-family="system-ui">500</text>
+          <text x="42" y="114" text-anchor="end" fill="#94a3b8" font-size="8" font-family="system-ui">400</text>
+          <text x="42" y="164" text-anchor="end" fill="#94a3b8" font-size="8" font-family="system-ui">300</text>
+          <text x="42" y="214" text-anchor="end" fill="#94a3b8" font-size="8" font-family="system-ui">200</text>
+          <text x="42" y="264" text-anchor="end" fill="#94a3b8" font-size="8" font-family="system-ui">100</text>
+          <!-- Grid lines -->
+          <g stroke="#e2e8f0" stroke-width=".5" stroke-dasharray="4,3">
+            <line x1="50" y1="64"  x2="450" y2="64"/>
+            <line x1="50" y1="114" x2="450" y2="114"/>
+            <line x1="50" y1="164" x2="450" y2="164"/>
+            <line x1="50" y1="214" x2="450" y2="214"/>
+          </g>
+          <!-- Bars: heights mapped (100→200px = 270-col, max 500 → 60px = 210px range) -->
+          <!-- months: Jun May Apr Mar Feb Jan Dec Nov Oct Sep Aug Jul -->
+          <!-- values: 420 390 410 380 350 360 340 310 290 280 270 260 -->
+          <g fill="url(#barGrad)" opacity=".85">
+            <rect x="58"  y="154" width="24" height="116" rx="3"/><!-- Jun 420 -->
+            <rect x="91"  y="172" width="24" height="98"  rx="3"/><!-- May 390 -->
+            <rect x="124" y="162" width="24" height="108" rx="3"/><!-- Apr 410 -->
+            <rect x="157" y="176" width="24" height="94"  rx="3"/><!-- Mar 380 -->
+            <rect x="190" y="190" width="24" height="80"  rx="3"/><!-- Feb 350 -->
+            <rect x="223" y="186" width="24" height="84"  rx="3"/><!-- Jan 360 -->
+            <rect x="256" y="194" width="24" height="76"  rx="3"/><!-- Dec 340 -->
+            <rect x="289" y="208" width="24" height="62"  rx="3"/><!-- Nov 310 -->
+            <rect x="322" y="216" width="24" height="54"  rx="3"/><!-- Oct 290 -->
+            <rect x="355" y="220" width="24" height="50"  rx="3"/><!-- Sep 280 -->
+            <rect x="388" y="224" width="24" height="46"  rx="3"/><!-- Aug 270 -->
+            <rect x="421" y="228" width="24" height="42"  rx="3"/><!-- Jul 260 -->
+          </g>
+          <!-- Trend line -->
+          <polyline points="70,148 103,166 136,156 169,170 202,184 235,180 268,188 301,202 334,210 367,214 400,218 433,222"
+            fill="none" stroke="url(#lineGrad)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <!-- Trend dots -->
+          <g fill="#22c55e" stroke="white" stroke-width="1.5">
+            <circle cx="70"  cy="148" r="4"/>
+            <circle cx="433" cy="222" r="4"/>
+          </g>
+          <!-- Month labels -->
+          <g fill="#94a3b8" font-size="8" font-family="system-ui" text-anchor="middle">
+            <text x="70"  y="284">Jun</text>
+            <text x="103" y="284">May</text>
+            <text x="136" y="284">Apr</text>
+            <text x="169" y="284">Mar</text>
+            <text x="202" y="284">Feb</text>
+            <text x="235" y="284">Jan</text>
+            <text x="268" y="284">Dec</text>
+            <text x="301" y="284">Nov</text>
+            <text x="334" y="284">Oct</text>
+            <text x="367" y="284">Sep</text>
+            <text x="400" y="284">Aug</text>
+            <text x="433" y="284">Jul</text>
+          </g>
+          <!-- Stat callouts -->
+          <rect x="58" y="128" width="62" height="22" rx="4" fill="#ef4444"/>
+          <text x="89" y="143" text-anchor="middle" fill="white" font-size="8" font-weight="700" font-family="system-ui">Peak: 420</text>
+          <rect x="388" y="202" width="62" height="22" rx="4" fill="#22c55e"/>
+          <text x="419" y="217" text-anchor="middle" fill="white" font-size="8" font-weight="700" font-family="system-ui">↓ -38% YoY</text>
+          <!-- X axis -->
+          <line x1="50" y1="270" x2="450" y2="270" stroke="#e2e8f0" stroke-width="1"/>
+          <!-- Summary bar -->
+          <rect x="50" y="293" width="400" height="22" rx="4" fill="#eff6ff"/>
+          <text x="250" y="308" text-anchor="middle" fill="#1e3a8a" font-size="9" font-weight="600" font-family="system-ui">📉 Overall trend: -4.2% month-over-month · -38% year-over-year · Safety Score: 72/100 ↑</text>
+        </svg>
+      </div>
+      <div class="fade-in">
+        <span class="tag">Safety Score</span>
+        <h2 class="section-title">Know Your Neighborhood's Safety Rating</h2>
+        <p class="section-sub" style="margin-bottom:28px;">
+          Our proprietary algorithm distills <strong>block-level crime data</strong> into a single
+          <strong>safety rating</strong> from 0–100. Use it for house-hunting, commute planning,
+          or simply knowing whether your street is trending safer or more dangerous over time via
+          detailed <strong>crime trend analysis</strong>.
+        </p>
+        <div class="score-visual" id="scoreVisual">
+          <div>
+            <div class="score-bar-label"><span>Downtown Core</span><span>72/100</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" data-width="72"></div></div>
+          </div>
+          <div>
+            <div class="score-bar-label"><span>Riverside District</span><span>85/100</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" data-width="85"></div></div>
+          </div>
+          <div>
+            <div class="score-bar-label"><span>Midtown</span><span>61/100</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" data-width="61"></div></div>
+          </div>
+          <div>
+            <div class="score-bar-label"><span>North Park</span><span>91/100</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" data-width="91"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     5. ROUTE SAFETY PLANNER
+════════════════════════════════════════════════════════════ -->
+<section id="route-planner" class="section">
+  <div class="container">
+    <div class="route-grid">
+      <div class="fade-in">
+        <span class="tag">Route Safety Planner</span>
+        <h2 class="section-title">Plan Every Trip on the Safest Route</h2>
+        <p class="section-sub" style="margin-bottom:36px;">
+          Our <strong>route safety planner</strong> integrates live <strong>city crime map</strong>
+          data to calculate the safest path between any two points. Whether you're walking,
+          cycling, or driving, CrimeMap ensures you always travel a <strong>safe route</strong>.
+        </p>
+        <div class="route-steps">
+          <div class="route-step fade-in">
+            <div class="step-num">1</div>
+            <div>
+              <h4>Enter Your Destination</h4>
+              <p>Type any address or drop a pin on the map. The app knows your current location automatically.</p>
+            </div>
+          </div>
+          <div class="route-step fade-in">
+            <div class="step-num">2</div>
+            <div>
+              <h4>Review Route Safety Scores</h4>
+              <p>CrimeMap overlays each route with a color-coded <strong>safety score</strong>, highlighting areas with elevated crime activity.</p>
+            </div>
+          </div>
+          <div class="route-step fade-in">
+            <div class="step-num">3</div>
+            <div>
+              <h4>Choose Your Safe Route</h4>
+              <p>Select the recommended <strong>safe route</strong> or compare alternatives — then navigate with confidence using your favorite maps app.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-in">
+        <!-- ROUTE SAFETY PLANNER VISUAL -->
+        <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;border-radius:12px;" role="img" aria-label="Route safety planner showing three color-coded route options">
+          <defs>
+            <radialGradient id="rh1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ef4444" stop-opacity=".5"/><stop offset="100%" stop-color="#ef4444" stop-opacity="0"/></radialGradient>
+            <radialGradient id="rh2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#f97316" stop-opacity=".4"/><stop offset="100%" stop-color="#f97316" stop-opacity="0"/></radialGradient>
+            <filter id="rblur"><feGaussianBlur stdDeviation="10"/></filter>
+          </defs>
+          <!-- Map bg -->
+          <rect width="400" height="380" fill="#1e293b"/>
+          <!-- Streets grid -->
+          <g stroke="#2d3f55" stroke-width="1.2">
+            <line x1="0" y1="50"  x2="400" y2="50"/>
+            <line x1="0" y1="110" x2="400" y2="110"/>
+            <line x1="0" y1="170" x2="400" y2="170"/>
+            <line x1="0" y1="230" x2="400" y2="230"/>
+            <line x1="0" y1="290" x2="400" y2="290"/>
+            <line x1="50"  y1="0" x2="50"  y2="380"/>
+            <line x1="120" y1="0" x2="120" y2="380"/>
+            <line x1="200" y1="0" x2="200" y2="380"/>
+            <line x1="280" y1="0" x2="280" y2="380"/>
+            <line x1="350" y1="0" x2="350" y2="380"/>
+          </g>
+          <!-- Blocks -->
+          <g fill="#243047">
+            <rect x="52" y="52"  width="66" height="56" rx="2"/>
+            <rect x="122" y="52" width="76" height="56" rx="2"/>
+            <rect x="202" y="52" width="76" height="56" rx="2"/>
+            <rect x="282" y="52" width="66" height="56" rx="2"/>
+            <rect x="52" y="112" width="66" height="56" rx="2"/>
+            <rect x="122" y="112" width="76" height="56" rx="2"/>
+            <rect x="202" y="112" width="76" height="56" rx="2"/>
+            <rect x="282" y="112" width="66" height="56" rx="2"/>
+            <rect x="52" y="172" width="66" height="56" rx="2"/>
+            <rect x="122" y="172" width="76" height="56" rx="2"/>
+            <rect x="202" y="172" width="76" height="56" rx="2"/>
+            <rect x="282" y="172" width="66" height="56" rx="2"/>
+            <rect x="52" y="232" width="66" height="56" rx="2"/>
+            <rect x="122" y="232" width="76" height="56" rx="2"/>
+            <rect x="202" y="232" width="76" height="56" rx="2"/>
+            <rect x="282" y="232" width="66" height="56" rx="2"/>
+          </g>
+          <!-- Hotspots -->
+          <g filter="url(#rblur)">
+            <circle cx="200" cy="170" r="60" fill="url(#rh1)"/>
+            <circle cx="120" cy="230" r="50" fill="url(#rh2)"/>
+          </g>
+          <!-- Route A — GREEN (safe, goes around) -->
+          <polyline points="50,320 50,230 50,170 50,110 120,110 200,110 280,110 350,110 350,50"
+            fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+          <!-- Route B — YELLOW (moderate) -->
+          <polyline points="50,320 120,320 120,230 120,170 120,110 200,110 280,110 350,110 350,50"
+            fill="none" stroke="#eab308" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8,4" opacity=".8"/>
+          <!-- Route C — RED (avoid) -->
+          <polyline points="50,320 120,320 200,320 200,230 200,170 280,170 280,110 350,110 350,50"
+            fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5,5" opacity=".7"/>
+          <!-- Origin pin -->
+          <circle cx="50" cy="320" r="12" fill="#1e3a8a" stroke="white" stroke-width="2"/>
+          <text x="50" y="325" text-anchor="middle" fill="white" font-size="12" font-family="system-ui">A</text>
+          <!-- Destination pin -->
+          <circle cx="350" cy="50" r="12" fill="#22c55e" stroke="white" stroke-width="2"/>
+          <text x="350" y="55" text-anchor="middle" fill="white" font-size="12" font-family="system-ui">B</text>
+          <!-- Route legend panel -->
+          <rect x="0" y="330" width="400" height="50" fill="#0f172a" opacity=".92"/>
+          <!-- Route A label -->
+          <line x1="14" y1="352" x2="34" y2="352" stroke="#22c55e" stroke-width="3"/>
+          <text x="38" y="348" fill="white" font-size="9" font-weight="700" font-family="system-ui">Route A — SAFEST</text>
+          <text x="38" y="362" fill="#22c55e" font-size="8" font-family="system-ui">Score 88 · 12 min</text>
+          <!-- Route B label -->
+          <line x1="134" y1="352" x2="154" y2="352" stroke="#eab308" stroke-width="3" stroke-dasharray="4,2"/>
+          <text x="158" y="348" fill="white" font-size="9" font-weight="700" font-family="system-ui">Route B</text>
+          <text x="158" y="362" fill="#eab308" font-size="8" font-family="system-ui">Score 71 · 9 min</text>
+          <!-- Route C label -->
+          <line x1="246" y1="352" x2="266" y2="352" stroke="#ef4444" stroke-width="3" stroke-dasharray="4,2"/>
+          <text x="270" y="348" fill="white" font-size="9" font-weight="700" font-family="system-ui">Route C — AVOID</text>
+          <text x="270" y="362" fill="#ef4444" font-size="8" font-family="system-ui">Score 44 · 8 min</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     6. CITY STATS
+════════════════════════════════════════════════════════════ -->
+<section id="city-stats" class="section section-alt">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">Crime Statistics by City</span>
+      <h2 class="section-title">Your City's Crime Data, Visualized</h2>
+      <p class="section-sub">
+        CrimeMap is the most comprehensive <strong>local crime tracker</strong> in the country,
+        delivering real <strong>crime statistics by city</strong> broken down to individual blocks.
+      </p>
+    </div>
+    <!-- Search & Filter Controls -->
+    <div class="city-search-bar fade-in">
+      <input type="text" class="city-search-input" id="citySearch" placeholder="🔍  Search any city, e.g. &quot;Dallas&quot; or &quot;Seattle&quot;…" aria-label="Search cities" />
+      <span class="city-count" id="cityCount">Showing all 50 cities</span>
+    </div>
+    <div class="city-filter-tabs fade-in" id="regionTabs">
+      <button class="city-tab active" data-region="all">All Regions</button>
+      <button class="city-tab" data-region="northeast">Northeast</button>
+      <button class="city-tab" data-region="south">South</button>
+      <button class="city-tab" data-region="midwest">Midwest</button>
+      <button class="city-tab" data-region="west">West</button>
+    </div>
+
+    <div class="city-grid" id="cityGrid">
+
+      <!-- NORTHEAST -->
+      <div class="city-card fade-in" data-region="northeast" data-city="new york ny">
+        <div class="city-name">🏙️ New York, NY</div>
+        <div class="city-metric"><span>Safety Score</span><strong>74/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>8,241</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>302</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="northeast" data-city="philadelphia pa">
+        <div class="city-name">🔔 Philadelphia, PA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>61/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>4,312</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +1.4%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>158</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="northeast" data-city="boston ma">
+        <div class="city-name">🦞 Boston, MA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>77/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,890</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>92</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="northeast" data-city="baltimore md">
+        <div class="city-name">🦀 Baltimore, MD</div>
+        <div class="city-metric"><span>Safety Score</span><strong>52/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,744</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.7%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>121</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="northeast" data-city="washington dc">
+        <div class="city-name">🏛️ Washington, DC</div>
+        <div class="city-metric"><span>Safety Score</span><strong>66/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,601</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -5.0%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>113</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="northeast" data-city="newark nj">
+        <div class="city-name">🌁 Newark, NJ</div>
+        <div class="city-metric"><span>Safety Score</span><strong>55/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,520</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>67</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="northeast" data-city="pittsburgh pa">
+        <div class="city-name">🌉 Pittsburgh, PA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>69/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,203</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>84</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="northeast" data-city="buffalo ny">
+        <div class="city-name">❄️ Buffalo, NY</div>
+        <div class="city-metric"><span>Safety Score</span><strong>59/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>988</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +0.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>52</strong></div>
+      </div>
+
+      <!-- SOUTH -->
+      <div class="city-card fade-in" data-region="south" data-city="houston tx">
+        <div class="city-name">🛢️ Houston, TX</div>
+        <div class="city-metric"><span>Safety Score</span><strong>63/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>7,108</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.3%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>289</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="san antonio tx">
+        <div class="city-name">🌮 San Antonio, TX</div>
+        <div class="city-metric"><span>Safety Score</span><strong>67/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,901</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>147</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="dallas tx">
+        <div class="city-name">⭐ Dallas, TX</div>
+        <div class="city-metric"><span>Safety Score</span><strong>65/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>5,447</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.6%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>214</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="austin tx">
+        <div class="city-name">🤠 Austin, TX</div>
+        <div class="city-metric"><span>Safety Score</span><strong>79/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,892</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -6.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>74</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="miami fl">
+        <div class="city-name">🌴 Miami, FL</div>
+        <div class="city-metric"><span>Safety Score</span><strong>71/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,540</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>89</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="jacksonville fl">
+        <div class="city-name">🌊 Jacksonville, FL</div>
+        <div class="city-metric"><span>Safety Score</span><strong>64/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,987</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +1.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>102</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="charlotte nc">
+        <div class="city-name">🏁 Charlotte, NC</div>
+        <div class="city-metric"><span>Safety Score</span><strong>70/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,671</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.0%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>116</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="memphis tn">
+        <div class="city-name">🎵 Memphis, TN</div>
+        <div class="city-metric"><span>Safety Score</span><strong>48/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,822</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>94</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="nashville tn">
+        <div class="city-name">🎸 Nashville, TN</div>
+        <div class="city-metric"><span>Safety Score</span><strong>73/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,108</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.3%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>81</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="new orleans la">
+        <div class="city-name">🎷 New Orleans, LA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>53/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,456</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +0.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>78</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="louisville ky">
+        <div class="city-name">🏇 Louisville, KY</div>
+        <div class="city-metric"><span>Safety Score</span><strong>62/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,744</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>87</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="atlanta ga">
+        <div class="city-name">🍑 Atlanta, GA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>60/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,201</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -5.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>134</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="oklahoma city ok">
+        <div class="city-name">💨 Oklahoma City, OK</div>
+        <div class="city-metric"><span>Safety Score</span><strong>66/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,987</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.7%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>93</strong></div>
+      </div>
+
+      <!-- MIDWEST -->
+      <div class="city-card fade-in" data-region="midwest" data-city="chicago il">
+        <div class="city-name">🌆 Chicago, IL</div>
+        <div class="city-metric"><span>Safety Score</span><strong>62/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>6,109</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>228</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="columbus oh">
+        <div class="city-name">🏛️ Columbus, OH</div>
+        <div class="city-metric"><span>Safety Score</span><strong>68/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,441</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.6%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>107</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="indianapolis in">
+        <div class="city-name">🏎️ Indianapolis, IN</div>
+        <div class="city-metric"><span>Safety Score</span><strong>58/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,144</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +0.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>119</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="detroit mi">
+        <div class="city-name">🚗 Detroit, MI</div>
+        <div class="city-metric"><span>Safety Score</span><strong>50/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,788</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.4%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>139</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="milwaukee wi">
+        <div class="city-name">🍺 Milwaukee, WI</div>
+        <div class="city-metric"><span>Safety Score</span><strong>56/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,203</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>96</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="kansas city mo">
+        <div class="city-name">🥩 Kansas City, MO</div>
+        <div class="city-metric"><span>Safety Score</span><strong>57/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,591</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +1.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>105</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="omaha ne">
+        <div class="city-name">🌽 Omaha, NE</div>
+        <div class="city-metric"><span>Safety Score</span><strong>71/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,344</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>68</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="minneapolis mn">
+        <div class="city-name">❄️ Minneapolis, MN</div>
+        <div class="city-metric"><span>Safety Score</span><strong>63/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,012</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -6.4%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>88</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="cleveland oh">
+        <div class="city-name">🌊 Cleveland, OH</div>
+        <div class="city-metric"><span>Safety Score</span><strong>54/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,389</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.0%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>97</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="st louis mo">
+        <div class="city-name">🎡 St. Louis, MO</div>
+        <div class="city-metric"><span>Safety Score</span><strong>51/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,877</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.7%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>103</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="cincinnati oh">
+        <div class="city-name">🏈 Cincinnati, OH</div>
+        <div class="city-metric"><span>Safety Score</span><strong>64/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,655</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.4%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>76</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="wichita ks">
+        <div class="city-name">🌪️ Wichita, KS</div>
+        <div class="city-metric"><span>Safety Score</span><strong>66/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,190</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>61</strong></div>
+      </div>
+
+      <!-- WEST -->
+      <div class="city-card fade-in" data-region="west" data-city="los angeles ca">
+        <div class="city-name">🎬 Los Angeles, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>65/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>9,340</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>388</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="san diego ca">
+        <div class="city-name">🌅 San Diego, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>76/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,803</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.7%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>126</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="san jose ca">
+        <div class="city-name">💻 San Jose, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>75/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,211</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>98</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="san francisco ca">
+        <div class="city-name">🌉 San Francisco, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>68/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,870</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +2.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>117</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="seattle wa">
+        <div class="city-name">☕ Seattle, WA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>70/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,990</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -5.3%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>131</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="denver co">
+        <div class="city-name">⛰️ Denver, CO</div>
+        <div class="city-metric"><span>Safety Score</span><strong>69/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,677</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>115</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="phoenix az">
+        <div class="city-name">🌵 Phoenix, AZ</div>
+        <div class="city-metric"><span>Safety Score</span><strong>66/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>5,902</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>241</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="tucson az">
+        <div class="city-name">🦅 Tucson, AZ</div>
+        <div class="city-metric"><span>Safety Score</span><strong>63/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,788</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.6%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>79</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="las vegas nv">
+        <div class="city-name">🎰 Las Vegas, NV</div>
+        <div class="city-metric"><span>Safety Score</span><strong>61/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>4,102</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.0%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>162</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="portland or">
+        <div class="city-name">🌹 Portland, OR</div>
+        <div class="city-metric"><span>Safety Score</span><strong>59/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,543</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -7.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>99</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="albuquerque nm">
+        <div class="city-name">🎈 Albuquerque, NM</div>
+        <div class="city-metric"><span>Safety Score</span><strong>55/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,188</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>86</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="fresno ca">
+        <div class="city-name">🍇 Fresno, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>57/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,019</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>82</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="sacramento ca">
+        <div class="city-name">🌻 Sacramento, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>62/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,344</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.4%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>109</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="long beach ca">
+        <div class="city-name">⚓ Long Beach, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>64/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,901</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>91</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="mesa az">
+        <div class="city-name">☀️ Mesa, AZ</div>
+        <div class="city-metric"><span>Safety Score</span><strong>73/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,512</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.3%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>71</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="el paso tx">
+        <div class="city-name">🌄 El Paso, TX</div>
+        <div class="city-metric"><span>Safety Score</span><strong>72/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,688</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>77</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="colorado springs co">
+        <div class="city-name">🏔️ Colorado Springs, CO</div>
+        <div class="city-metric"><span>Safety Score</span><strong>74/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,401</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>65</strong></div>
+      </div>
+
+    </div>
+    <p class="city-count" id="cityCountBottom" style="margin-top:24px;text-align:center;">Showing all 50 cities · <a href="#cta" style="color:var(--accent);font-weight:700;">Download CrimeMap to explore your city →</a></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     7. TRUST INDICATORS
+════════════════════════════════════════════════════════════ -->
+<section id="trust" class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">Why Trust CrimeMap</span>
+      <h2 class="section-title">Built on Data You Can Trust</h2>
+      <p class="section-sub">
+        As a <strong>personal safety app</strong> used by millions, CrimeMap meets the highest
+        standards for accuracy, privacy, and reliability.
+      </p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card fade-in">
+        <div class="trust-icon">🔒</div>
+        <h4>Privacy First</h4>
+        <p>No personal data sold. Location data is anonymized and never stored beyond your session.</p>
+      </div>
+      <div class="trust-card fade-in">
+        <div class="trust-icon">🏛️</div>
+        <h4>Official Data Sources</h4>
+        <p>Data pulled directly from 2,200+ police departments, FBI UCR reports, and verified community feeds.</p>
+      </div>
+      <div class="trust-card fade-in">
+        <div class="trust-icon">⚡</div>
+        <h4>Sub-30s Alerts</h4>
+        <p>Industry-leading alert delivery. When a crime is reported, you know in under 30 seconds.</p>
+      </div>
+      <div class="trust-card fade-in">
+        <div class="trust-icon">🌐</div>
+        <h4>National Coverage</h4>
+        <p>850+ cities covered with full <strong>block-level crime data</strong> — more than any competing neighborhood safety app.</p>
+      </div>
+    </div>
+    <div style="margin-top:48px; display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:center;">
+      <div class="fade-in">
+        <!-- SECURITY BADGES -->
+        <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;" role="img" aria-label="Security compliance badges">
+          <text x="210" y="24" text-anchor="middle" fill="#1e3a8a" font-size="12" font-weight="700" font-family="system-ui">Compliance &amp; Security Certifications</text>
+          <!-- SOC 2 -->
+          <rect x="16" y="36" width="90" height="90" rx="12" fill="#1e3a8a"/>
+          <text x="61" y="68" text-anchor="middle" fill="white" font-size="22">🛡️</text>
+          <text x="61" y="86" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">SOC 2</text>
+          <text x="61" y="100" text-anchor="middle" fill="#93c5fd" font-size="8" font-family="system-ui">Type II</text>
+          <text x="61" y="136" text-anchor="middle" fill="#475569" font-size="8" font-family="system-ui">Security Audit</text>
+          <!-- GDPR -->
+          <rect x="120" y="36" width="90" height="90" rx="12" fill="#0f766e"/>
+          <text x="165" y="68" text-anchor="middle" fill="white" font-size="22">🔒</text>
+          <text x="165" y="86" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">GDPR</text>
+          <text x="165" y="100" text-anchor="middle" fill="#99f6e4" font-size="8" font-family="system-ui">Compliant</text>
+          <text x="165" y="136" text-anchor="middle" fill="#475569" font-size="8" font-family="system-ui">EU Privacy</text>
+          <!-- Apple -->
+          <rect x="224" y="36" width="90" height="90" rx="12" fill="#1d1d1f"/>
+          <text x="269" y="68" text-anchor="middle" fill="white" font-size="22">🍎</text>
+          <text x="269" y="86" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">App Store</text>
+          <text x="269" y="100" text-anchor="middle" fill="#a1a1a6" font-size="8" font-family="system-ui">Editorial Pick</text>
+          <text x="269" y="136" text-anchor="middle" fill="#475569" font-size="8" font-family="system-ui">iOS Certified</text>
+          <!-- Google Play -->
+          <rect x="328" y="36" width="90" height="90" rx="12" fill="#01875f"/>
+          <text x="373" y="68" text-anchor="middle" fill="white" font-size="22">▶</text>
+          <text x="373" y="86" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">Google Play</text>
+          <text x="373" y="100" text-anchor="middle" fill="#b9f5d0" font-size="8" font-family="system-ui">Editors Choice</text>
+          <text x="373" y="136" text-anchor="middle" fill="#475569" font-size="8" font-family="system-ui">Android Certified</text>
+          <!-- Bottom trust line -->
+          <rect x="16" y="155" width="388" height="28" rx="6" fill="#eff6ff"/>
+          <text x="210" y="173" text-anchor="middle" fill="#1e3a8a" font-size="9" font-weight="600" font-family="system-ui">✓ 256-bit AES encryption · ✓ Zero data sold · ✓ Annual 3rd-party security audit · ✓ 99.9% uptime SLA</text>
+        </svg>
+      </div>
+      <div class="fade-in">
+        <!-- RATING SYSTEM UI -->
+        <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;" role="img" aria-label="Rating system showing 4.8 stars from 187,000 reviews">
+          <text x="210" y="22" text-anchor="middle" fill="#1e3a8a" font-size="12" font-weight="700" font-family="system-ui">User Reviews &amp; Ratings</text>
+          <!-- Big score -->
+          <text x="70" y="90" text-anchor="middle" fill="#1e293b" font-size="48" font-weight="900" font-family="system-ui">4.8</text>
+          <text x="28" y="116" fill="#f59e0b" font-size="18" font-family="system-ui">★★★★★</text>
+          <text x="28" y="132" fill="#64748b" font-size="9" font-family="system-ui">187,000+ reviews</text>
+          <text x="28" y="148" fill="#64748b" font-size="9" font-family="system-ui">App Store + Google Play</text>
+          <!-- Distribution bars -->
+          <g font-family="system-ui" font-size="9" fill="#64748b">
+            <!-- 5 star -->
+            <text x="130" y="50">5 ★</text>
+            <rect x="155" y="38" width="220" height="14" rx="3" fill="#e2e8f0"/>
+            <rect x="155" y="38" width="187" height="14" rx="3" fill="#f59e0b"/>
+            <text x="382" y="50" fill="#475569">85%</text>
+            <!-- 4 star -->
+            <text x="130" y="74">4 ★</text>
+            <rect x="155" y="62" width="220" height="14" rx="3" fill="#e2e8f0"/>
+            <rect x="155" y="62" width="55" height="14" rx="3" fill="#fbbf24"/>
+            <text x="382" y="74" fill="#475569">25%</text>
+            <!-- 3 star -->
+            <text x="130" y="98">3 ★</text>
+            <rect x="155" y="86" width="220" height="14" rx="3" fill="#e2e8f0"/>
+            <rect x="155" y="86" width="22" height="14" rx="3" fill="#fde68a"/>
+            <text x="382" y="98" fill="#475569">10%</text>
+            <!-- 2 star -->
+            <text x="130" y="122">2 ★</text>
+            <rect x="155" y="110" width="220" height="14" rx="3" fill="#e2e8f0"/>
+            <rect x="155" y="110" width="9" height="14" rx="3" fill="#e2e8f0"/>
+            <text x="382" y="122" fill="#475569">4%</text>
+            <!-- 1 star -->
+            <text x="130" y="146">1 ★</text>
+            <rect x="155" y="134" width="220" height="14" rx="3" fill="#e2e8f0"/>
+            <rect x="155" y="134" width="5" height="14" rx="3" fill="#e2e8f0"/>
+            <text x="382" y="146" fill="#475569">2%</text>
+          </g>
+          <!-- Bottom strip -->
+          <rect x="16" y="162" width="388" height="28" rx="6" fill="#dcfce7"/>
+          <text x="210" y="180" text-anchor="middle" fill="#16a34a" font-size="9" font-weight="700" font-family="system-ui">🏆 #1 Safety App · App Store · 3 years running · "Best Personal Safety App" — TechRadar 2024</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     8. COMPARISON TABLE
+════════════════════════════════════════════════════════════ -->
+<section id="comparison" class="section section-alt">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">How We Compare</span>
+      <h2 class="section-title">CrimeMap vs. The Competition</h2>
+      <p class="section-sub">
+        See why CrimeMap is the most complete <strong>crime map app</strong> and
+        <strong>neighborhood safety app</strong> on the market.
+      </p>
+    </div>
+    <div class="comparison-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>CrimeMap</th>
+            <th>Competitor A</th>
+            <th>Competitor B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Real-time crime alerts (&lt;30s)</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Block-level crime data</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Route safety planner</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Neighborhood safety score</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Crime trend analysis</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Community safety alerts</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Crime data visualization</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Police report tracker</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Crime statistics by city</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Free core tier</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     COMMUNITY FEATURE
+════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="route-grid">
+      <div class="fade-in">
+        <span class="tag">Community</span>
+        <h2 class="section-title">Your Block, Your Network</h2>
+        <p class="section-sub" style="margin-bottom:24px;">
+          CrimeMap's <strong>community safety alerts</strong> feature turns every user into a
+          neighborhood watch volunteer. Share verified incidents, confirm sightings, and build
+          a real-time picture of what's happening on your block through our collective
+          <strong>crime tracking</strong> platform.
+        </p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+          <li style="display:flex;gap:10px;"><span class="check">✓</span><span>Anonymous reporting with identity protection</span></li>
+          <li style="display:flex;gap:10px;"><span class="check">✓</span><span>Neighborhood-specific discussion threads</span></li>
+          <li style="display:flex;gap:10px;"><span class="check">✓</span><span>Up-vote / down-vote incident verification</span></li>
+          <li style="display:flex;gap:10px;"><span class="check">✓</span><span>Direct link to submit official <strong>police reports</strong></span></li>
+        </ul>
+      </div>
+      <div class="fade-in">
+        <!-- COMMUNITY FEATURES UI -->
+        <svg viewBox="0 0 360 380" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;max-width:360px;margin:0 auto;border-radius:12px;" role="img" aria-label="Community safety feed UI">
+          <!-- Phone frame -->
+          <rect x="0" y="0" width="360" height="380" rx="24" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+          <rect x="8" y="8" width="344" height="364" rx="18" fill="#1e293b"/>
+          <!-- Header -->
+          <rect x="8" y="8" width="344" height="44" rx="18" fill="#1e3a8a"/>
+          <rect x="8" y="30" width="344" height="22" rx="0" fill="#1e3a8a"/>
+          <text x="180" y="34" text-anchor="middle" fill="white" font-size="12" font-weight="700" font-family="system-ui">👥 Neighborhood Feed</text>
+          <!-- Subheader -->
+          <rect x="8" y="52" width="344" height="28" rx="0" fill="#162032"/>
+          <text x="20" y="71" fill="#94a3b8" font-size="9" font-family="system-ui">Riverdale Heights · 47 active neighbors</text>
+          <rect x="298" y="57" width="46" height="16" rx="8" fill="#22c55e22"/>
+          <text x="321" y="68" text-anchor="middle" fill="#22c55e" font-size="8" font-weight="700" font-family="system-ui">● LIVE</text>
+          <!-- Post 1 -->
+          <rect x="14" y="86" width="332" height="80" rx="8" fill="#243047"/>
+          <circle cx="34" cy="106" r="12" fill="#3b82f6"/>
+          <text x="34" y="110" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">JR</text>
+          <text x="52" y="103" fill="white" font-size="9" font-weight="700" font-family="system-ui">J. Rivera · 4 min ago</text>
+          <rect x="52" y="107" width="46" height="12" rx="4" fill="#ef444433"/>
+          <text x="75" y="116" text-anchor="middle" fill="#ef4444" font-size="7" font-weight="700" font-family="system-ui">🚨 Theft</text>
+          <text x="18" y="136" fill="#cbd5e1" font-size="9" font-family="system-ui">Saw someone trying car door handles on Oak St.</text>
+          <text x="18" y="150" fill="#64748b" font-size="8" font-family="system-ui">Dark hoodie, heading west. Stay alert neighbors.</text>
+          <text x="18" y="163" fill="#64748b" font-size="8" font-family="system-ui">▲ 24 confirmed  ·  💬 8 replies  ·  🔗 Link to report</text>
+          <!-- Post 2 -->
+          <rect x="14" y="172" width="332" height="80" rx="8" fill="#243047"/>
+          <circle cx="34" cy="192" r="12" fill="#8b5cf6"/>
+          <text x="34" y="196" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">SK</text>
+          <text x="52" y="189" fill="white" font-size="9" font-weight="700" font-family="system-ui">S. Kim · 17 min ago</text>
+          <rect x="52" y="193" width="70" height="12" rx="4" fill="#f9731633"/>
+          <text x="87" y="202" text-anchor="middle" fill="#f97316" font-size="7" font-weight="700" font-family="system-ui">🚗 Suspicious Vehicle</text>
+          <text x="18" y="222" fill="#cbd5e1" font-size="9" font-family="system-ui">Black SUV parked for 2 hrs outside elementary school.</text>
+          <text x="18" y="236" fill="#64748b" font-size="8" font-family="system-ui">No plates visible. Officers notified.</text>
+          <text x="18" y="249" fill="#64748b" font-size="8" font-family="system-ui">▲ 31 confirmed  ·  💬 14 replies  ·  ✅ Police notified</text>
+          <!-- Post 3 -->
+          <rect x="14" y="258" width="332" height="70" rx="8" fill="#243047"/>
+          <circle cx="34" cy="276" r="12" fill="#16a34a"/>
+          <text x="34" y="280" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">MT</text>
+          <text x="52" y="273" fill="white" font-size="9" font-weight="700" font-family="system-ui">M. Torres · 42 min ago</text>
+          <rect x="52" y="277" width="76" height="12" rx="4" fill="#16a34a33"/>
+          <text x="90" y="286" text-anchor="middle" fill="#22c55e" font-size="7" font-weight="700" font-family="system-ui">✅ All Clear - Park</text>
+          <text x="18" y="308" fill="#cbd5e1" font-size="9" font-family="system-ui">Riverside Park is safe and well-lit tonight. Families out.</text>
+          <text x="18" y="321" fill="#64748b" font-size="8" font-family="system-ui">▲ 18 confirmed  ·  💬 3 replies</text>
+          <!-- Add report button -->
+          <rect x="14" y="334" width="332" height="30" rx="8" fill="#1e3a8a"/>
+          <text x="180" y="354" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">+ Report an Incident</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     9. TESTIMONIALS
+════════════════════════════════════════════════════════════ -->
+<section id="testimonials" class="section section-alt">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">User Reviews</span>
+      <h2 class="section-title">Trusted by Millions of Neighbors</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-in">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          "I moved to a new city and had no idea which neighborhoods were safe.
+          The <strong>safety score</strong> feature and the <strong>crime hotspot map</strong>
+          helped me find the perfect apartment. Best <strong>neighborhood safety app</strong> I've tried."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">JR</div>
+          <div class="author-info"><strong>Jessica R.</strong><span>Austin, TX</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          "The <strong>route safety planner</strong> is a game-changer for my morning run.
+          I used to just guess which streets were safe. Now I check CrimeMap every morning —
+          it's the most reliable <strong>personal safety app</strong> I've used."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">MT</div>
+          <div class="author-info"><strong>Marcus T.</strong><span>Chicago, IL</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in">
+        <div class="stars">★★★★☆</div>
+        <p class="testimonial-text">
+          "As a real estate agent, I use the <strong>crime statistics by city</strong> report
+          with every client. The <strong>block-level crime data</strong> and
+          <strong>crime trend analysis</strong> make it easy to have honest conversations about
+          neighborhood safety. Absolutely essential."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">SK</div>
+          <div class="author-info"><strong>Sarah K.</strong><span>Miami, FL</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- MOBILE MOCKUP ROW -->
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" class="fade-in" role="img" aria-label="CrimeMap app shown on mobile screens">
+      <!-- Phone 1: Map View -->
+      <svg viewBox="0 0 160 280" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;">
+        <rect x="4" y="0" width="152" height="280" rx="22" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+        <rect x="10" y="6" width="140" height="268" rx="17" fill="#1e293b"/>
+        <rect x="54" y="6" width="52" height="14" rx="7" fill="#0f172a"/>
+        <rect x="10" y="20" width="140" height="160" fill="#1e3a8a"/>
+        <g stroke="#2d4a7a" stroke-width="1"><line x1="10" y1="50" x2="150" y2="50"/><line x1="10" y1="80" x2="150" y2="80"/><line x1="10" y1="110" x2="150" y2="110"/><line x1="10" y1="140" x2="150" y2="140"/><line x1="50" y1="20" x2="50" y2="180"/><line x1="90" y1="20" x2="90" y2="180"/><line x1="130" y1="20" x2="130" y2="180"/></g>
+        <circle cx="80" cy="95" r="30" fill="#ef4444" opacity=".3"/>
+        <circle cx="80" cy="95" r="15" fill="#ef4444" opacity=".4"/>
+        <path d="M80,72 a16,16 0 1,1 0,0.001" fill="#ef4444" stroke="white" stroke-width="1.5"/>
+        <circle cx="80" cy="80" r="4" fill="white"/>
+        <circle cx="40" cy="55" r="5" fill="#22c55e" stroke="white" stroke-width="1"/>
+        <circle cx="120" cy="140" r="5" fill="#eab308" stroke="white" stroke-width="1"/>
+        <rect x="10" y="180" width="140" height="94" fill="#0f172a"/>
+        <text x="80" y="198" text-anchor="middle" fill="#94a3b8" font-size="8" font-family="system-ui">Current Location</text>
+        <text x="80" y="212" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">Riverdale Heights</text>
+        <rect x="18" y="220" width="124" height="22" rx="6" fill="#1e3a8a"/>
+        <text x="80" y="235" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui">Safety Score: 74</text>
+        <text x="80" y="258" text-anchor="middle" fill="#22c55e" font-size="8" font-family="system-ui">↑ Trending Safer</text>
+        <text x="80" y="272" text-anchor="middle" fill="#64748b" font-size="7" font-family="system-ui">Map View</text>
+      </svg>
+      <!-- Phone 2: Alert View -->
+      <svg viewBox="0 0 160 280" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;">
+        <rect x="4" y="0" width="152" height="280" rx="22" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+        <rect x="10" y="6" width="140" height="268" rx="17" fill="#1e293b"/>
+        <rect x="54" y="6" width="52" height="14" rx="7" fill="#0f172a"/>
+        <rect x="10" y="20" width="140" height="34" fill="#1e3a8a"/>
+        <text x="80" y="42" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">🔔 Alerts</text>
+        <rect x="14" y="58" width="132" height="48" rx="6" fill="#243047" stroke="#ef4444" stroke-width="1"/>
+        <rect x="14" y="58" width="4" height="48" rx="2" fill="#ef4444"/>
+        <text x="24" y="74" fill="white" font-size="8" font-weight="700" font-family="system-ui">Armed Robbery</text>
+        <text x="24" y="86" fill="#94a3b8" font-size="7" font-family="system-ui">0.3 mi · 2 min ago</text>
+        <text x="24" y="98" fill="#ef4444" font-size="7" font-family="system-ui">HIGH · Verified</text>
+        <rect x="14" y="112" width="132" height="44" rx="6" fill="#243047" stroke="#f97316" stroke-width="1"/>
+        <rect x="14" y="112" width="4" height="44" rx="2" fill="#f97316"/>
+        <text x="24" y="128" fill="white" font-size="8" font-weight="700" font-family="system-ui">Vehicle Break-In</text>
+        <text x="24" y="140" fill="#94a3b8" font-size="7" font-family="system-ui">0.7 mi · 8 min ago</text>
+        <text x="24" y="150" fill="#f97316" font-size="7" font-family="system-ui">MED · Confirmed</text>
+        <rect x="14" y="162" width="132" height="44" rx="6" fill="#243047" stroke="#22c55e" stroke-width="1"/>
+        <rect x="14" y="162" width="4" height="44" rx="2" fill="#22c55e"/>
+        <text x="24" y="178" fill="white" font-size="8" font-weight="700" font-family="system-ui">All Clear — Park</text>
+        <text x="24" y="190" fill="#94a3b8" font-size="7" font-family="system-ui">0.4 mi · 42 min ago</text>
+        <text x="24" y="200" fill="#22c55e" font-size="7" font-family="system-ui">LOW · Community</text>
+        <text x="80" y="260" text-anchor="middle" fill="#64748b" font-size="7" font-family="system-ui">Alert Feed</text>
+        <circle cx="104" cy="32" r="8" fill="#ef4444"/>
+        <text x="104" y="36" text-anchor="middle" fill="white" font-size="8" font-weight="700" font-family="system-ui">3</text>
+      </svg>
+      <!-- Phone 3: Route Planner -->
+      <svg viewBox="0 0 160 280" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;">
+        <rect x="4" y="0" width="152" height="280" rx="22" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+        <rect x="10" y="6" width="140" height="268" rx="17" fill="#1e293b"/>
+        <rect x="54" y="6" width="52" height="14" rx="7" fill="#0f172a"/>
+        <rect x="10" y="20" width="140" height="34" fill="#1e3a8a"/>
+        <text x="80" y="42" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">🧭 Route Planner</text>
+        <rect x="14" y="58" width="132" height="24" rx="5" fill="#243047"/>
+        <text x="22" y="75" fill="#94a3b8" font-size="8" font-family="system-ui">📍 Current Location</text>
+        <rect x="14" y="86" width="132" height="24" rx="5" fill="#243047"/>
+        <text x="22" y="103" fill="#3b82f6" font-size="8" font-family="system-ui">🏁 456 Oak Avenue</text>
+        <rect x="14" y="116" width="132" height="36" rx="6" fill="#16a34a22" stroke="#22c55e" stroke-width="1.5"/>
+        <text x="22" y="131" fill="white" font-size="8" font-weight="700" font-family="system-ui">● Route A — Safest</text>
+        <text x="22" y="145" fill="#22c55e" font-size="7" font-family="system-ui">Score 88 · 12 min · 0.8 mi</text>
+        <rect x="14" y="157" width="132" height="32" rx="6" fill="#243047"/>
+        <text x="22" y="171" fill="white" font-size="8" font-family="system-ui">● Route B</text>
+        <text x="22" y="183" fill="#eab308" font-size="7" font-family="system-ui">Score 71 · 9 min · 0.6 mi</text>
+        <rect x="14" y="194" width="132" height="32" rx="6" fill="#243047"/>
+        <text x="22" y="208" fill="#94a3b8" font-size="8" font-family="system-ui">● Route C</text>
+        <text x="22" y="220" fill="#ef4444" font-size="7" font-family="system-ui">Score 44 · Avoid</text>
+        <rect x="14" y="232" width="132" height="24" rx="6" fill="#22c55e"/>
+        <text x="80" y="249" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui">Navigate Safely</text>
+        <text x="80" y="272" text-anchor="middle" fill="#64748b" font-size="7" font-family="system-ui">Route Planner</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     10. FAQ
+════════════════════════════════════════════════════════════ -->
+<section id="faq" class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">FAQ</span>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-sub">Everything you need to know about the CrimeMap app.</p>
+    </div>
+    <div class="faq-list" id="faqList">
+
+      <div class="faq-item">
+        <button class="faq-question">
+          What data sources power the crime map app?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            CrimeMap aggregates data from 2,200+ official police department feeds, FBI Uniform Crime Report (UCR) databases, 911 dispatch logs, and verified community reports. Every incident is cross-referenced against at least two sources before it appears on the <strong>crime hotspot map</strong>, ensuring accuracy you can rely on.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          How often is the neighborhood safety score updated?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            The <strong>safety score</strong> for each block is recalculated every hour using a rolling 90-day window of incident data. Major incidents trigger an immediate recalculation. This means your <strong>safety rating</strong> reflects both long-term trends and very recent events — far more current than any published index.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Is my location data private?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Absolutely. CrimeMap uses on-device processing for location lookups — your precise GPS coordinates never leave your phone unencrypted. We are SOC 2 Type II certified and fully GDPR-compliant. We do not sell, rent, or share any personal information. The <strong>personal safety app</strong> was built with a privacy-first architecture from day one.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          How does the route safety planner work?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            The <strong>route safety planner</strong> generates up to five alternative routes between your origin and destination. Each route is scored using real-time <strong>crime hotspot map</strong> data, time-of-day crime patterns, and lighting/infrastructure data. Routes are color-coded green (safe), yellow (caution), and red (avoid). The algorithm updates in real time as new <strong>community safety alerts</strong> come in.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Which cities have block-level crime data?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            CrimeMap currently offers full <strong>block-level crime data</strong> in 850+ U.S. cities including New York, Los Angeles, Chicago, Houston, Phoenix, Philadelphia, San Antonio, San Diego, Dallas, and San Jose. For smaller cities, data is available at the census-tract level. We add new cities monthly — check the in-app city directory for the latest coverage map.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Is CrimeMap free to use?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes — CrimeMap's core features including the <strong>local crime tracker</strong>, basic <strong>real-time crime alerts</strong>, and the <strong>city crime map</strong> are free forever. Premium tiers unlock the full <strong>route safety planner</strong>, advanced <strong>crime data visualization</strong>, unlimited alert zones, and detailed <strong>crime statistics by city</strong> exports. Premium starts at $4.99/month or $39.99/year.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     11. CTA + DOWNLOAD
+════════════════════════════════════════════════════════════ -->
+<section id="cta">
+  <div class="container">
+    <span class="tag" style="background:rgba(255,255,255,.2);color:#fff;">Free Download</span>
+    <h2 class="section-title" style="margin-top:8px;">Start Tracking Your Neighborhood Today</h2>
+    <p class="section-sub">
+      Join 4.2 million users who rely on CrimeMap as their go-to <strong>crime map app</strong>
+      for <strong>real-time crime alerts</strong>, <strong>neighborhood safety</strong> scores,
+      and smarter daily decisions. Download free — no credit card required.
+    </p>
+    <div class="cta-btns" style="margin-bottom:40px;">
+      <a href="#" class="store-btn">
+        <span class="store-icon">🍎</span>
+        <div class="store-label"><span>Download on the</span>App Store</div>
+      </a>
+      <a href="#" class="store-btn">
+        <span class="store-icon">▶</span>
+        <div class="store-label"><span>Get it on</span>Google Play</div>
+      </a>
+    </div>
+    <p style="font-size:.82rem;color:rgba(255,255,255,.6);">Available on iOS 15+ and Android 9+. Free core tier. Premium from $4.99/mo.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color:#fff;">🔵 Crime<span>Map</span></div>
+        <p>The most trusted <strong>neighborhood safety app</strong> and <strong>crime map app</strong> in the U.S. — delivering <strong>real-time crime alerts</strong> and <strong>block-level crime data</strong> to over 4 million users.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#safety-score">Safety Score</a></li>
+          <li><a href="#route-planner">Route Planner</a></li>
+          <li><a href="#city-stats">City Stats</a></li>
+          <li><a href="#comparison">Compare</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Crime Reports</a></li>
+          <li><a href="#">Safety Guides</a></li>
+          <li><a href="#">API Docs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CrimeMap Inc. All rights reserved.</span>
+      <span>Made with ❤️ for safer neighborhoods</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════ -->
+<script>
+  // ── Fade-in on scroll ──────────────────────────────────────
+  (function initFadeIn() {
+    const els = document.querySelectorAll('.fade-in');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  })();
+
+  // ── Animated counters ──────────────────────────────────────
+  (function initCounters() {
+    const counters = document.querySelectorAll('.counter');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        const target = +e.target.dataset.target;
+        const duration = 1600;
+        const step = 16;
+        const increment = target / (duration / step);
+        let current = 0;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) { current = target; clearInterval(timer); }
+          e.target.textContent = target >= 1000
+            ? (current / 1000000 >= 1 ? (current / 1000000).toFixed(1) + 'M' : Math.floor(current).toLocaleString())
+            : Math.floor(current);
+        }, step);
+      });
+    }, { threshold: 0.3 });
+    counters.forEach(c => io.observe(c));
+  })();
+
+  // ── FAQ accordion ──────────────────────────────────────────
+  (function initFAQ() {
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const isOpen = btn.classList.contains('open');
+        // close all
+        document.querySelectorAll('.faq-question.open').forEach(b => {
+          b.classList.remove('open');
+          b.nextElementSibling.classList.remove('open');
+        });
+        if (!isOpen) {
+          btn.classList.add('open');
+          answer.classList.add('open');
+        }
+      });
+    });
+  })();
+
+  // ── Hamburger menu ─────────────────────────────────────────
+  (function initHamburger() {
+    const btn  = document.getElementById('hamburger');
+    const menu = document.getElementById('mobileMenu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('open');
+      menu.classList.toggle('open');
+    });
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        btn.classList.remove('open');
+        menu.classList.remove('open');
+      });
+    });
+  })();
+
+  // ── City search + region filter ───────────────────────────
+  (function initCityFilter() {
+    const searchInput = document.getElementById('citySearch');
+    const tabs        = document.querySelectorAll('.city-tab');
+    const cards       = document.querySelectorAll('#cityGrid .city-card');
+    const countEl     = document.getElementById('cityCount');
+    const countBottom = document.getElementById('cityCountBottom');
+    let activeRegion  = 'all';
+
+    function updateCount(visible) {
+      const msg = visible === cards.length
+        ? 'Showing all ' + cards.length + ' cities'
+        : 'Showing ' + visible + ' of ' + cards.length + ' cities';
+      if (countEl) countEl.textContent = msg;
+      if (countBottom) countBottom.firstChild.textContent = msg + ' · ';
+    }
+
+    function applyFilters() {
+      const query = (searchInput ? searchInput.value.toLowerCase().trim() : '');
+      let visible = 0;
+      cards.forEach(card => {
+        const regionMatch = activeRegion === 'all' || card.dataset.region === activeRegion;
+        const cityMatch   = !query || card.dataset.city.includes(query) || card.querySelector('.city-name').textContent.toLowerCase().includes(query);
+        const show = regionMatch && cityMatch;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      updateCount(visible);
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', applyFilters);
+    }
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeRegion = tab.dataset.region;
+        applyFilters();
+      });
+    });
+  })();
+
+  // ── Safety score bars (animate on scroll) ─────────────────
+  (function initScoreBars() {
+    const visual = document.getElementById('scoreVisual');
+    if (!visual) return;
+    const io = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      io.unobserve(visual);
+      visual.querySelectorAll('.score-bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+    }, { threshold: 0.3 });
+    io.observe(visual);
+  })();
+</script>
+</body>
+</html>
