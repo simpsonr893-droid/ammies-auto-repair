@@ -369,23 +369,65 @@
     .route-step p  { font-size: .9rem; color: var(--gray-600); }
 
     /* ─── CITY STATS ────────────────────────────────────────── */
+    .city-search-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .city-search-input {
+      flex: 1;
+      min-width: 220px;
+      padding: 11px 18px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      font-size: .9rem;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .city-search-input:focus { border-color: var(--accent); }
+    .city-filter-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .city-tab {
+      padding: 7px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--gray-600);
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+    .city-tab.active, .city-tab:hover {
+      background: var(--accent);
+      color: var(--white);
+      border-color: var(--accent);
+    }
     .city-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
     }
     .city-card {
       background: var(--white);
       border: 1px solid var(--gray-200);
       border-radius: var(--radius);
-      padding: 28px 24px;
-      transition: box-shadow var(--transition);
+      padding: 22px 18px;
+      transition: box-shadow var(--transition), transform var(--transition);
     }
-    .city-card:hover { box-shadow: var(--shadow); }
-    .city-name { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
-    .city-metric { display: flex; justify-content: space-between; font-size: .85rem; padding: 6px 0; border-bottom: 1px solid var(--gray-100); color: var(--gray-600); }
+    .city-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+    .city-card.hidden { display: none; }
+    .city-name { font-size: 1rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+    .city-metric { display: flex; justify-content: space-between; font-size: .82rem; padding: 5px 0; border-bottom: 1px solid var(--gray-100); color: var(--gray-600); }
     .city-metric:last-child { border-bottom: none; }
     .city-metric strong { color: var(--gray-800); }
+    .city-count { font-size: .85rem; color: var(--gray-600); margin-top: 16px; }
 
     /* ─── TRUST ─────────────────────────────────────────────── */
     .trust-grid {
@@ -577,13 +619,13 @@
       .testimonials-grid{ grid-template-columns: repeat(2, 1fr); }
       .footer-grid     { grid-template-columns: 1fr 1fr; }
       .stats-grid      { grid-template-columns: repeat(2, 1fr); }
-      .city-grid       { grid-template-columns: repeat(2, 1fr); }
+      .city-grid       { grid-template-columns: repeat(3, 1fr); }
     }
     @media (max-width: 768px) {
       .section { padding: 56px 0; }
       .hero-grid, .score-grid, .route-grid { grid-template-columns: 1fr; gap: 40px; }
       .features-grid  { grid-template-columns: 1fr; }
-      .city-grid      { grid-template-columns: 1fr; }
+      .city-grid      { grid-template-columns: repeat(2, 1fr); }
       .trust-grid     { grid-template-columns: 1fr 1fr; }
       .testimonials-grid { grid-template-columns: 1fr; }
       .footer-grid    { grid-template-columns: 1fr; gap: 32px; }
@@ -880,50 +922,381 @@
         delivering real <strong>crime statistics by city</strong> broken down to individual blocks.
       </p>
     </div>
-    <div class="city-grid">
-      <div class="city-card fade-in">
+    <!-- Search & Filter Controls -->
+    <div class="city-search-bar fade-in">
+      <input type="text" class="city-search-input" id="citySearch" placeholder="🔍  Search any city, e.g. &quot;Dallas&quot; or &quot;Seattle&quot;…" aria-label="Search cities" />
+      <span class="city-count" id="cityCount">Showing all 50 cities</span>
+    </div>
+    <div class="city-filter-tabs fade-in" id="regionTabs">
+      <button class="city-tab active" data-region="all">All Regions</button>
+      <button class="city-tab" data-region="northeast">Northeast</button>
+      <button class="city-tab" data-region="south">South</button>
+      <button class="city-tab" data-region="midwest">Midwest</button>
+      <button class="city-tab" data-region="west">West</button>
+    </div>
+
+    <div class="city-grid" id="cityGrid">
+
+      <!-- NORTHEAST -->
+      <div class="city-card fade-in" data-region="northeast" data-city="new york ny">
         <div class="city-name">🏙️ New York, NY</div>
         <div class="city-metric"><span>Safety Score</span><strong>74/100</strong></div>
         <div class="city-metric"><span>Incidents (30d)</span><strong>8,241</strong></div>
         <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.2%</strong></div>
-        <div class="city-metric"><span>Neighborhoods tracked</span><strong>302</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>302</strong></div>
       </div>
-      <div class="city-card fade-in">
-        <div class="city-name">🌉 San Francisco, CA</div>
-        <div class="city-metric"><span>Safety Score</span><strong>68/100</strong></div>
-        <div class="city-metric"><span>Incidents (30d)</span><strong>3,870</strong></div>
-        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +2.1%</strong></div>
-        <div class="city-metric"><span>Neighborhoods tracked</span><strong>117</strong></div>
+      <div class="city-card fade-in" data-region="northeast" data-city="philadelphia pa">
+        <div class="city-name">🔔 Philadelphia, PA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>61/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>4,312</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +1.4%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>158</strong></div>
       </div>
-      <div class="city-card fade-in">
-        <div class="city-name">🌆 Chicago, IL</div>
-        <div class="city-metric"><span>Safety Score</span><strong>62/100</strong></div>
-        <div class="city-metric"><span>Incidents (30d)</span><strong>6,109</strong></div>
-        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.8%</strong></div>
-        <div class="city-metric"><span>Neighborhoods tracked</span><strong>228</strong></div>
+      <div class="city-card fade-in" data-region="northeast" data-city="boston ma">
+        <div class="city-name">🦞 Boston, MA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>77/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,890</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>92</strong></div>
       </div>
-      <div class="city-card fade-in">
-        <div class="city-name">🌴 Miami, FL</div>
-        <div class="city-metric"><span>Safety Score</span><strong>71/100</strong></div>
-        <div class="city-metric"><span>Incidents (30d)</span><strong>2,540</strong></div>
-        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.5%</strong></div>
-        <div class="city-metric"><span>Neighborhoods tracked</span><strong>89</strong></div>
+      <div class="city-card fade-in" data-region="northeast" data-city="baltimore md">
+        <div class="city-name">🦀 Baltimore, MD</div>
+        <div class="city-metric"><span>Safety Score</span><strong>52/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,744</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.7%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>121</strong></div>
       </div>
-      <div class="city-card fade-in">
+      <div class="city-card fade-in" data-region="northeast" data-city="washington dc">
+        <div class="city-name">🏛️ Washington, DC</div>
+        <div class="city-metric"><span>Safety Score</span><strong>66/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,601</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -5.0%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>113</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="northeast" data-city="newark nj">
+        <div class="city-name">🌁 Newark, NJ</div>
+        <div class="city-metric"><span>Safety Score</span><strong>55/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,520</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>67</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="northeast" data-city="pittsburgh pa">
+        <div class="city-name">🌉 Pittsburgh, PA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>69/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,203</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>84</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="northeast" data-city="buffalo ny">
+        <div class="city-name">❄️ Buffalo, NY</div>
+        <div class="city-metric"><span>Safety Score</span><strong>59/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>988</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +0.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>52</strong></div>
+      </div>
+
+      <!-- SOUTH -->
+      <div class="city-card fade-in" data-region="south" data-city="houston tx">
+        <div class="city-name">🛢️ Houston, TX</div>
+        <div class="city-metric"><span>Safety Score</span><strong>63/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>7,108</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.3%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>289</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="san antonio tx">
+        <div class="city-name">🌮 San Antonio, TX</div>
+        <div class="city-metric"><span>Safety Score</span><strong>67/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,901</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>147</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="dallas tx">
+        <div class="city-name">⭐ Dallas, TX</div>
+        <div class="city-metric"><span>Safety Score</span><strong>65/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>5,447</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.6%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>214</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="austin tx">
         <div class="city-name">🤠 Austin, TX</div>
         <div class="city-metric"><span>Safety Score</span><strong>79/100</strong></div>
         <div class="city-metric"><span>Incidents (30d)</span><strong>1,892</strong></div>
         <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -6.1%</strong></div>
-        <div class="city-metric"><span>Neighborhoods tracked</span><strong>74</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>74</strong></div>
       </div>
-      <div class="city-card fade-in">
-        <div class="img-placeholder" style="min-height:180px;" role="img" aria-label="Search functionality UI showing city search bar with autocomplete suggestions and recent search history">
-          <span class="ph-icon">🔍</span>
-          <strong>Search Functionality UI</strong>
-          <span>City search with autocomplete<br>+ recent history</span>
-        </div>
+      <div class="city-card fade-in" data-region="south" data-city="miami fl">
+        <div class="city-name">🌴 Miami, FL</div>
+        <div class="city-metric"><span>Safety Score</span><strong>71/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,540</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>89</strong></div>
       </div>
+      <div class="city-card fade-in" data-region="south" data-city="jacksonville fl">
+        <div class="city-name">🌊 Jacksonville, FL</div>
+        <div class="city-metric"><span>Safety Score</span><strong>64/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,987</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +1.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>102</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="charlotte nc">
+        <div class="city-name">🏁 Charlotte, NC</div>
+        <div class="city-metric"><span>Safety Score</span><strong>70/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,671</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.0%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>116</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="memphis tn">
+        <div class="city-name">🎵 Memphis, TN</div>
+        <div class="city-metric"><span>Safety Score</span><strong>48/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,822</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>94</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="nashville tn">
+        <div class="city-name">🎸 Nashville, TN</div>
+        <div class="city-metric"><span>Safety Score</span><strong>73/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,108</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.3%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>81</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="new orleans la">
+        <div class="city-name">🎷 New Orleans, LA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>53/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,456</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +0.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>78</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="louisville ky">
+        <div class="city-name">🏇 Louisville, KY</div>
+        <div class="city-metric"><span>Safety Score</span><strong>62/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,744</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>87</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="atlanta ga">
+        <div class="city-name">🍑 Atlanta, GA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>60/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,201</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -5.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>134</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="oklahoma city ok">
+        <div class="city-name">💨 Oklahoma City, OK</div>
+        <div class="city-metric"><span>Safety Score</span><strong>66/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,987</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.7%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>93</strong></div>
+      </div>
+
+      <!-- MIDWEST -->
+      <div class="city-card fade-in" data-region="midwest" data-city="chicago il">
+        <div class="city-name">🌆 Chicago, IL</div>
+        <div class="city-metric"><span>Safety Score</span><strong>62/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>6,109</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>228</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="columbus oh">
+        <div class="city-name">🏛️ Columbus, OH</div>
+        <div class="city-metric"><span>Safety Score</span><strong>68/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,441</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.6%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>107</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="indianapolis in">
+        <div class="city-name">🏎️ Indianapolis, IN</div>
+        <div class="city-metric"><span>Safety Score</span><strong>58/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,144</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +0.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>119</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="detroit mi">
+        <div class="city-name">🚗 Detroit, MI</div>
+        <div class="city-metric"><span>Safety Score</span><strong>50/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,788</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.4%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>139</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="milwaukee wi">
+        <div class="city-name">🍺 Milwaukee, WI</div>
+        <div class="city-metric"><span>Safety Score</span><strong>56/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,203</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>96</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="kansas city mo">
+        <div class="city-name">🥩 Kansas City, MO</div>
+        <div class="city-metric"><span>Safety Score</span><strong>57/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,591</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +1.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>105</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="omaha ne">
+        <div class="city-name">🌽 Omaha, NE</div>
+        <div class="city-metric"><span>Safety Score</span><strong>71/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,344</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>68</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="minneapolis mn">
+        <div class="city-name">❄️ Minneapolis, MN</div>
+        <div class="city-metric"><span>Safety Score</span><strong>63/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,012</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -6.4%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>88</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="cleveland oh">
+        <div class="city-name">🌊 Cleveland, OH</div>
+        <div class="city-metric"><span>Safety Score</span><strong>54/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,389</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.0%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>97</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="st louis mo">
+        <div class="city-name">🎡 St. Louis, MO</div>
+        <div class="city-metric"><span>Safety Score</span><strong>51/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,877</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.7%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>103</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="cincinnati oh">
+        <div class="city-name">🏈 Cincinnati, OH</div>
+        <div class="city-metric"><span>Safety Score</span><strong>64/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,655</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.4%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>76</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="midwest" data-city="wichita ks">
+        <div class="city-name">🌪️ Wichita, KS</div>
+        <div class="city-metric"><span>Safety Score</span><strong>66/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,190</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>61</strong></div>
+      </div>
+
+      <!-- WEST -->
+      <div class="city-card fade-in" data-region="west" data-city="los angeles ca">
+        <div class="city-name">🎬 Los Angeles, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>65/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>9,340</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>388</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="san diego ca">
+        <div class="city-name">🌅 San Diego, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>76/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,803</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.7%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>126</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="san jose ca">
+        <div class="city-name">💻 San Jose, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>75/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,211</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>98</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="san francisco ca">
+        <div class="city-name">🌉 San Francisco, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>68/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,870</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +2.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>117</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="seattle wa">
+        <div class="city-name">☕ Seattle, WA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>70/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,990</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -5.3%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>131</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="denver co">
+        <div class="city-name">⛰️ Denver, CO</div>
+        <div class="city-metric"><span>Safety Score</span><strong>69/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,677</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>115</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="phoenix az">
+        <div class="city-name">🌵 Phoenix, AZ</div>
+        <div class="city-metric"><span>Safety Score</span><strong>66/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>5,902</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>241</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="tucson az">
+        <div class="city-name">🦅 Tucson, AZ</div>
+        <div class="city-metric"><span>Safety Score</span><strong>63/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,788</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.6%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>79</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="las vegas nv">
+        <div class="city-name">🎰 Las Vegas, NV</div>
+        <div class="city-metric"><span>Safety Score</span><strong>61/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>4,102</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.0%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>162</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="portland or">
+        <div class="city-name">🌹 Portland, OR</div>
+        <div class="city-metric"><span>Safety Score</span><strong>59/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,543</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -7.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>99</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="albuquerque nm">
+        <div class="city-name">🎈 Albuquerque, NM</div>
+        <div class="city-metric"><span>Safety Score</span><strong>55/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,188</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>86</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="fresno ca">
+        <div class="city-name">🍇 Fresno, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>57/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,019</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>82</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="sacramento ca">
+        <div class="city-name">🌻 Sacramento, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>62/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,344</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.4%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>109</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="long beach ca">
+        <div class="city-name">⚓ Long Beach, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>64/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,901</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>91</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="mesa az">
+        <div class="city-name">☀️ Mesa, AZ</div>
+        <div class="city-metric"><span>Safety Score</span><strong>73/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,512</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.3%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>71</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="south" data-city="el paso tx">
+        <div class="city-name">🌄 El Paso, TX</div>
+        <div class="city-metric"><span>Safety Score</span><strong>72/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,688</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.9%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>77</strong></div>
+      </div>
+      <div class="city-card fade-in" data-region="west" data-city="colorado springs co">
+        <div class="city-name">🏔️ Colorado Springs, CO</div>
+        <div class="city-metric"><span>Safety Score</span><strong>74/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,401</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -2.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods</span><strong>65</strong></div>
+      </div>
+
     </div>
+    <p class="city-count" id="cityCountBottom" style="margin-top:24px;text-align:center;">Showing all 50 cities · <a href="#cta" style="color:var(--accent);font-weight:700;">Download CrimeMap to explore your city →</a></p>
   </div>
 </section>
 
@@ -1342,6 +1715,49 @@
       a.addEventListener('click', () => {
         btn.classList.remove('open');
         menu.classList.remove('open');
+      });
+    });
+  })();
+
+  // ── City search + region filter ───────────────────────────
+  (function initCityFilter() {
+    const searchInput = document.getElementById('citySearch');
+    const tabs        = document.querySelectorAll('.city-tab');
+    const cards       = document.querySelectorAll('#cityGrid .city-card');
+    const countEl     = document.getElementById('cityCount');
+    const countBottom = document.getElementById('cityCountBottom');
+    let activeRegion  = 'all';
+
+    function updateCount(visible) {
+      const msg = visible === cards.length
+        ? 'Showing all ' + cards.length + ' cities'
+        : 'Showing ' + visible + ' of ' + cards.length + ' cities';
+      if (countEl) countEl.textContent = msg;
+      if (countBottom) countBottom.firstChild.textContent = msg + ' · ';
+    }
+
+    function applyFilters() {
+      const query = (searchInput ? searchInput.value.toLowerCase().trim() : '');
+      let visible = 0;
+      cards.forEach(card => {
+        const regionMatch = activeRegion === 'all' || card.dataset.region === activeRegion;
+        const cityMatch   = !query || card.dataset.city.includes(query) || card.querySelector('.city-name').textContent.toLowerCase().includes(query);
+        const show = regionMatch && cityMatch;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      updateCount(visible);
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', applyFilters);
+    }
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeRegion = tab.dataset.region;
+        applyFilters();
       });
     });
   })();
