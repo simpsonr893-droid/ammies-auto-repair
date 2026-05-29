@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crime Map App — Real-Time Neighborhood Safety Tracker</title>
+  <meta name="description" content="The #1 crime map app for real-time crime alerts, neighborhood safety scores, and route safety planning. Track local crime data by city block." />
+  <meta name="keywords" content="crime map app, neighborhood safety app, real-time crime alerts, local crime tracker, crime statistics by city, safety score, route safety planner, crime hotspot map" />
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #1e3a8a;
+      --accent:  #3b82f6;
+      --green:   #16a34a;
+      --green-lt:#dcfce7;
+      --gray-50: #f8fafc;
+      --gray-100:#f1f5f9;
+      --gray-200:#e2e8f0;
+      --gray-600:#475569;
+      --gray-800:#1e293b;
+      --white:   #ffffff;
+      --shadow:  0 4px 24px rgba(30,58,138,.12);
+      --radius:  12px;
+      --transition: .25s ease;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--gray-800);
+      background: var(--white);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ─── Utility ───────────────────────────────────────────── */
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .section    { padding: 80px 0; }
+    .section-alt { background: var(--gray-50); }
+    .tag {
+      display: inline-block;
+      background: #dbeafe;
+      color: var(--primary);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--gray-600);
+      max-width: 620px;
+    }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-header .section-sub { margin: 0 auto; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+      border: none;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+    .btn-primary { background: var(--accent); color: var(--white); }
+    .btn-green   { background: var(--green);  color: var(--white); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,.6);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,.1); }
+    .check { color: var(--green); font-weight: 700; font-size: 1.1rem; }
+    .cross { color: #ef4444; font-weight: 700; font-size: 1.1rem; }
+
+    /* ─── Fade-in animation ─────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ─── Image placeholders ────────────────────────────────── */
+    .img-placeholder {
+      width: 100%;
+      background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+      border: 2px dashed var(--accent);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: .85rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 24px;
+    }
+    .img-placeholder .ph-icon { font-size: 2.5rem; }
+
+    /* ─── NAV ───────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      box-shadow: 0 2px 12px rgba(30,58,138,.06);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-cta { margin-left: 16px; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--gray-200);
+      background: var(--white);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: 14px 24px;
+      font-weight: 600;
+      color: var(--gray-600);
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .mobile-menu a:hover { color: var(--primary); background: var(--gray-50); }
+
+    /* ─── HERO ──────────────────────────────────────────────── */
+    #hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 60%, #2563eb 100%);
+      color: var(--white);
+      padding: 96px 0 80px;
+      overflow: hidden;
+      position: relative;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      color: var(--white);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero-title em { color: #93c5fd; font-style: normal; }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,.85);
+      margin-bottom: 36px;
+      max-width: 500px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+    .hero-stat strong {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+    .hero-stat span { font-size: .85rem; color: rgba(255,255,255,.7); }
+    .hero-img { border-radius: 16px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,.35); }
+    .hero-img .img-placeholder { min-height: 360px; background: linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.04)); border-color: rgba(255,255,255,.3); color: rgba(255,255,255,.7); }
+
+    /* ─── STATS STRIP ───────────────────────────────────────── */
+    #stats {
+      background: var(--primary);
+      padding: 48px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: center;
+      color: var(--white);
+    }
+    .stat-item strong {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #93c5fd;
+    }
+    .stat-item p { font-size: .9rem; color: rgba(255,255,255,.75); margin-top: 4px; }
+
+    /* ─── FEATURES ──────────────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      background: #dbeafe;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+    }
+    .feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .feature-card p { font-size: .9rem; color: var(--gray-600); }
+
+    /* ─── SAFETY SCORE ──────────────────────────────────────── */
+    .score-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .score-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .score-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .85rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--gray-800);
+    }
+    .score-bar-track {
+      height: 12px;
+      background: var(--gray-200);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--green), #22c55e);
+      transition: width 1.2s ease;
+      width: 0;
+    }
+
+    /* ─── ROUTE PLANNER ─────────────────────────────────────── */
+    .route-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .route-steps { display: flex; flex-direction: column; gap: 24px; }
+    .route-step { display: flex; gap: 20px; align-items: flex-start; }
+    .step-num {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .9rem;
+    }
+    .route-step h4 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+    .route-step p  { font-size: .9rem; color: var(--gray-600); }
+
+    /* ─── CITY STATS ────────────────────────────────────────── */
+    .city-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .city-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: box-shadow var(--transition);
+    }
+    .city-card:hover { box-shadow: var(--shadow); }
+    .city-name { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
+    .city-metric { display: flex; justify-content: space-between; font-size: .85rem; padding: 6px 0; border-bottom: 1px solid var(--gray-100); color: var(--gray-600); }
+    .city-metric:last-child { border-bottom: none; }
+    .city-metric strong { color: var(--gray-800); }
+
+    /* ─── TRUST ─────────────────────────────────────────────── */
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .trust-card {
+      text-align: center;
+      padding: 32px 20px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+    }
+    .trust-icon { font-size: 2.2rem; margin-bottom: 12px; }
+    .trust-card h4 { font-size: .95rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+    .trust-card p  { font-size: .82rem; color: var(--gray-600); }
+
+    /* ─── COMPARISON TABLE ──────────────────────────────────── */
+    .comparison-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .92rem;
+    }
+    thead tr { background: var(--primary); color: var(--white); }
+    thead th { padding: 16px 20px; text-align: left; font-weight: 700; }
+    thead th:not(:first-child) { text-align: center; }
+    tbody tr:nth-child(even) { background: var(--gray-50); }
+    tbody tr:hover { background: #dbeafe33; }
+    tbody td { padding: 14px 20px; color: var(--gray-600); border-bottom: 1px solid var(--gray-100); }
+    tbody td:not(:first-child) { text-align: center; }
+    tbody td:first-child { font-weight: 600; color: var(--gray-800); }
+
+    /* ─── TESTIMONIALS ──────────────────────────────────────── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .testimonial-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 32px;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '"';
+      font-size: 4rem;
+      line-height: 1;
+      color: #dbeafe;
+      font-weight: 900;
+      position: absolute;
+      top: 12px;
+      left: 20px;
+    }
+    .testimonial-text {
+      font-size: .95rem;
+      color: var(--gray-600);
+      margin-bottom: 20px;
+      margin-top: 24px;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 14px; }
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 800;
+      font-size: .9rem;
+    }
+    .author-info strong { display: block; font-size: .9rem; color: var(--gray-800); }
+    .author-info span   { font-size: .8rem; color: var(--gray-600); }
+    .stars { color: #f59e0b; font-size: .85rem; margin-bottom: 6px; }
+
+    /* ─── FAQ ───────────────────────────────────────────────── */
+    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      background: var(--white);
+      border: none;
+      text-align: left;
+      padding: 20px 24px;
+      font-size: .97rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      transition: background var(--transition);
+    }
+    .faq-question:hover { background: var(--gray-50); }
+    .faq-question.open { color: var(--primary); background: #eff6ff; }
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      transition: transform var(--transition), background var(--transition);
+    }
+    .faq-question.open .faq-chevron {
+      transform: rotate(180deg);
+      background: var(--accent);
+      color: var(--white);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease, padding .35s ease;
+    }
+    .faq-answer.open { max-height: 400px; }
+    .faq-answer-inner { padding: 0 24px 20px; font-size: .92rem; color: var(--gray-600); line-height: 1.7; }
+
+    /* ─── CTA BANNER ────────────────────────────────────────── */
+    #cta {
+      background: linear-gradient(135deg, var(--green) 0%, #15803d 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 80px 0;
+    }
+    #cta .section-title { color: var(--white); }
+    #cta .section-sub   { color: rgba(255,255,255,.85); margin: 0 auto 40px; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .store-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,.15);
+      border: 2px solid rgba(255,255,255,.4);
+      border-radius: var(--radius);
+      padding: 12px 22px;
+      color: var(--white);
+      font-weight: 700;
+      transition: background var(--transition);
+    }
+    .store-btn:hover { background: rgba(255,255,255,.25); }
+    .store-btn .store-icon { font-size: 1.6rem; }
+    .store-btn .store-label span { display: block; font-size: .7rem; font-weight: 400; opacity: .8; }
+
+    /* ─── FOOTER ────────────────────────────────────────────── */
+    footer {
+      background: var(--gray-800);
+      color: rgba(255,255,255,.7);
+      padding: 56px 0 28px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+    .footer-brand p { font-size: .88rem; margin-top: 12px; line-height: 1.7; }
+    .footer-col h5 { color: var(--white); font-size: .9rem; font-weight: 700; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: .86rem; transition: color var(--transition); }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: .82rem;
+    }
+
+    /* ─── Responsive ────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .features-grid   { grid-template-columns: repeat(2, 1fr); }
+      .trust-grid      { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid{ grid-template-columns: repeat(2, 1fr); }
+      .footer-grid     { grid-template-columns: 1fr 1fr; }
+      .stats-grid      { grid-template-columns: repeat(2, 1fr); }
+      .city-grid       { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 56px 0; }
+      .hero-grid, .score-grid, .route-grid { grid-template-columns: 1fr; gap: 40px; }
+      .features-grid  { grid-template-columns: 1fr; }
+      .city-grid      { grid-template-columns: 1fr; }
+      .trust-grid     { grid-template-columns: 1fr 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-grid    { grid-template-columns: 1fr; gap: 32px; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .trust-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════════════ -->
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#hero">🔵 Crime<span>Map</span></a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#safety-score">Safety Score</a></li>
+        <li><a href="#route-planner">Route Planner</a></li>
+        <li><a href="#city-stats">City Stats</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a href="#cta" class="btn btn-primary nav-cta">Get the App</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features">Features</a>
+    <a href="#safety-score">Safety Score</a>
+    <a href="#route-planner">Route Planner</a>
+    <a href="#city-stats">City Stats</a>
+    <a href="#faq">FAQ</a>
+    <a href="#cta" style="color:var(--accent)">📲 Get the App</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════
+     1. HERO
+════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="fade-in">
+        <span class="hero-tag">🏆 #1 Neighborhood Safety App</span>
+        <h1 class="hero-title">
+          Your <em>Crime Map App</em> for <em>Real-Time</em> Neighborhood Safety
+        </h1>
+        <p class="hero-sub">
+          Get instant <strong>real-time crime alerts</strong>, explore the interactive
+          <strong>crime hotspot map</strong>, and plan every trip with our
+          <strong>route safety planner</strong> — all in one personal safety app.
+        </p>
+        <div class="hero-btns">
+          <a href="#cta" class="btn btn-primary">📲 Download Free</a>
+          <a href="#features" class="btn btn-outline">See How It Works</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong class="counter" data-target="4200000">0</strong><span>Active Users</span></div>
+          <div class="hero-stat"><strong class="counter" data-target="850">0</strong><span>Cities Covered</span></div>
+          <div class="hero-stat"><strong class="counter" data-target="98">0</strong><span>% Uptime</span></div>
+        </div>
+      </div>
+      <div class="hero-img fade-in">
+        <div class="img-placeholder" style="min-height:360px;" role="img" aria-label="CrimeMap dashboard screenshot showing interactive crime hotspot map with color-coded overlays">
+          <span class="ph-icon">🗺️</span>
+          <strong>Dashboard Screenshot</strong>
+          <span>Interactive crime hotspot map<br>with real-time overlays</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     STATS STRIP
+════════════════════════════════════════════════════════════ -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <strong><span class="counter" data-target="12">0</span>M+</strong>
+        <p>Crime incidents tracked</p>
+      </div>
+      <div class="stat-item fade-in">
+        <strong><span class="counter" data-target="850">0</span>+</strong>
+        <p>Cities with block-level crime data</p>
+      </div>
+      <div class="stat-item fade-in">
+        <strong><span class="counter" data-target="4">0</span>.8★</strong>
+        <p>Average app store rating</p>
+      </div>
+      <div class="stat-item fade-in">
+        <strong>&lt;<span class="counter" data-target="30">0</span>s</strong>
+        <p>Alert delivery time</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     2. FEATURES
+════════════════════════════════════════════════════════════ -->
+<section id="features" class="section section-alt">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">Core Features</span>
+      <h2 class="section-title">Everything You Need to Stay Safe</h2>
+      <p class="section-sub">
+        CrimeMap combines a powerful <strong>local crime tracker</strong> with smart
+        community tools — giving you the full picture of neighborhood safety wherever you go.
+      </p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🔔</div>
+        <h3>Real-Time Crime Alerts</h3>
+        <p>Receive push notifications the moment a crime is reported within your chosen radius. Our <strong>real-time crime alerts</strong> pull from verified police feeds and community reports.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🗺️</div>
+        <h3>Crime Hotspot Map</h3>
+        <p>Visualize danger zones with our heatmap overlay. The color-coded <strong>crime hotspot map</strong> updates hourly, so you always see current activity — not last month's data.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">📊</div>
+        <h3>Crime Statistics by City</h3>
+        <p>Dive into granular <strong>crime statistics by city</strong>, neighborhood, or individual block. Compare trends over time with easy-to-read charts and exportable reports.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🛡️</div>
+        <h3>Neighborhood Safety Score</h3>
+        <p>Every block gets a composite <strong>safety score</strong> calculated from crime frequency, severity, and trend direction — helping you make informed decisions at a glance.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🧭</div>
+        <h3>Route Safety Planner</h3>
+        <p>Enter your destination and our <strong>route safety planner</strong> calculates the safest path, highlighting any crime hotspots along alternative routes.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">👥</div>
+        <h3>Community Safety Alerts</h3>
+        <p>Neighbors share verified <strong>community safety alerts</strong> about suspicious activity, helping your block stay one step ahead. You can also submit your own <strong>crime reports</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     3. ALERT INTERFACE VISUAL
+════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="score-grid">
+      <div class="fade-in">
+        <span class="tag">Live Alerts</span>
+        <h2 class="section-title">Instant Crime Alert Interface</h2>
+        <p class="section-sub" style="margin-bottom:24px;">
+          As a leading <strong>crime reporting app</strong> and <strong>police report tracker</strong>,
+          CrimeMap surfaces verified incidents in under 30 seconds. Our alert interface
+          shows incident type, distance, time, and severity — right on your lock screen.
+        </p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span class="check">✓</span> <span>Aggregates data from police CAD feeds, 911 dispatch, and community reports</span></li>
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span class="check">✓</span> <span>Customizable alert radius from 0.25 to 10 miles</span></li>
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span class="check">✓</span> <span>Filter by crime type: theft, vandalism, assault, burglary, and more</span></li>
+          <li style="display:flex;gap:10px;align-items:flex-start;"><span class="check">✓</span> <span>Silent mode for low-severity events; loud alert for high-priority incidents</span></li>
+        </ul>
+      </div>
+      <div class="fade-in">
+        <div class="img-placeholder" style="min-height:320px;" role="img" aria-label="Alert interface mockup showing real-time push notification with crime type, distance, and severity badge">
+          <span class="ph-icon">🔔</span>
+          <strong>Alert Interface</strong>
+          <span>Real-time push notification UI<br>with severity & distance info</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     4. SAFETY SCORE
+════════════════════════════════════════════════════════════ -->
+<section id="safety-score" class="section section-alt">
+  <div class="container">
+    <div class="score-grid">
+      <div class="fade-in">
+        <div class="img-placeholder" style="min-height:340px;" role="img" aria-label="Data visualization chart showing crime trend analysis over 12 months with bar graphs and line overlays">
+          <span class="ph-icon">📈</span>
+          <strong>Crime Data Visualization</strong>
+          <span>12-month crime trend analysis<br>with bar graphs &amp; overlays</span>
+        </div>
+      </div>
+      <div class="fade-in">
+        <span class="tag">Safety Score</span>
+        <h2 class="section-title">Know Your Neighborhood's Safety Rating</h2>
+        <p class="section-sub" style="margin-bottom:28px;">
+          Our proprietary algorithm distills <strong>block-level crime data</strong> into a single
+          <strong>safety rating</strong> from 0–100. Use it for house-hunting, commute planning,
+          or simply knowing whether your street is trending safer or more dangerous over time via
+          detailed <strong>crime trend analysis</strong>.
+        </p>
+        <div class="score-visual" id="scoreVisual">
+          <div>
+            <div class="score-bar-label"><span>Downtown Core</span><span>72/100</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" data-width="72"></div></div>
+          </div>
+          <div>
+            <div class="score-bar-label"><span>Riverside District</span><span>85/100</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" data-width="85"></div></div>
+          </div>
+          <div>
+            <div class="score-bar-label"><span>Midtown</span><span>61/100</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" data-width="61"></div></div>
+          </div>
+          <div>
+            <div class="score-bar-label"><span>North Park</span><span>91/100</span></div>
+            <div class="score-bar-track"><div class="score-bar-fill" data-width="91"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     5. ROUTE SAFETY PLANNER
+════════════════════════════════════════════════════════════ -->
+<section id="route-planner" class="section">
+  <div class="container">
+    <div class="route-grid">
+      <div class="fade-in">
+        <span class="tag">Route Safety Planner</span>
+        <h2 class="section-title">Plan Every Trip on the Safest Route</h2>
+        <p class="section-sub" style="margin-bottom:36px;">
+          Our <strong>route safety planner</strong> integrates live <strong>city crime map</strong>
+          data to calculate the safest path between any two points. Whether you're walking,
+          cycling, or driving, CrimeMap ensures you always travel a <strong>safe route</strong>.
+        </p>
+        <div class="route-steps">
+          <div class="route-step fade-in">
+            <div class="step-num">1</div>
+            <div>
+              <h4>Enter Your Destination</h4>
+              <p>Type any address or drop a pin on the map. The app knows your current location automatically.</p>
+            </div>
+          </div>
+          <div class="route-step fade-in">
+            <div class="step-num">2</div>
+            <div>
+              <h4>Review Route Safety Scores</h4>
+              <p>CrimeMap overlays each route with a color-coded <strong>safety score</strong>, highlighting areas with elevated crime activity.</p>
+            </div>
+          </div>
+          <div class="route-step fade-in">
+            <div class="step-num">3</div>
+            <div>
+              <h4>Choose Your Safe Route</h4>
+              <p>Select the recommended <strong>safe route</strong> or compare alternatives — then navigate with confidence using your favorite maps app.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="img-placeholder" style="min-height:380px;" role="img" aria-label="Route optimization display showing three route options color-coded green, yellow, red by safety score with crime hotspot overlays">
+          <span class="ph-icon">🧭</span>
+          <strong>Route Optimization Display</strong>
+          <span>Color-coded routes by safety score<br>with hotspot overlays</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     6. CITY STATS
+════════════════════════════════════════════════════════════ -->
+<section id="city-stats" class="section section-alt">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">Crime Statistics by City</span>
+      <h2 class="section-title">Your City's Crime Data, Visualized</h2>
+      <p class="section-sub">
+        CrimeMap is the most comprehensive <strong>local crime tracker</strong> in the country,
+        delivering real <strong>crime statistics by city</strong> broken down to individual blocks.
+      </p>
+    </div>
+    <div class="city-grid">
+      <div class="city-card fade-in">
+        <div class="city-name">🏙️ New York, NY</div>
+        <div class="city-metric"><span>Safety Score</span><strong>74/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>8,241</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -4.2%</strong></div>
+        <div class="city-metric"><span>Neighborhoods tracked</span><strong>302</strong></div>
+      </div>
+      <div class="city-card fade-in">
+        <div class="city-name">🌉 San Francisco, CA</div>
+        <div class="city-metric"><span>Safety Score</span><strong>68/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>3,870</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:#ef4444">↑ +2.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods tracked</span><strong>117</strong></div>
+      </div>
+      <div class="city-card fade-in">
+        <div class="city-name">🌆 Chicago, IL</div>
+        <div class="city-metric"><span>Safety Score</span><strong>62/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>6,109</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -1.8%</strong></div>
+        <div class="city-metric"><span>Neighborhoods tracked</span><strong>228</strong></div>
+      </div>
+      <div class="city-card fade-in">
+        <div class="city-name">🌴 Miami, FL</div>
+        <div class="city-metric"><span>Safety Score</span><strong>71/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>2,540</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -3.5%</strong></div>
+        <div class="city-metric"><span>Neighborhoods tracked</span><strong>89</strong></div>
+      </div>
+      <div class="city-card fade-in">
+        <div class="city-name">🤠 Austin, TX</div>
+        <div class="city-metric"><span>Safety Score</span><strong>79/100</strong></div>
+        <div class="city-metric"><span>Incidents (30d)</span><strong>1,892</strong></div>
+        <div class="city-metric"><span>Trend</span><strong style="color:var(--green)">↓ -6.1%</strong></div>
+        <div class="city-metric"><span>Neighborhoods tracked</span><strong>74</strong></div>
+      </div>
+      <div class="city-card fade-in">
+        <div class="img-placeholder" style="min-height:180px;" role="img" aria-label="Search functionality UI showing city search bar with autocomplete suggestions and recent search history">
+          <span class="ph-icon">🔍</span>
+          <strong>Search Functionality UI</strong>
+          <span>City search with autocomplete<br>+ recent history</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     7. TRUST INDICATORS
+════════════════════════════════════════════════════════════ -->
+<section id="trust" class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">Why Trust CrimeMap</span>
+      <h2 class="section-title">Built on Data You Can Trust</h2>
+      <p class="section-sub">
+        As a <strong>personal safety app</strong> used by millions, CrimeMap meets the highest
+        standards for accuracy, privacy, and reliability.
+      </p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card fade-in">
+        <div class="trust-icon">🔒</div>
+        <h4>Privacy First</h4>
+        <p>No personal data sold. Location data is anonymized and never stored beyond your session.</p>
+      </div>
+      <div class="trust-card fade-in">
+        <div class="trust-icon">🏛️</div>
+        <h4>Official Data Sources</h4>
+        <p>Data pulled directly from 2,200+ police departments, FBI UCR reports, and verified community feeds.</p>
+      </div>
+      <div class="trust-card fade-in">
+        <div class="trust-icon">⚡</div>
+        <h4>Sub-30s Alerts</h4>
+        <p>Industry-leading alert delivery. When a crime is reported, you know in under 30 seconds.</p>
+      </div>
+      <div class="trust-card fade-in">
+        <div class="trust-icon">🌐</div>
+        <h4>National Coverage</h4>
+        <p>850+ cities covered with full <strong>block-level crime data</strong> — more than any competing neighborhood safety app.</p>
+      </div>
+    </div>
+    <div style="margin-top:48px; display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:center;">
+      <div class="fade-in">
+        <div class="img-placeholder" style="min-height:200px;" role="img" aria-label="Security badges and compliance certificates including SOC 2 Type II, GDPR compliance, and app store editorial badge">
+          <span class="ph-icon">🛡️</span>
+          <strong>Security Badges</strong>
+          <span>SOC 2 Type II · GDPR · App Store Editorial Pick</span>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="img-placeholder" style="min-height:200px;" role="img" aria-label="Rating system UI showing 4.8 star average from 187,000 reviews with score distribution bar chart">
+          <span class="ph-icon">⭐</span>
+          <strong>Rating System</strong>
+          <span>4.8★ avg from 187,000+ reviews<br>Score distribution chart</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     8. COMPARISON TABLE
+════════════════════════════════════════════════════════════ -->
+<section id="comparison" class="section section-alt">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">How We Compare</span>
+      <h2 class="section-title">CrimeMap vs. The Competition</h2>
+      <p class="section-sub">
+        See why CrimeMap is the most complete <strong>crime map app</strong> and
+        <strong>neighborhood safety app</strong> on the market.
+      </p>
+    </div>
+    <div class="comparison-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>CrimeMap</th>
+            <th>Competitor A</th>
+            <th>Competitor B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Real-time crime alerts (&lt;30s)</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Block-level crime data</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Route safety planner</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Neighborhood safety score</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Crime trend analysis</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Community safety alerts</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Crime data visualization</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Police report tracker</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Crime statistics by city</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Free core tier</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     COMMUNITY FEATURE
+════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="route-grid">
+      <div class="fade-in">
+        <span class="tag">Community</span>
+        <h2 class="section-title">Your Block, Your Network</h2>
+        <p class="section-sub" style="margin-bottom:24px;">
+          CrimeMap's <strong>community safety alerts</strong> feature turns every user into a
+          neighborhood watch volunteer. Share verified incidents, confirm sightings, and build
+          a real-time picture of what's happening on your block through our collective
+          <strong>crime tracking</strong> platform.
+        </p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+          <li style="display:flex;gap:10px;"><span class="check">✓</span><span>Anonymous reporting with identity protection</span></li>
+          <li style="display:flex;gap:10px;"><span class="check">✓</span><span>Neighborhood-specific discussion threads</span></li>
+          <li style="display:flex;gap:10px;"><span class="check">✓</span><span>Up-vote / down-vote incident verification</span></li>
+          <li style="display:flex;gap:10px;"><span class="check">✓</span><span>Direct link to submit official <strong>police reports</strong></span></li>
+        </ul>
+      </div>
+      <div class="fade-in">
+        <div class="img-placeholder" style="min-height:340px;" role="img" aria-label="Community features UI showing neighborhood feed with incident pins, user avatars, and up-vote buttons">
+          <span class="ph-icon">👥</span>
+          <strong>Community Features UI</strong>
+          <span>Neighborhood feed · Incident pins<br>Voting &amp; verification system</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     9. TESTIMONIALS
+════════════════════════════════════════════════════════════ -->
+<section id="testimonials" class="section section-alt">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">User Reviews</span>
+      <h2 class="section-title">Trusted by Millions of Neighbors</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-in">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          "I moved to a new city and had no idea which neighborhoods were safe.
+          The <strong>safety score</strong> feature and the <strong>crime hotspot map</strong>
+          helped me find the perfect apartment. Best <strong>neighborhood safety app</strong> I've tried."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">JR</div>
+          <div class="author-info"><strong>Jessica R.</strong><span>Austin, TX</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          "The <strong>route safety planner</strong> is a game-changer for my morning run.
+          I used to just guess which streets were safe. Now I check CrimeMap every morning —
+          it's the most reliable <strong>personal safety app</strong> I've used."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">MT</div>
+          <div class="author-info"><strong>Marcus T.</strong><span>Chicago, IL</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in">
+        <div class="stars">★★★★☆</div>
+        <p class="testimonial-text">
+          "As a real estate agent, I use the <strong>crime statistics by city</strong> report
+          with every client. The <strong>block-level crime data</strong> and
+          <strong>crime trend analysis</strong> make it easy to have honest conversations about
+          neighborhood safety. Absolutely essential."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">SK</div>
+          <div class="author-info"><strong>Sarah K.</strong><span>Miami, FL</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;" class="fade-in">
+      <div class="img-placeholder" style="min-height:180px;" role="img" aria-label="Mobile mockup showing CrimeMap app on iPhone with crime map, alert badge, and safety score widgets on home screen">
+        <span class="ph-icon">📱</span>
+        <strong>Mobile App Mockup</strong>
+        <span>iPhone home screen · Map view · Alert badge · Safety score widget</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     10. FAQ
+════════════════════════════════════════════════════════════ -->
+<section id="faq" class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="tag">FAQ</span>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-sub">Everything you need to know about the CrimeMap app.</p>
+    </div>
+    <div class="faq-list" id="faqList">
+
+      <div class="faq-item">
+        <button class="faq-question">
+          What data sources power the crime map app?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            CrimeMap aggregates data from 2,200+ official police department feeds, FBI Uniform Crime Report (UCR) databases, 911 dispatch logs, and verified community reports. Every incident is cross-referenced against at least two sources before it appears on the <strong>crime hotspot map</strong>, ensuring accuracy you can rely on.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          How often is the neighborhood safety score updated?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            The <strong>safety score</strong> for each block is recalculated every hour using a rolling 90-day window of incident data. Major incidents trigger an immediate recalculation. This means your <strong>safety rating</strong> reflects both long-term trends and very recent events — far more current than any published index.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Is my location data private?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Absolutely. CrimeMap uses on-device processing for location lookups — your precise GPS coordinates never leave your phone unencrypted. We are SOC 2 Type II certified and fully GDPR-compliant. We do not sell, rent, or share any personal information. The <strong>personal safety app</strong> was built with a privacy-first architecture from day one.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          How does the route safety planner work?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            The <strong>route safety planner</strong> generates up to five alternative routes between your origin and destination. Each route is scored using real-time <strong>crime hotspot map</strong> data, time-of-day crime patterns, and lighting/infrastructure data. Routes are color-coded green (safe), yellow (caution), and red (avoid). The algorithm updates in real time as new <strong>community safety alerts</strong> come in.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Which cities have block-level crime data?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            CrimeMap currently offers full <strong>block-level crime data</strong> in 850+ U.S. cities including New York, Los Angeles, Chicago, Houston, Phoenix, Philadelphia, San Antonio, San Diego, Dallas, and San Jose. For smaller cities, data is available at the census-tract level. We add new cities monthly — check the in-app city directory for the latest coverage map.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Is CrimeMap free to use?
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes — CrimeMap's core features including the <strong>local crime tracker</strong>, basic <strong>real-time crime alerts</strong>, and the <strong>city crime map</strong> are free forever. Premium tiers unlock the full <strong>route safety planner</strong>, advanced <strong>crime data visualization</strong>, unlimited alert zones, and detailed <strong>crime statistics by city</strong> exports. Premium starts at $4.99/month or $39.99/year.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     11. CTA + DOWNLOAD
+════════════════════════════════════════════════════════════ -->
+<section id="cta">
+  <div class="container">
+    <span class="tag" style="background:rgba(255,255,255,.2);color:#fff;">Free Download</span>
+    <h2 class="section-title" style="margin-top:8px;">Start Tracking Your Neighborhood Today</h2>
+    <p class="section-sub">
+      Join 4.2 million users who rely on CrimeMap as their go-to <strong>crime map app</strong>
+      for <strong>real-time crime alerts</strong>, <strong>neighborhood safety</strong> scores,
+      and smarter daily decisions. Download free — no credit card required.
+    </p>
+    <div class="cta-btns" style="margin-bottom:40px;">
+      <a href="#" class="store-btn">
+        <span class="store-icon">🍎</span>
+        <div class="store-label"><span>Download on the</span>App Store</div>
+      </a>
+      <a href="#" class="store-btn">
+        <span class="store-icon">▶</span>
+        <div class="store-label"><span>Get it on</span>Google Play</div>
+      </a>
+    </div>
+    <p style="font-size:.82rem;color:rgba(255,255,255,.6);">Available on iOS 15+ and Android 9+. Free core tier. Premium from $4.99/mo.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="color:#fff;">🔵 Crime<span>Map</span></div>
+        <p>The most trusted <strong>neighborhood safety app</strong> and <strong>crime map app</strong> in the U.S. — delivering <strong>real-time crime alerts</strong> and <strong>block-level crime data</strong> to over 4 million users.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#safety-score">Safety Score</a></li>
+          <li><a href="#route-planner">Route Planner</a></li>
+          <li><a href="#city-stats">City Stats</a></li>
+          <li><a href="#comparison">Compare</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Crime Reports</a></li>
+          <li><a href="#">Safety Guides</a></li>
+          <li><a href="#">API Docs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CrimeMap Inc. All rights reserved.</span>
+      <span>Made with ❤️ for safer neighborhoods</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════ -->
+<script>
+  // ── Fade-in on scroll ──────────────────────────────────────
+  (function initFadeIn() {
+    const els = document.querySelectorAll('.fade-in');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  })();
+
+  // ── Animated counters ──────────────────────────────────────
+  (function initCounters() {
+    const counters = document.querySelectorAll('.counter');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        const target = +e.target.dataset.target;
+        const duration = 1600;
+        const step = 16;
+        const increment = target / (duration / step);
+        let current = 0;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) { current = target; clearInterval(timer); }
+          e.target.textContent = target >= 1000
+            ? (current / 1000000 >= 1 ? (current / 1000000).toFixed(1) + 'M' : Math.floor(current).toLocaleString())
+            : Math.floor(current);
+        }, step);
+      });
+    }, { threshold: 0.3 });
+    counters.forEach(c => io.observe(c));
+  })();
+
+  // ── FAQ accordion ──────────────────────────────────────────
+  (function initFAQ() {
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const isOpen = btn.classList.contains('open');
+        // close all
+        document.querySelectorAll('.faq-question.open').forEach(b => {
+          b.classList.remove('open');
+          b.nextElementSibling.classList.remove('open');
+        });
+        if (!isOpen) {
+          btn.classList.add('open');
+          answer.classList.add('open');
+        }
+      });
+    });
+  })();
+
+  // ── Hamburger menu ─────────────────────────────────────────
+  (function initHamburger() {
+    const btn  = document.getElementById('hamburger');
+    const menu = document.getElementById('mobileMenu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('open');
+      menu.classList.toggle('open');
+    });
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        btn.classList.remove('open');
+        menu.classList.remove('open');
+      });
+    });
+  })();
+
+  // ── Safety score bars (animate on scroll) ─────────────────
+  (function initScoreBars() {
+    const visual = document.getElementById('scoreVisual');
+    if (!visual) return;
+    const io = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      io.unobserve(visual);
+      visual.querySelectorAll('.score-bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+    }, { threshold: 0.3 });
+    io.observe(visual);
+  })();
+</script>
+</body>
+</html>
