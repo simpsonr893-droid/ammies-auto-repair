@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrimeMap Blog — Neighborhood Safety Insights & Crime Tracking Tips</title>
+  <meta name="description" content="Expert crime safety tips, neighborhood guides, and real-time crime tracking strategies from the CrimeMap team." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary:#1e3a8a; --accent:#3b82f6; --green:#16a34a;
+      --gray-50:#f8fafc; --gray-100:#f1f5f9; --gray-200:#e2e8f0;
+      --gray-600:#475569; --gray-800:#1e293b; --white:#ffffff;
+      --shadow:0 4px 24px rgba(30,58,138,.12); --radius:12px;
+      --transition:.25s ease;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Segoe UI',system-ui,sans-serif; color:var(--gray-800); background:var(--white); line-height:1.6; }
+    a { color:inherit; text-decoration:none; }
+
+    /* NAV */
+    nav { position:sticky; top:0; z-index:100; background:var(--white); border-bottom:1px solid var(--gray-200); box-shadow:0 2px 12px rgba(30,58,138,.06); }
+    .nav-inner { display:flex; align-items:center; justify-content:space-between; height:64px; max-width:1120px; margin:0 auto; padding:0 24px; }
+    .nav-logo { font-size:1.2rem; font-weight:900; color:var(--primary); display:flex; align-items:center; gap:6px; }
+    .nav-logo span { color:var(--accent); }
+    .nav-links { display:flex; gap:24px; list-style:none; }
+    .nav-links a { font-size:.88rem; font-weight:600; color:var(--gray-600); transition:color var(--transition); }
+    .nav-links a:hover, .nav-links a.active { color:var(--primary); }
+    .btn { display:inline-flex; align-items:center; gap:6px; padding:10px 22px; border-radius:var(--radius); font-size:.9rem; font-weight:700; cursor:pointer; border:none; transition:transform var(--transition),box-shadow var(--transition); }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.15); }
+    .btn-primary { background:var(--accent); color:var(--white); }
+
+    /* HERO */
+    .page-hero { background:linear-gradient(135deg,var(--primary) 0%,#1d4ed8 100%); color:var(--white); padding:64px 0 56px; text-align:center; }
+    .page-hero .tag { display:inline-block; background:rgba(255,255,255,.15); color:var(--white); font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:4px 14px; border-radius:999px; margin-bottom:16px; }
+    .page-hero h1 { font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:900; line-height:1.15; margin-bottom:14px; }
+    .page-hero p { font-size:1.05rem; color:rgba(255,255,255,.82); max-width:560px; margin:0 auto; }
+
+    /* LAYOUT */
+    .container { max-width:1120px; margin:0 auto; padding:0 24px; }
+    .page-body { padding:64px 0; }
+    .blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+
+    /* BLOG CARD */
+    .blog-card { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius); overflow:hidden; display:flex; flex-direction:column; transition:transform var(--transition),box-shadow var(--transition); }
+    .blog-card:hover { transform:translateY(-4px); box-shadow:var(--shadow); }
+    .blog-thumb { height:180px; background:linear-gradient(135deg,#dbeafe,#eff6ff); display:flex; align-items:center; justify-content:center; font-size:3rem; border-bottom:1px solid var(--gray-100); }
+    .blog-body { padding:24px; flex:1; display:flex; flex-direction:column; }
+    .blog-meta { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+    .blog-cat { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; background:#dbeafe; color:var(--primary); padding:3px 10px; border-radius:999px; }
+    .blog-date { font-size:.78rem; color:var(--gray-600); }
+    .blog-card h2 { font-size:1.05rem; font-weight:800; color:var(--primary); line-height:1.3; margin-bottom:10px; }
+    .blog-excerpt { font-size:.88rem; color:var(--gray-600); flex:1; margin-bottom:18px; }
+    .blog-read { font-size:.85rem; font-weight:700; color:var(--accent); display:inline-flex; align-items:center; gap:6px; }
+    .blog-read:hover { text-decoration:underline; }
+
+    /* FULL POSTS */
+    .posts-section { display:flex; flex-direction:column; gap:64px; margin-top:64px; padding-top:64px; border-top:2px solid var(--gray-100); }
+    .post { display:grid; grid-template-columns:3fr 1fr; gap:48px; align-items:start; }
+    .post:nth-child(even) { direction:rtl; }
+    .post:nth-child(even) > * { direction:ltr; }
+    .post-content h2 { font-size:1.6rem; font-weight:900; color:var(--primary); line-height:1.25; margin-bottom:8px; }
+    .post-tag { display:inline-block; font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; background:#dbeafe; color:var(--primary); padding:3px 10px; border-radius:999px; margin-bottom:14px; }
+    .post-meta { font-size:.82rem; color:var(--gray-600); margin-bottom:18px; }
+    .post-body { font-size:.95rem; color:var(--gray-600); line-height:1.8; }
+    .post-body p { margin-bottom:14px; }
+    .post-body strong { color:var(--gray-800); }
+    .post-body h3 { font-size:1.05rem; font-weight:700; color:var(--primary); margin:22px 0 8px; }
+    .post-body ul { padding-left:20px; margin-bottom:14px; }
+    .post-body ul li { margin-bottom:6px; }
+    .post-sidebar { position:sticky; top:80px; }
+    .sidebar-card { background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius); padding:24px; margin-bottom:20px; }
+    .sidebar-card h4 { font-size:.9rem; font-weight:800; color:var(--primary); margin-bottom:12px; }
+    .sidebar-card p { font-size:.83rem; color:var(--gray-600); line-height:1.6; margin-bottom:14px; }
+    .sidebar-stat { display:flex; justify-content:space-between; font-size:.82rem; padding:6px 0; border-bottom:1px solid var(--gray-200); }
+    .sidebar-stat:last-child { border:none; }
+    .sidebar-stat strong { color:var(--primary); }
+
+    /* CTA BANNER */
+    .cta-banner { background:linear-gradient(135deg,var(--green) 0%,#15803d 100%); color:var(--white); border-radius:16px; padding:40px 36px; text-align:center; margin-top:64px; }
+    .cta-banner h3 { font-size:1.5rem; font-weight:900; margin-bottom:10px; }
+    .cta-banner p { font-size:.95rem; color:rgba(255,255,255,.85); margin-bottom:24px; }
+
+    /* FOOTER */
+    footer { background:var(--gray-800); color:rgba(255,255,255,.65); padding:32px 0; text-align:center; font-size:.85rem; margin-top:80px; }
+    footer a { color:var(--accent); }
+
+    .fade-in { opacity:0; transform:translateY(20px); transition:opacity .55s ease,transform .55s ease; }
+    .fade-in.visible { opacity:1; transform:none; }
+
+    @media(max-width:1024px){ .blog-grid{grid-template-columns:repeat(2,1fr);} .post{grid-template-columns:1fr;} .post:nth-child(even){direction:ltr;} .post-sidebar{position:static;} }
+    @media(max-width:640px){ .blog-grid{grid-template-columns:1fr;} .nav-links{display:none;} }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="crime-map-app.html">🔵 Crime<span>Map</span></a>
+    <ul class="nav-links">
+      <li><a href="crime-map-app.html">Home</a></li>
+      <li><a href="crime-map-blogs.html" class="active">Blog</a></li>
+      <li><a href="crime-map-articles.html">Articles</a></li>
+      <li><a href="crime-map-services.html">Services</a></li>
+    </ul>
+    <a href="crime-map-app.html#cta" class="btn btn-primary">📲 Get the App</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="tag">CrimeMap Blog</span>
+    <h1>Stay Ahead of Crime.<br>Stay Safe Every Day.</h1>
+    <p>Expert tips, city safety guides, and the latest in neighborhood safety technology — straight from the CrimeMap team.</p>
+  </div>
+</div>
+
+<div class="page-body">
+  <div class="container">
+
+    <!-- BLOG CARD GRID (overview) -->
+    <div class="blog-grid">
+
+      <div class="blog-card fade-in">
+        <div class="blog-thumb">🏙️</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-cat">City Guide</span><span class="blog-date">May 12, 2024</span></div>
+          <h2>5 U.S. Cities With the Highest Crime Rates — And What's Being Done</h2>
+          <p class="blog-excerpt">We analyzed block-level crime data across 850+ cities. These five metros top the list — but all are trending in the right direction.</p>
+          <a href="#post1" class="blog-read">Read More →</a>
+        </div>
+      </div>
+
+      <div class="blog-card fade-in">
+        <div class="blog-thumb">🔑</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-cat">How-To</span><span class="blog-date">Apr 28, 2024</span></div>
+          <h2>How to Use a Crime Map App to Find the Safest Neighborhood Before Moving</h2>
+          <p class="blog-excerpt">Moving to a new city? Here's exactly how to use CrimeMap's safety score and hotspot map to find the right neighborhood — before you sign a lease.</p>
+          <a href="#post2" class="blog-read">Read More →</a>
+        </div>
+      </div>
+
+      <div class="blog-card fade-in">
+        <div class="blog-thumb">⚡</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-cat">Safety Tips</span><span class="blog-date">Apr 15, 2024</span></div>
+          <h2>Real-Time Crime Alerts: Why Speed Matters for Personal Safety</h2>
+          <p class="blog-excerpt">A 30-second delay versus a 5-minute delay can mean the difference between avoiding danger and walking into it. Here's why alert speed is everything.</p>
+          <a href="#post3" class="blog-read">Read More →</a>
+        </div>
+      </div>
+
+      <div class="blog-card fade-in">
+        <div class="blog-thumb">🛡️</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-cat">Feature Deep Dive</span><span class="blog-date">Apr 3, 2024</span></div>
+          <h2>Understanding Your Neighborhood Safety Score: What the Numbers Mean</h2>
+          <p class="blog-excerpt">CrimeMap assigns every block a score from 0–100. But what exactly goes into it? We break down every factor in plain English.</p>
+          <a href="#post4" class="blog-read">Read More →</a>
+        </div>
+      </div>
+
+      <div class="blog-card fade-in">
+        <div class="blog-thumb">🧭</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-cat">Route Planning</span><span class="blog-date">Mar 22, 2024</span></div>
+          <h2>Route Safety Planning: Walk, Run & Drive Smarter in Any City</h2>
+          <p class="blog-excerpt">Whether you're jogging before sunrise or driving home late at night, our route safety planner makes every trip smarter and safer.</p>
+          <a href="#post5" class="blog-read">Read More →</a>
+        </div>
+      </div>
+
+      <div class="blog-card fade-in">
+        <div class="blog-thumb">👥</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-cat">Community</span><span class="blog-date">Mar 10, 2024</span></div>
+          <h2>Community Watch in the Digital Age: How Crowdsourced Crime Data Keeps You Safe</h2>
+          <p class="blog-excerpt">Traditional neighborhood watch programs are evolving. CrimeMap's community safety alerts bring your block into the 21st century.</p>
+          <a href="#post6" class="blog-read">Read More →</a>
+        </div>
+      </div>
+
+      <div class="blog-card fade-in">
+        <div class="blog-thumb">📈</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-cat">Data & Trends</span><span class="blog-date">Feb 28, 2024</span></div>
+          <h2>Crime Trend Analysis: Is Your City Getting Safer? Here's How to Find Out</h2>
+          <p class="blog-excerpt">Year-over-year, month-over-month — CrimeMap's trend analysis tools reveal whether your neighborhood's trajectory is heading up or down.</p>
+          <a href="#post7" class="blog-read">Read More →</a>
+        </div>
+      </div>
+
+    </div><!-- /blog-grid -->
+
+    <!-- ═══════════════════════════════════════════════ FULL POSTS -->
+    <div class="posts-section">
+
+      <!-- POST 1 -->
+      <article class="post" id="post1">
+        <div class="post-content fade-in">
+          <span class="post-tag">City Guide</span>
+          <h2>5 U.S. Cities With the Highest Crime Rates — And What's Being Done</h2>
+          <p class="post-meta">May 12, 2024 · 6 min read · By CrimeMap Research Team</p>
+          <div class="post-body">
+            <p>When people search for <strong>crime statistics by city</strong>, they're usually trying to answer one simple question: is it safe to live here? Using our <strong>local crime tracker</strong> and <strong>block-level crime data</strong> from over 2,200 police departments, we analyzed 30-day and 12-month incident trends across every major U.S. metro.</p>
+            <h3>1. Memphis, TN — Safety Score: 48/100</h3>
+            <p>Memphis consistently ranks high on violent crime indexes. Our <strong>crime hotspot map</strong> reveals that the majority of incidents are concentrated in specific corridors — meaning most of the city is significantly safer than the headline numbers suggest. Memphis PD recently partnered with community organizations to expand real-time reporting, and our <strong>community safety alerts</strong> network in Memphis has grown 34% year-over-year.</p>
+            <h3>2. St. Louis, MO — Safety Score: 51/100</h3>
+            <p>St. Louis has one of the highest per-capita violent crime rates in the country, but the city's 12-month <strong>crime trend analysis</strong> shows a -3.7% decline — the largest single-year drop in a decade. The <strong>neighborhood safety app</strong> data shows the South City and Tower Grove areas outperforming citywide averages significantly.</p>
+            <h3>3. Detroit, MI — Safety Score: 50/100</h3>
+            <p>Detroit's transformation is real but uneven. CrimeMap's <strong>crime data visualization</strong> tools show sharp differences between neighborhoods — Midtown and Corktown score above 80, while some outer districts remain well below 50. Use the <strong>city crime map</strong> to explore block by block before visiting or relocating.</p>
+            <h3>4. Baltimore, MD — Safety Score: 52/100</h3>
+            <p>Baltimore's <strong>real-time crime alerts</strong> volume has decreased 2.7% over the last 12 months. Targeted intervention programs in the Cherry Hill and Sandtown neighborhoods have shown measurable impact in CrimeMap's data. The <strong>route safety planner</strong> remains one of our most-used features among Baltimore residents.</p>
+            <h3>5. Albuquerque, NM — Safety Score: 55/100</h3>
+            <p>Property crime drives Albuquerque's ranking more than violent crime. Our <strong>crime reporting app</strong> data shows vehicle theft hotspots concentrated near specific transit hubs. <strong>Real-time crime alerts</strong> in Albuquerque have helped users report incidents 40% faster than traditional 911 only approaches.</p>
+            <p>The key takeaway: <strong>crime statistics by city</strong> never tell the full story. Use CrimeMap's <strong>safety score</strong> and granular <strong>block-level crime data</strong> to understand exactly what's happening on your specific street — not just your city.</p>
+          </div>
+        </div>
+        <div class="post-sidebar fade-in">
+          <div class="sidebar-card">
+            <h4>📊 City Safety Scores</h4>
+            <div class="sidebar-stat"><span>Memphis, TN</span><strong>48/100</strong></div>
+            <div class="sidebar-stat"><span>Detroit, MI</span><strong>50/100</strong></div>
+            <div class="sidebar-stat"><span>St. Louis, MO</span><strong>51/100</strong></div>
+            <div class="sidebar-stat"><span>Baltimore, MD</span><strong>52/100</strong></div>
+            <div class="sidebar-stat"><span>Albuquerque, NM</span><strong>55/100</strong></div>
+          </div>
+          <div class="sidebar-card">
+            <h4>🔗 Related</h4>
+            <p><a href="#post4" style="color:var(--accent)">Understanding Your Safety Score →</a></p>
+            <p><a href="crime-map-articles.html#art3" style="color:var(--accent)">Crime Data Visualization Guide →</a></p>
+          </div>
+        </div>
+      </article>
+
+      <!-- POST 2 -->
+      <article class="post" id="post2">
+        <div class="post-content fade-in">
+          <span class="post-tag">How-To</span>
+          <h2>How to Use a Crime Map App to Find the Safest Neighborhood Before Moving</h2>
+          <p class="post-meta">Apr 28, 2024 · 5 min read · By CrimeMap Editorial</p>
+          <div class="post-body">
+            <p>Choosing where to live is one of the biggest decisions you'll make. A <strong>neighborhood safety app</strong> like CrimeMap gives you data that real estate listings never will. Here's exactly how to use it.</p>
+            <h3>Step 1: Pull Up the Crime Hotspot Map</h3>
+            <p>Open the <strong>crime hotspot map</strong> and enter the city you're considering. Switch on the heatmap overlay to see incident density at a glance. Zoom in to the specific neighborhoods on your shortlist and note which areas appear consistently cooler (safer) on the map.</p>
+            <h3>Step 2: Check the Safety Score for Each Candidate Address</h3>
+            <p>Every address in CrimeMap has a <strong>safety score</strong> from 0–100 calculated from 90 days of <strong>block-level crime data</strong>. Anything above 75 is considered low-risk. Between 60–74 is moderate. Below 60 warrants extra scrutiny. Look at the score AND the trend — a neighborhood scoring 65 but trending upward may be safer in a year than one scoring 70 but declining.</p>
+            <h3>Step 3: Run the Route Safety Planner for Your Daily Commute</h3>
+            <p>Your home address isn't the only location that matters. Use the <strong>route safety planner</strong> to map your daily commute routes — walking to transit, driving to work, jogging paths. A high <strong>safety rating</strong> at home loses value if you have to pass through a hotspot every morning.</p>
+            <h3>Step 4: Set Up Real-Time Crime Alerts for a 30-Day Trial</h3>
+            <p>Before committing, set your alert zone to the candidate address and live with the <strong>real-time crime alerts</strong> for 30 days. Volume and frequency of alerts tell you far more than any static statistic. You'll know exactly what you're moving into before you sign anything.</p>
+            <h3>Step 5: Compare Crime Statistics by Neighborhood</h3>
+            <p>Use the <strong>crime statistics by city</strong> comparison view to stack your top two or three neighborhoods side by side. Look at incident type breakdown — a neighborhood with more auto thefts than assaults has a very different character than the same score driven by violent crime.</p>
+          </div>
+        </div>
+        <div class="post-sidebar fade-in">
+          <div class="sidebar-card">
+            <h4>✅ Moving Checklist</h4>
+            <p style="font-size:.82rem;color:var(--gray-600);">Use these CrimeMap features before signing a lease:</p>
+            <div class="sidebar-stat"><span>Hotspot Map</span><strong>✓ Free</strong></div>
+            <div class="sidebar-stat"><span>Safety Score</span><strong>✓ Free</strong></div>
+            <div class="sidebar-stat"><span>Route Planner</span><strong>Premium</strong></div>
+            <div class="sidebar-stat"><span>Alert Trial</span><strong>✓ Free</strong></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- POST 3 -->
+      <article class="post" id="post3">
+        <div class="post-content fade-in">
+          <span class="post-tag">Safety Tips</span>
+          <h2>Real-Time Crime Alerts: Why Speed Matters for Personal Safety</h2>
+          <p class="post-meta">Apr 15, 2024 · 4 min read · By CrimeMap Safety Team</p>
+          <div class="post-body">
+            <p>Most people think of crime alerts as something you read after the fact — a news notification, a next-door post, a police department tweet. CrimeMap's <strong>real-time crime alerts</strong> work differently: they reach you in under 30 seconds, while the situation is still developing.</p>
+            <h3>The 30-Second Window</h3>
+            <p>Research shows that the first 30–90 seconds after a crime is reported represent the highest-risk window for people in the immediate vicinity. A <strong>crime reporting app</strong> that delivers alerts in 5 minutes is essentially a history lesson. CrimeMap's alert pipeline aggregates from police CAD feeds, 911 dispatch, and community reports simultaneously — getting verified information to you faster than any single source.</p>
+            <h3>Customizing Your Alerts</h3>
+            <p>Not every alert needs to be urgent. CrimeMap lets you set alert radius (0.25 to 10 miles), crime type filters, and severity thresholds. Low-severity events like minor vandalism can be delivered silently. High-priority events — assaults, armed robberies, carjackings — trigger loud alerts even if your phone is on silent.</p>
+            <h3>Alerts + the Crime Hotspot Map</h3>
+            <p>Every <strong>real-time crime alert</strong> is plotted instantly on the <strong>crime hotspot map</strong>. When you receive an alert, tap it to see the exact location, the incident type, and any community confirmations. The <strong>local crime tracker</strong> shows you whether this is an isolated incident or part of a pattern on that block.</p>
+            <p>Speed combined with context is what makes CrimeMap's alert system different from a simple notification. You don't just know something happened — you know what it means for your safety right now.</p>
+          </div>
+        </div>
+        <div class="post-sidebar fade-in">
+          <div class="sidebar-card">
+            <h4>⚡ Alert Speed Stats</h4>
+            <div class="sidebar-stat"><span>CrimeMap avg.</span><strong>&lt; 30 sec</strong></div>
+            <div class="sidebar-stat"><span>News apps avg.</span><strong>~45 min</strong></div>
+            <div class="sidebar-stat"><span>Next-door avg.</span><strong>~2 hrs</strong></div>
+            <div class="sidebar-stat"><span>Police tweet avg.</span><strong>~4 hrs</strong></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- POST 4 -->
+      <article class="post" id="post4">
+        <div class="post-content fade-in">
+          <span class="post-tag">Feature Deep Dive</span>
+          <h2>Understanding Your Neighborhood Safety Score: What the Numbers Mean</h2>
+          <p class="post-meta">Apr 3, 2024 · 5 min read · By CrimeMap Data Team</p>
+          <div class="post-body">
+            <p>CrimeMap assigns every block in every covered city a <strong>safety score</strong> from 0 to 100. It's one of the most-used features in our <strong>neighborhood safety app</strong> — and also one of the most misunderstood. Here's a plain-English breakdown of exactly what goes into it.</p>
+            <h3>The Four Pillars of the Safety Score</h3>
+            <p><strong>1. Incident Volume (40%):</strong> The raw number of reported incidents on or within 300 feet of a block over the past 90 days, sourced from our <strong>police report tracker</strong> and community feeds.</p>
+            <p><strong>2. Incident Severity (30%):</strong> Not all crimes are equal. Violent crimes like assault and robbery are weighted 3–5x higher than property crimes. This prevents a high-theft area from appearing equally dangerous as a high-assault area.</p>
+            <p><strong>3. Trend Direction (20%):</strong> Our <strong>crime trend analysis</strong> compares current 30-day data against the prior 6-month average. A neighborhood improving rapidly receives a score boost; one deteriorating quickly receives a penalty.</p>
+            <p><strong>4. Time-of-Day Pattern (10%):</strong> A block that's dangerous only between midnight and 4am scores differently than one where incidents are spread throughout the day. This helps the <strong>personal safety app</strong> give context-aware advice.</p>
+            <h3>What the Ranges Mean</h3>
+            <ul>
+              <li><strong>85–100:</strong> Very Low Risk — ideal for families and solo walkers at any hour</li>
+              <li><strong>70–84:</strong> Low Risk — generally safe with normal awareness</li>
+              <li><strong>55–69:</strong> Moderate Risk — exercise standard urban caution</li>
+              <li><strong>40–54:</strong> Elevated Risk — avoid late-night walks; use the route planner</li>
+              <li><strong>0–39:</strong> High Risk — exercise significant caution; review alert settings</li>
+            </ul>
+            <p>Your <strong>safety rating</strong> updates every hour. Check it before any unfamiliar trip — and use the trend indicator to see which direction your neighborhood is heading.</p>
+          </div>
+        </div>
+        <div class="post-sidebar fade-in">
+          <div class="sidebar-card">
+            <h4>🛡️ Score Breakdown</h4>
+            <div class="sidebar-stat"><span>Incident Volume</span><strong>40%</strong></div>
+            <div class="sidebar-stat"><span>Severity Weight</span><strong>30%</strong></div>
+            <div class="sidebar-stat"><span>Trend Direction</span><strong>20%</strong></div>
+            <div class="sidebar-stat"><span>Time-of-Day</span><strong>10%</strong></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- POST 5 -->
+      <article class="post" id="post5">
+        <div class="post-content fade-in">
+          <span class="post-tag">Route Planning</span>
+          <h2>Route Safety Planning: Walk, Run & Drive Smarter in Any City</h2>
+          <p class="post-meta">Mar 22, 2024 · 5 min read · By CrimeMap Product Team</p>
+          <div class="post-body">
+            <p>The <strong>route safety planner</strong> is CrimeMap's most talked-about premium feature — and for good reason. It's the first navigation tool that scores routes by <strong>neighborhood safety</strong> rather than just travel time.</p>
+            <h3>How It Works</h3>
+            <p>Enter your origin and destination. CrimeMap generates up to five route alternatives and overlays each with <strong>safety scores</strong> drawn from real-time <strong>block-level crime data</strong>. Routes are color-coded: green (score 75+), yellow (55–74), and red (below 55). You choose your <strong>safe route</strong> and navigate using your preferred maps app.</p>
+            <h3>For Walkers and Runners</h3>
+            <p>Pedestrians face unique risks that drivers don't. The route planner accounts for this by weighting pedestrian-specific incident types — muggings, harassment, assault — more heavily for walking routes. It also factors in lighting data and whether streets are commercial (more foot traffic, safer) or isolated residential.</p>
+            <h3>For Cyclists</h3>
+            <p>CrimeMap's cycling route mode combines safety scoring with bike-specific infrastructure data. A route might score high on safety but low on bike-friendliness — the planner shows both dimensions so you can make the right tradeoff.</p>
+            <h3>For Drivers</h3>
+            <p>Driving at night through unfamiliar areas? The route planner flags <strong>crime hotspot</strong> areas along your route and suggests detours. It's particularly useful for rideshare drivers and delivery workers navigating high-incident zones on tight schedules.</p>
+            <p>The <strong>route safety planner</strong> updates every time new <strong>community safety alerts</strong> come in — so if an incident is reported on your planned route mid-journey, you'll get a reroute suggestion in real time.</p>
+          </div>
+        </div>
+        <div class="post-sidebar fade-in">
+          <div class="sidebar-card">
+            <h4>🧭 Route Color Codes</h4>
+            <div class="sidebar-stat"><span style="color:var(--green)">🟢 Green</span><strong>Score 75+</strong></div>
+            <div class="sidebar-stat"><span style="color:#f59e0b">🟡 Yellow</span><strong>Score 55–74</strong></div>
+            <div class="sidebar-stat"><span style="color:#ef4444">🔴 Red</span><strong>Score &lt;55</strong></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- POST 6 -->
+      <article class="post" id="post6">
+        <div class="post-content fade-in">
+          <span class="post-tag">Community</span>
+          <h2>Community Watch in the Digital Age: How Crowdsourced Crime Data Keeps You Safe</h2>
+          <p class="post-meta">Mar 10, 2024 · 4 min read · By CrimeMap Community Team</p>
+          <div class="post-body">
+            <p>Traditional neighborhood watch programs work — but they're limited by geography, time, and the number of active participants. CrimeMap's <strong>community safety alerts</strong> network solves all three problems at once.</p>
+            <h3>The Power of Collective Crime Tracking</h3>
+            <p>CrimeMap has over 4.2 million active users. Every one of them is a potential sensor for the <strong>local crime tracker</strong>. When a user reports a suspicious vehicle, an assault in progress, or a break-in, that information is instantly available to every other user within the configured radius — in under 30 seconds.</p>
+            <h3>How Verification Works</h3>
+            <p>To prevent false reports, CrimeMap uses a three-layer verification system. Community-submitted alerts require confirmation from at least two independent sources before they appear on the main <strong>crime hotspot map</strong>. Police feed integration automatically elevates verified incidents. Users can up-vote to confirm or down-vote to dispute any report.</p>
+            <h3>Privacy by Design</h3>
+            <p>Reporters are fully anonymous. Your identity is never attached to a submitted alert. Location data is rounded to the nearest quarter-block before sharing. CrimeMap's <strong>crime reporting app</strong> was built from day one with the assumption that safety and privacy are not tradeoffs — they're both non-negotiable.</p>
+            <p>Join the network. Your report might be the one that keeps your neighbor safe tonight.</p>
+          </div>
+        </div>
+        <div class="post-sidebar fade-in">
+          <div class="sidebar-card">
+            <h4>👥 Community Stats</h4>
+            <div class="sidebar-stat"><span>Active users</span><strong>4.2M+</strong></div>
+            <div class="sidebar-stat"><span>Reports/day</span><strong>18,400+</strong></div>
+            <div class="sidebar-stat"><span>Verification rate</span><strong>94.2%</strong></div>
+            <div class="sidebar-stat"><span>Avg. response time</span><strong>&lt;30 sec</strong></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- POST 7 -->
+      <article class="post" id="post7">
+        <div class="post-content fade-in">
+          <span class="post-tag">Data & Trends</span>
+          <h2>Crime Trend Analysis: Is Your City Getting Safer? Here's How to Find Out</h2>
+          <p class="post-meta">Feb 28, 2024 · 5 min read · By CrimeMap Data Team</p>
+          <div class="post-body">
+            <p>Headlines about crime are almost always backward-looking — they tell you what happened last year, not what's happening on your street right now. CrimeMap's <strong>crime trend analysis</strong> tools flip this completely.</p>
+            <h3>30-Day vs. 12-Month Trends</h3>
+            <p>CrimeMap tracks two trend windows simultaneously. The 30-day trend shows recent momentum — is crime spiking this month? The 12-month trend shows structural change — is the neighborhood genuinely improving? A city can have a bad month but a strong annual trajectory. Our <strong>crime data visualization</strong> lets you see both at once with clear charts you can actually interpret.</p>
+            <h3>Incident Type Breakdown</h3>
+            <p>Overall crime numbers hide important nuances. A neighborhood where auto theft is rising but violent crime is falling has a very different character than one where the opposite is true. The <strong>local crime tracker</strong> breaks down every trend by incident type, so you understand the nature of the change — not just the direction.</p>
+            <h3>Comparing Neighborhoods Side by Side</h3>
+            <p>Use the comparison view to stack up to four neighborhoods. See <strong>safety scores</strong>, 30-day incident counts, and trend arrows for each. This is the most used feature for people doing pre-move research and for local journalists covering <strong>crime statistics by city</strong>.</p>
+            <h3>Setting Trend Alerts</h3>
+            <p>You can set a trend alert for any neighborhood: if the 30-day incident count rises more than 15% above the 6-month average, CrimeMap will notify you immediately. This is invaluable for property owners, business operators, and anyone who wants to stay ahead of neighborhood changes rather than react to them.</p>
+            <p>Data doesn't lie — but it requires context. CrimeMap's <strong>crime trend analysis</strong> gives you both the numbers and the story behind them, so you can make genuinely informed decisions about where you live, work, and travel.</p>
+          </div>
+        </div>
+        <div class="post-sidebar fade-in">
+          <div class="sidebar-card">
+            <h4>📈 Trend Windows</h4>
+            <div class="sidebar-stat"><span>Short-term</span><strong>30 days</strong></div>
+            <div class="sidebar-stat"><span>Mid-term</span><strong>6 months</strong></div>
+            <div class="sidebar-stat"><span>Long-term</span><strong>12 months</strong></div>
+            <div class="sidebar-stat"><span>Update freq.</span><strong>Hourly</strong></div>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /posts-section -->
+
+    <!-- CTA BANNER -->
+    <div class="cta-banner fade-in">
+      <h3>Ready to Know What's Really Happening in Your Neighborhood?</h3>
+      <p>Download CrimeMap free — real-time crime alerts, safety scores, and the full crime hotspot map. No credit card needed.</p>
+      <a href="crime-map-app.html#cta" class="btn btn-primary" style="font-size:1rem;padding:14px 30px;">📲 Download CrimeMap Free</a>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /page-body -->
+
+<footer>
+  <div class="container">
+    <p>© 2024 CrimeMap Inc. &nbsp;·&nbsp; <a href="crime-map-app.html">Home</a> &nbsp;·&nbsp; <a href="crime-map-articles.html">Articles</a> &nbsp;·&nbsp; <a href="crime-map-services.html">Services</a> &nbsp;·&nbsp; <a href="#">Privacy Policy</a></p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    const els = document.querySelectorAll('.fade-in');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+    },{threshold:0.1});
+    els.forEach(el => io.observe(el));
+  })();
+</script>
+</body>
+</html>
