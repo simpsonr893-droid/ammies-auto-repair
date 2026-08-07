@@ -1,20 +1,24 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# miniroute-example
 
-# Run and deploy your AI Studio app
+Example project combining:
+- Express backend with simple API endpoints (/api/users)
+- Client-side SPA using miniroute for routing
 
-This contains everything you need to run your app locally.
+Requirements
+- Node.js 18+ (or compatible)
+- npm
 
-View your app in AI Studio: https://ai.studio/apps/44c470bb-ce73-4c15-a962-f26f709ea4f3
+Quick start
+1. Install:
+   npm install
 
-## Run Locally
+2. Run:
+   npm start
+   Open http://localhost:3000
 
-**Prerequisites:**  Node.js
+3. Run tests:
+   npm test
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Notes
+- The client imports miniroute from the unpkg ESM bundle for simplicity: `import Router from 'https://unpkg.com/miniroute?module';`
+- The backend tests use Jest + Supertest and cover the API endpoints.

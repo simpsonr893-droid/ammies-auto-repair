@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>miniroute example</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 20px; }
+      nav a { margin-right: 8px; }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="/" data-link>Home</a>
+      <a href="/users" data-link>Users</a>
+    </nav>
+
+    <div id="app"></div>
+
+    <!-- Use ESM import from unpkg for simplicity -->
+    <script type="module">
+      import Router from 'https://unpkg.com/miniroute?module';
+
+      const app = document.getElementById('app');
+      const router = new Router();
+
+      router.add('/', () => {
+        app.innerHTML = '<h1>Home</h1><p>Welcome to the miniroute example.</p>';
+      });
+
+      router.add('/users', async () => {
+        const res = await fetch('/api/users');
+        const users = await res.json();
+        app.innerHTML = `
+          <h1>Users</h1>
+          <pre id="usersJson">${JSON.stringify(users, null, 2)}</pre>
+          <form id="addUser">
+            <input name="name" placeholder="name" required />
+            <button>Add</button>
+          </form>
+        `;
+        document.getElementById('addUser').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const name = e.target.name.value.trim();
+          if (!name) return;
+          await fetch('/api/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name })
+          });
+          router.navigate('/users'); // refresh view
+        });
+      });
+
+      router.listen();
+
+      // Intercept nav links with data-link and use client router
+      document.addEventListener('click', (e) => {
+        if (e.target.matches('[data-link]')) {
+          e.preventDefault();
+          router.navigate(e.target.getAttribute('href'));
+        }
+      });
+
+      // Navigate to current path (so reloading works)
+      router.navigate(location.pathname);
+    </script>
+  </body>
+</html>
