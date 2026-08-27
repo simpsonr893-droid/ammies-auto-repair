@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><!-- repo-only -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /><!-- repo-only -->
+<meta name="robots" content="noindex, nofollow" /><!-- repo-only -->
+<title>ShopLine AI</title>
+<meta name="description" content="24/7 AI receptionists for auto repair shops. Every call answered, every lead captured, every job booked — even at 9:47 PM." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
+<style>
+  :root {
+    --ground: #12161B;
+    --panel: #1B222B;
+    --panel-edge: #2A3440;
+    --ink: #EDF1F5;
+    --steel: #93A4B5;
+    --steel-dim: #5F7080;
+    --orange: #FF6B2C;
+    --orange-deep: #E5541A;
+    --green: #43D9A3;
+    --paper: #F6F3EC;
+    --paper-ink: #23282E;
+    --paper-line: #D9D3C6;
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", "Courier New", monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(18, 22, 27, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--panel-edge);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .brand {
+    font-family: var(--display); font-weight: 700; font-size: 1.5rem;
+    letter-spacing: 0.02em; text-decoration: none; display: flex; align-items: center; gap: 10px;
+  }
+  .brand-mark {
+    width: 30px; height: 30px; border-radius: 6px;
+    background: var(--orange);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #12161B; font-size: 1rem;
+  }
+  .brand em { font-style: normal; color: var(--orange); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    text-decoration: none; color: var(--steel); font-size: 0.95rem; font-weight: 500;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible { color: var(--ink); }
+  @media (max-width: 760px) { .nav-links a:not(.btn) { display: none; } }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--display); font-weight: 600; font-size: 1.15rem;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 12px 26px; border-radius: 8px; text-decoration: none;
+    border: 1px solid transparent; cursor: pointer; transition: transform 0.12s ease, background 0.12s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-solid { background: var(--orange); color: #16110D; }
+  .btn-solid:hover, .btn-solid:focus-visible { background: var(--orange-deep); color: #FFF4EC; }
+  .btn-line { border-color: var(--panel-edge); color: var(--ink); background: transparent; }
+  .btn-line:hover, .btn-line:focus-visible { border-color: var(--steel); }
+  .btn:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+  .nav .btn { font-size: 1rem; padding: 8px 18px; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 88px 0 72px; position: relative; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(700px 340px at 82% 8%, rgba(255, 107, 44, 0.09), transparent 70%),
+      repeating-linear-gradient(90deg, transparent 0 119px, rgba(147, 164, 181, 0.05) 119px 120px);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 56px; align-items: center; position: relative;
+  }
+  @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; gap: 44px; } }
+  .eyebrow {
+    font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--orange); margin-bottom: 18px;
+  }
+  h1 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.6rem, 6vw, 4.2rem); line-height: 1.02;
+    letter-spacing: 0.005em; text-wrap: balance; margin-bottom: 20px;
+  }
+  h1 .flame { color: var(--orange); }
+  .hero-sub { color: var(--steel); font-size: 1.15rem; max-width: 34rem; margin-bottom: 32px; }
+  .hero-sub strong { color: var(--ink); font-weight: 600; }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-note { margin-top: 18px; font-size: 0.9rem; color: var(--steel-dim); }
+
+  /* Transcript card */
+  .transcript {
+    background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 14px;
+    padding: 22px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  }
+  .transcript-head {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono); font-size: 0.78rem; color: var(--steel-dim);
+    border-bottom: 1px solid var(--panel-edge); padding-bottom: 12px; margin-bottom: 16px;
+  }
+  .live-dot { display: inline-flex; align-items: center; gap: 7px; color: var(--green); }
+  .live-dot::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 50% { opacity: 0.35; } }
+  .msg { max-width: 88%; padding: 10px 14px; border-radius: 10px; font-size: 0.94rem; line-height: 1.45; margin-bottom: 10px; opacity: 0; animation: rise 0.45s ease forwards; }
+  .msg-caller { background: #242E39; color: var(--ink); border-bottom-left-radius: 3px; }
+  .msg-ai { background: rgba(255, 107, 44, 0.13); border: 1px solid rgba(255, 107, 44, 0.28); color: var(--ink); margin-left: auto; border-bottom-right-radius: 3px; }
+  .msg-label { display: block; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--steel-dim); margin-bottom: 4px; }
+  .msg-ai .msg-label { color: var(--orange); }
+  .msg:nth-of-type(1) { animation-delay: 0.3s; }
+  .msg:nth-of-type(2) { animation-delay: 1.0s; }
+  .msg:nth-of-type(3) { animation-delay: 1.7s; }
+  .msg:nth-of-type(4) { animation-delay: 2.4s; }
+  .stamp {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 8px;
+    font-family: var(--mono); font-size: 0.8rem; font-weight: 600; color: var(--green);
+    border: 1px solid rgba(67, 217, 163, 0.4); border-radius: 6px; padding: 7px 12px;
+    background: rgba(67, 217, 163, 0.08);
+    opacity: 0; animation: rise 0.45s ease 3.1s forwards;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .msg, .stamp { animation: none; opacity: 1; }
+    .live-dot::before { animation: none; }
+    .btn { transition: none; }
+  }
+
+  /* ---------- Stat strip ---------- */
+  .stats { border-top: 1px solid var(--panel-edge); border-bottom: 1px solid var(--panel-edge); background: #151B22; }
+  .stats-inner { display: grid; grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 700px) { .stats-inner { grid-template-columns: 1fr; } }
+  .stat { padding: 34px 28px; border-left: 1px solid var(--panel-edge); }
+  .stat:first-child { border-left: none; }
+  @media (max-width: 700px) { .stat { border-left: none; border-top: 1px solid var(--panel-edge); } .stat:first-child { border-top: none; } }
+  .stat-num { font-family: var(--display); font-weight: 700; font-size: 2.6rem; color: var(--orange); line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat-txt { color: var(--steel); font-size: 0.95rem; margin-top: 8px; max-width: 26rem; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 84px 0; }
+  .sec-eyebrow {
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--steel-dim); margin-bottom: 14px;
+  }
+  h2 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.05; text-wrap: balance;
+    margin-bottom: 16px;
+  }
+  .sec-sub { color: var(--steel); max-width: 40rem; margin-bottom: 44px; }
+
+  /* ---------- Estimate sheet (ROI calculator) ---------- */
+  .estimate-band { background: #0E1216; }
+  .estimate {
+    background: var(--paper); color: var(--paper-ink); border-radius: 12px;
+    max-width: 700px; margin: 0 auto; overflow: hidden;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  }
+  .estimate-head {
+    padding: 20px 30px; border-bottom: 2px solid var(--paper-ink);
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  .estimate-head h3 { font-family: var(--display); font-weight: 700; font-size: 1.5rem; letter-spacing: 0.03em; text-transform: uppercase; }
+  .estimate-head span { font-family: var(--mono); font-size: 0.78rem; color: #6B6455; }
+  .estimate-body { padding: 26px 30px 30px; }
+  .est-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px dashed var(--paper-line); flex-wrap: wrap; }
+  .est-row label { font-weight: 600; font-size: 0.98rem; }
+  .est-row small { display: block; font-weight: 400; color: #6B6455; font-size: 0.82rem; }
+  .est-ctl { display: flex; align-items: center; gap: 14px; }
+  .est-ctl output { font-family: var(--mono); font-weight: 600; font-size: 1.05rem; min-width: 5.2ch; text-align: right; font-variant-numeric: tabular-nums; }
+  input[type="range"] { accent-color: var(--orange-deep); width: 170px; cursor: pointer; }
+  input[type="range"]:focus-visible { outline: 2px solid var(--orange-deep); outline-offset: 3px; }
+  .est-total { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-top: 20px; flex-wrap: wrap; }
+  .est-total .tag { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: #6B6455; }
+  .est-total .amount { font-family: var(--mono); font-weight: 600; font-size: clamp(1.8rem, 5vw, 2.6rem); color: var(--orange-deep); font-variant-numeric: tabular-nums; }
+  .est-compare { margin-top: 10px; padding: 14px 16px; background: #ECE7DB; border-radius: 8px; font-size: 0.95rem; }
+  .est-compare strong { color: var(--orange-deep); }
+
+  /* ---------- Steps ---------- */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 820px) { .steps { grid-template-columns: 1fr; } }
+  .step { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 12px; padding: 28px 26px; }
+  .step-num { font-family: var(--mono); font-size: 0.8rem; color: var(--orange); letter-spacing: 0.12em; margin-bottom: 14px; }
+  .step h3 { font-family: var(--display); font-weight: 600; font-size: 1.45rem; margin-bottom: 10px; }
+  .step p { color: var(--steel); font-size: 0.98rem; }
+
+  /* ---------- Features ---------- */
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--panel-edge); border: 1px solid var(--panel-edge); border-radius: 12px; overflow: hidden; }
+  @media (max-width: 820px) { .features { grid-template-columns: 1fr; } }
+  .feature { background: var(--ground); padding: 28px 26px; }
+  .feature h3 { font-family: var(--display); font-weight: 600; font-size: 1.35rem; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .feature h3 svg { flex: none; color: var(--orange); }
+  .feature p { color: var(--steel); font-size: 0.95rem; }
+
+  /* ---------- Demo callout ---------- */
+  .demo-band { background: #151B22; border-top: 1px solid var(--panel-edge); border-bottom: 1px solid var(--panel-edge); }
+  .demo-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+  @media (max-width: 860px) { .demo-grid { grid-template-columns: 1fr; } }
+  .demo-steps { list-style: none; margin: 24px 0 30px; display: grid; gap: 12px; }
+  .demo-steps li { display: flex; gap: 12px; align-items: baseline; color: var(--steel); }
+  .demo-steps .k { font-family: var(--mono); color: var(--orange); font-size: 0.85rem; flex: none; }
+  .demo-card {
+    background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 14px; padding: 26px;
+  }
+  .demo-card .url { font-family: var(--mono); font-size: 0.85rem; color: var(--green); word-break: break-all; }
+  .demo-card h3 { font-family: var(--display); font-weight: 600; font-size: 1.5rem; margin: 10px 0 6px; }
+  .demo-card p { color: var(--steel); font-size: 0.95rem; margin-bottom: 18px; }
+
+  /* ---------- Pricing ---------- */
+  .tickets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+  @media (max-width: 860px) { .tickets { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
+  .ticket {
+    background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 12px;
+    padding: 30px 28px; display: flex; flex-direction: column; position: relative;
+  }
+  .ticket-feat { border-color: var(--orange); box-shadow: 0 0 0 1px var(--orange), 0 22px 50px rgba(255, 107, 44, 0.13); }
+  .ticket-flag {
+    position: absolute; top: -13px; left: 24px;
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--orange); color: #16110D; font-weight: 600;
+    padding: 4px 10px; border-radius: 5px;
+  }
+  .ticket h3 { font-family: var(--display); font-weight: 600; font-size: 1.5rem; letter-spacing: 0.02em; }
+  .ticket .for { color: var(--steel-dim); font-size: 0.88rem; margin-bottom: 18px; }
+  .price { font-family: var(--mono); font-weight: 600; font-size: 2.3rem; font-variant-numeric: tabular-nums; }
+  .price sub { font-size: 0.85rem; font-weight: 400; color: var(--steel-dim); vertical-align: baseline; }
+  .ticket ul { list-style: none; margin: 20px 0 26px; display: grid; gap: 10px; flex: 1; }
+  .ticket li { display: flex; gap: 10px; color: var(--steel); font-size: 0.95rem; align-items: baseline; }
+  .ticket li::before { content: "✓"; color: var(--green); font-weight: 700; flex: none; }
+  .ticket .btn { justify-content: center; }
+  .pricing-note { text-align: center; color: var(--steel-dim); font-size: 0.92rem; margin-top: 28px; }
+  .pricing-note strong { color: var(--green); font-weight: 600; }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 720px; }
+  .faq details { border-bottom: 1px solid var(--panel-edge); }
+  .faq summary {
+    cursor: pointer; padding: 20px 0; font-family: var(--display); font-weight: 600;
+    font-size: 1.3rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; align-items: center;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; font-family: var(--mono); color: var(--orange); font-size: 1.2rem; flex: none; }
+  .faq details[open] summary::after { content: "–"; }
+  .faq summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+  .faq details p { color: var(--steel); padding: 0 0 22px; max-width: 60ch; }
+
+  /* ---------- Final CTA ---------- */
+  .close { text-align: center; padding: 100px 0; }
+  .close h2 { margin-bottom: 14px; }
+  .close p { color: var(--steel); max-width: 36rem; margin: 0 auto 32px; }
+  .close .hero-ctas { justify-content: center; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--panel-edge); padding: 32px 0; }
+  .foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--steel-dim); font-size: 0.88rem; }
+  .foot a { color: var(--steel); text-decoration: none; }
+  .foot a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">☎</span>Shop<em>Line</em> AI</a>
+    <div class="nav-links">
+      <a href="#math">The Math</a>
+      <a href="#how">How It Works</a>
+      <a href="#demo">Live Demo</a>
+      <a href="#pricing">Pricing</a>
+      <a class="btn btn-solid" href="#book">Book a Demo</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">24/7 AI Receptionists for Auto Repair Shops</p>
+      <h1>Every missed call is a job that went to <span class="flame">another shop.</span></h1>
+      <p class="hero-sub">Your techs are under cars. Your front desk closes at 5. But your customers crash, break down, and search for a shop at all hours. <strong>ShopLine AI answers every one of them</strong> — quotes your services, captures the vehicle details, and books the estimate before your competitor's phone even rings.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-solid" href="#demo">Try the Live Demo</a>
+        <a class="btn btn-line" href="#book">Book a 15-Min Call</a>
+      </div>
+      <p class="hero-note">Live on your website in under a week. No new phone number. No contract.</p>
+    </div>
+    <div class="transcript" aria-label="Example conversation: the AI receptionist booking a customer after hours">
+      <div class="transcript-head">
+        <span>SAMMIE'S AUTOBODY · FRONT DESK</span>
+        <span class="live-dot">ANSWERED · 9:47 PM</span>
+      </div>
+      <div class="msg msg-caller"><span class="msg-label">Caller</span>Hey — someone backed into my Silverado in a parking lot. Rear bumper's hanging off. Are you open?</div>
+      <div class="msg msg-ai"><span class="msg-label">ShopLine AI</span>Sorry to hear that — we can absolutely help. We reopen at 8 AM, but I can get you on the schedule right now. Is the truck drivable, and are you going through insurance?</div>
+      <div class="msg msg-caller"><span class="msg-label">Caller</span>It's drivable. Yeah, the other guy's insurance is covering it.</div>
+      <div class="msg msg-ai"><span class="msg-label">ShopLine AI</span>Perfect — we work with all major carriers and handle the claim paperwork for you. I have an 8:00 AM estimate slot open tomorrow. Want me to lock it in?</div>
+      <div class="stamp">✓ BOOKED — TOMORROW 8:00 AM · LEAD SENT TO OWNER'S PHONE</div>
+    </div>
+  </div>
+</header>
+
+<div class="stats" id="math">
+  <div class="wrap stats-inner">
+    <div class="stat">
+      <div class="stat-num">62%</div>
+      <p class="stat-txt">of calls to small businesses go unanswered during busy hours, after close, and on weekends — industry call studies put it as high as this.</p>
+    </div>
+    <div class="stat">
+      <div class="stat-num">~80%</div>
+      <p class="stat-txt">of callers who reach voicemail don't leave a message. They hang up and dial the next shop on Google.</p>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$900+</div>
+      <p class="stat-txt">average value of a single collision repair ticket. One saved call a week can pay for this service several times over.</p>
+    </div>
+  </div>
+</div>
+
+<section class="estimate-band">
+  <div class="wrap">
+    <p class="sec-eyebrow">Run Your Own Numbers</p>
+    <h2>What are missed calls costing you right now?</h2>
+    <p class="sec-sub">Slide the numbers to match your shop. This is the same estimate sheet we walk through on our demo call — most owners are surprised by the total.</p>
+
+    <div class="estimate">
+      <div class="estimate-head">
+        <h3>Missed-Call Estimate</h3>
+        <span>NO. 0047 · PREPARED FOR: YOUR SHOP</span>
+      </div>
+      <div class="estimate-body">
+        <div class="est-row">
+          <label for="calls">Missed calls per week
+            <small>after hours, weekends, everyone busy in the bay</small>
+          </label>
+          <div class="est-ctl">
+            <input type="range" id="calls" min="1" max="40" value="10" />
+            <output id="calls-out" for="calls">10</output>
+          </div>
+        </div>
+        <div class="est-row">
+          <label for="ticket">Average job value
+            <small>your typical repair order, parts + labor</small>
+          </label>
+          <div class="est-ctl">
+            <input type="range" id="ticket" min="100" max="3000" step="50" value="900" />
+            <output id="ticket-out" for="ticket">$900</output>
+          </div>
+        </div>
+        <div class="est-row">
+          <label for="close">Callers who would have booked
+            <small>a conservative close rate on inbound calls</small>
+          </label>
+          <div class="est-ctl">
+            <input type="range" id="close" min="10" max="60" step="5" value="25" />
+            <output id="close-out" for="close">25%</output>
+          </div>
+        </div>
+        <div class="est-total">
+          <span class="tag">Estimated revenue lost / month</span>
+          <span class="amount" id="lost-out">$9,743</span>
+        </div>
+        <p class="est-compare" id="compare-out">That's <strong>27×</strong> the cost of the Pro plan. Recovering even a fraction of these calls pays for itself in week one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <p class="sec-eyebrow">How It Works</p>
+    <h2>Live in under a week. Zero disruption to your shop.</h2>
+    <p class="sec-sub">You keep your phone number, your website, and your way of doing things. We add a receptionist that never takes a lunch break.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">STEP 1 / BUILD</div>
+        <h3>We train it on your shop</h3>
+        <p>Your services, hours, pricing approach, insurance process, turnaround times — everything a great front-desk hire would know by month three, loaded in on day one.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 2 / ANSWER</div>
+        <h3>It works your front desk 24/7</h3>
+        <p>On your website chat and missed-call text-back, it greets customers, answers questions, collects vehicle and damage details, and books estimate appointments.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 3 / BOOK</div>
+        <h3>You get jobs, not messages</h3>
+        <p>Every lead lands on your phone and inbox instantly with the full conversation — name, vehicle, damage, insurance status — ready to confirm. No voicemail roulette.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="sec-eyebrow">What It Handles</p>
+    <h2>Everything your front desk does. At 2 AM. In two languages.</h2>
+    <p class="sec-sub">Built specifically for repair shops — not a generic chatbot with your logo on it.</p>
+    <div class="features">
+      <div class="feature">
+        <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>24/7 answering</h3>
+        <p>Nights, weekends, holidays, and the lunch rush. Every inquiry gets an instant, professional response.</p>
+      </div>
+      <div class="feature">
+        <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Estimate booking</h3>
+        <p>Checks your availability and locks in appointments on the spot — the moment the customer is ready to say yes.</p>
+      </div>
+      <div class="feature">
+        <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg>Insurance intake</h3>
+        <p>Asks the right questions — carrier, claim number, drivability — so your estimator starts with a complete file.</p>
+      </div>
+      <div class="feature">
+        <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Missed-call text-back</h3>
+        <p>When a call slips through, the caller gets an instant text that starts the conversation instead of losing it.</p>
+      </div>
+      <div class="feature">
+        <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Bilingual out of the box</h3>
+        <p>Serves customers in English and Spanish automatically — no extra staff, no extra cost.</p>
+      </div>
+      <div class="feature">
+        <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Instant lead delivery</h3>
+        <p>Full transcripts to your phone and email in real time, plus a weekly report of every conversation and booking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="demo-band" id="demo">
+  <div class="wrap demo-grid">
+    <div>
+      <p class="sec-eyebrow">Don't Take Our Word For It</p>
+      <h2>Talk to one right now.</h2>
+      <p class="sec-sub" style="margin-bottom:0">We built a complete demo shop — Sammie's Autobody in Denver — with a ShopLine receptionist working its front desk. Test it the way your toughest customer would.</p>
+      <ul class="demo-steps">
+        <li><span class="k">01</span>Open the demo site and tap the chat bubble in the corner.</li>
+        <li><span class="k">02</span>Tell it your bumper is cracked and ask what an estimate costs.</li>
+        <li><span class="k">03</span>Ask about insurance, hours, rental cars — try to stump it.</li>
+        <li><span class="k">04</span>Watch it collect your details and offer to book you in.</li>
+      </ul>
+      <a class="btn btn-solid" href="https://www.sammiesautobody.com/" target="_blank" rel="noopener">Open the Demo Shop ↗</a>
+    </div>
+    <div class="demo-card">
+      <span class="url">sammiesautobody.com</span>
+      <h3>Sammie's Autobody Shop</h3>
+      <p>A full landing page + AI receptionist we built as a working showcase: it answers collision-repair questions, collects vehicle and damage info, handles insurance inquiries, and schedules estimates.</p>
+      <p style="margin-bottom:0"><strong style="color:var(--ink)">This is exactly what your shop gets</strong> — your name, your services, your schedule.</p>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <p class="sec-eyebrow">Pricing</p>
+    <h2>Less than one recovered job per month.</h2>
+    <p class="sec-sub">Flat monthly rate. Month-to-month. Cancel anytime. Compare it to $2,800+/month for a part-time hire who still goes home at 5.</p>
+    <div class="tickets">
+      <div class="ticket">
+        <h3>Starter</h3>
+        <p class="for">For shops that want every web lead captured</p>
+        <p class="price">$199<sub>/mo</sub></p>
+        <ul>
+          <li>AI receptionist on your website, 24/7</li>
+          <li>Trained on your services, hours &amp; FAQs</li>
+          <li>Lead capture with instant email alerts</li>
+          <li>Monthly conversation report</li>
+        </ul>
+        <a class="btn btn-line" href="#book">Start with Starter</a>
+      </div>
+      <div class="ticket ticket-feat">
+        <span class="ticket-flag">Most Popular</span>
+        <h3>Pro</h3>
+        <p class="for">For shops that want calls turned into bookings</p>
+        <p class="price">$349<sub>/mo</sub></p>
+        <ul>
+          <li>Everything in Starter</li>
+          <li>Estimate &amp; appointment booking</li>
+          <li>Missed-call text-back</li>
+          <li>Leads texted to your phone in real time</li>
+          <li>Bilingual (English + Spanish)</li>
+        </ul>
+        <a class="btn btn-solid" href="#book">Get Pro</a>
+      </div>
+      <div class="ticket">
+        <h3>Scale</h3>
+        <p class="for">For multi-location and high-volume shops</p>
+        <p class="price">$599<sub>/mo</sub></p>
+        <ul>
+          <li>Everything in Pro</li>
+          <li>Up to 3 locations</li>
+          <li>CRM / shop-management integration</li>
+          <li>Custom workflows &amp; priority support</li>
+        </ul>
+        <a class="btn btn-line" href="#book">Talk to Us</a>
+      </div>
+    </div>
+    <p class="pricing-note"><strong>30-day money-back guarantee.</strong> If it hasn't captured leads that would have been missed, you don't pay. Setup fee waived for founding clients.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="sec-eyebrow">Straight Answers</p>
+    <h2>The questions every owner asks.</h2>
+    <div class="faq" style="margin-top: 30px">
+      <details>
+        <summary>Will it sound like a robot and annoy my customers?</summary>
+        <p>No — try the demo and judge for yourself. It's trained to talk like a good service writer: plain language, real empathy for someone who just got rear-ended, and straight answers. Customers regularly don't realize they weren't texting a person.</p>
+      </details>
+      <details>
+        <summary>What happens when it can't answer something?</summary>
+        <p>It never bluffs. For anything outside what it knows — a firm price quote, a complex claim dispute — it takes the customer's details, promises a callback, and sends the full conversation to your phone immediately. You lose nothing; you just get the lead instead of a hang-up.</p>
+      </details>
+      <details>
+        <summary>Do I have to change my phone number or website?</summary>
+        <p>No. The receptionist installs on the website you already have with one small snippet, and missed-call text-back works with your existing phone line. Nothing about how you operate changes.</p>
+      </details>
+      <details>
+        <summary>I already have a front-desk person. Why would I need this?</summary>
+        <p>Keep them — this covers the hours they can't. Nights, weekends, sick days, and the 11 AM rush when the phone rings while they're checking a customer out. It's coverage, not replacement.</p>
+      </details>
+      <details>
+        <summary>How long does setup take?</summary>
+        <p>Under a week. You give us 30 minutes to walk through your services and schedule; we build, train, and test the receptionist and hand you a preview before anything goes live.</p>
+      </details>
+      <details>
+        <summary>What if I want to cancel?</summary>
+        <p>It's month-to-month with no contract. Cancel with an email, effective at the end of your billing cycle — and everything captured up to that point stays yours.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="close" id="book">
+  <div class="wrap">
+    <p class="sec-eyebrow">Founding-Client Spots Open</p>
+    <h2>Your phone is ringing right now.<br />Who's answering it?</h2>
+    <p>Book a free 15-minute call. We'll run your shop's missed-call numbers together, show you the receptionist live, and have yours ready within the week — guaranteed for 30 days.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-solid" href="mailto:simpsonr893@gmail.com?subject=ShopLine%20AI%20—%20Free%20Demo%20Call&amp;body=Hi%20—%20I%27d%20like%20to%20book%20a%20demo%20for%20my%20shop.%0A%0AShop%20name%3A%0ACity%3A%0ABest%20phone%20number%3A%0ABest%20time%20to%20call%3A">Book My Free Demo Call</a>
+      <a class="btn btn-line" href="https://www.sammiesautobody.com/" target="_blank" rel="noopener">Try the Demo First ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 ShopLine AI · 24/7 AI receptionists for auto repair shops</span>
+    <span><a href="https://www.sammiesautobody.com/" target="_blank" rel="noopener">Live demo</a> · <a href="mailto:simpsonr893@gmail.com">simpsonr893@gmail.com</a></span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var PRO_PRICE = 349;
+    var calls = document.getElementById('calls');
+    var ticket = document.getElementById('ticket');
+    var close = document.getElementById('close');
+    var fmt = function (n) { return '$' + Math.round(n).toLocaleString('en-US'); };
+    function update() {
+      var perMonth = (+calls.value) * 4.33 * (+ticket.value) * (+close.value / 100);
+      document.getElementById('calls-out').textContent = calls.value;
+      document.getElementById('ticket-out').textContent = fmt(+ticket.value);
+      document.getElementById('close-out').textContent = close.value + '%';
+      document.getElementById('lost-out').textContent = fmt(perMonth);
+      var multiple = Math.max(1, Math.round(perMonth / PRO_PRICE));
+      document.getElementById('compare-out').innerHTML =
+        "That's <strong>" + multiple.toLocaleString('en-US') + "×</strong> the cost of the Pro plan. Recovering even a fraction of these calls pays for itself in week one.";
+    }
+    [calls, ticket, close].forEach(function (el) { el.addEventListener('input', update); });
+    update();
+  })();
+</script>
+
+</body>
+</html>
